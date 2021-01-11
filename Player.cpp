@@ -10,24 +10,16 @@ void Player::draw(){
     data->window.draw(playerSprite);
 }
 
-void PLayer::playerMove(bool up, bool down, bool right, bool left){
-    if(up && down){
-
+void Player::playerMove(sf::Keyboard::Key key){
+    if(sf::Keyboard::Key::Up == key){
+        birdPosition.y -= movementSpeed;
+    }else if (sf::Keyboard::Key::Down == key){
+        birdPosition.y += movementSpeed;
+    }else if (sf::Keyboard::Key::Right == key){
+        birdPosition.x += movementSpeed;
+    }else if (sf::Keyboard::Key::Left == key){
+        birdPosition.x -= movementSpeed;
     }
-    if(right && left){
-
-    }
-    if(up){
-        playerPosition.y += 1;
-    }
-    if(down){
-        playerPosition.y -= 1;
-    }
-    if(right){
-        playerPosition.x += 1;
-    }
-    if(left){
-        playerPosition.x -= 1;
-    }
-
+    playerSprite.setPosition(birdPosition);
+	}
 }
