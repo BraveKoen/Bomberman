@@ -5,11 +5,10 @@
 #include <iostream>
 
 #include "character.hpp"
-#include "bombManager.hpp"
 
 class Player : public Character{
 public:
-    Player(GameDataRef data);
+    Player(gameDataRef data);
     ~Player();
 
     void draw() override;
@@ -23,11 +22,13 @@ public:
     void setMovementSpeed(uint8_t speed) override;
     int getMovementSpeed() override;
 
+    sf::Sprite getSprite(){return playerSprite;};
+
     void playerMove(sf::Keyboard::Key key);
 
 private:
 
-    GameDataRef data;
+    gameDataRef data;
     sf::Sprite playerSprite;
     sf::Vector2f playerPosition;
     uint16_t movementSpeed = 2;
