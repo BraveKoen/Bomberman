@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include "character.hpp"
+#include "bombManager.hpp"
 
 class Player : public Character{
 public:

@@ -46,6 +46,8 @@ void Player::playerMove(sf::Keyboard::Key key) {
         birdPosition.x += movementSpeed;
     }else if (sf::Keyboard::Key::Left == key){
         birdPosition.x -= movementSpeed;
+    }else if(sf::Keyboard::Key::Space == key){
+        
     }
     playerSprite.setPosition(birdPosition);
 	}
