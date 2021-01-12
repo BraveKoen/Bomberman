@@ -7,7 +7,7 @@ SFML_STL := -lsfml-main -lsfml-graphics-s -lsfml-window-s -lsfml-system-s
 WIN_STL := -lgdi32 -lopengl32 -lwinmm
 
 FLAGS := -std=c++17 -pedantic -Wall -Werror -Wextra -Wno-unused-parameter
-OBJECTS := editor.o drawable.o color-option.o
+OBJECTS := editor.o mapSelector.o
 
 # -luser32 -lfreetype -lwinmm -lmingw32 -lopengl32 -lgdi32
 # -lsfml-graphics -lsfml-window -lsfml-system
@@ -21,14 +21,8 @@ editor: $(OBJECTS)
 editor.o: editor.cpp color-panel.hpp
 	g++ $(FLAGS) -c editor.cpp -I $(SFML_INC) -o editor.o
 
-drawable.o: drawable.cpp drawable.hpp
-	g++ $(FLAGS) -c drawable.cpp -I $(SFML_INC) -o drawable.o
-
-color-option.o: color-option.cpp color-option.hpp
-	g++ $(FLAGS) -c color-option.cpp -I $(SFML_INC) -o color-option.o
-
-# color-panel.o: color-panel.hpp
-# 	g++ $(FLAGS) -c color-panel.hpp -I $(SFML_INC) -o color-panel.o
+mapSelector.o: mapSelector.cpp mapSelector.hpp
+	g++ $(FLAGS) -c mapSelector.hpp -I $(SFML_INC) -o mapSelector.o
 
 clean:
 	del $(OBJECTS)
