@@ -24,7 +24,7 @@ public:
 
 private:
 
-    GameDataRef data;
+    GameDataRef data; //the data
     sf::Sprite opponentSprite;
     sf::Vector2f opponentPosition;
     uint16_t movementSpeed = 2;
