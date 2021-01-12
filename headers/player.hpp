@@ -4,7 +4,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <memory> 
-
 #include "bombHandler.hpp"
 #include "character.hpp"
 
@@ -25,13 +24,11 @@ public:
     int getMovementSpeed() override;
 
     sf::Sprite getSprite(){return playerSprite;};
-
     void playerMove(sf::Keyboard::Key key);
 
 private:
-
-    gameDataRef data;
     std::shared_ptr<BombHandler> bombHandler;
+    gameDataRef data;
     sf::Sprite playerSprite;
     sf::Vector2f playerPosition;
     uint16_t movementSpeed = 2;

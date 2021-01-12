@@ -3,11 +3,11 @@
 Player::Player(gameDataRef data, std::shared_ptr<BombHandler> bombHandler):
     data(data),
     bombHandler(bombHandler)
-    {
-        //playerSprite.setTexture(data->getTexture("player.png"));
-        playerSprite.setTexture(data->assetManager.getTexture("Player"));
-        playerSprite.setScale(0.2, 0.2);
-    }
+{
+    //playerSprite.setTexture(data->getTexture("player.png"));
+    playerSprite.setTexture(data->assetManager.getTexture("Player"));
+    playerSprite.setScale(0.2, 0.2);
+}
 
 void Player::draw() {
     data->window.draw(playerSprite);
@@ -54,5 +54,4 @@ void Player::playerMove(sf::Keyboard::Key key) {
         
     }
     playerSprite.setPosition(playerPosition);
-	}
-
+}
