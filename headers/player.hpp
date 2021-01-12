@@ -6,6 +6,7 @@
 #include <memory> 
 #include "bombHandler.hpp"
 #include "character.hpp"
+#include "bombManager.hpp"
 
 class Player : public Character{
 public:

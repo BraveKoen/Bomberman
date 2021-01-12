@@ -22,10 +22,10 @@ void Bomb::explode() {
     //explode animation
 }
 
-bool Bomb::isExploded(float currentTime){
-    if(timeCreated + explodeTime > currentTime){
-         return false;
-     }
+bool Bomb::explodeTime(sf::Time currentTime){
+    if(timeCreated.asSeconds() + explodeTime > currentTime.asSeconds()){
+        return false;
+    }
     return true;
 }
 
