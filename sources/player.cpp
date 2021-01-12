@@ -1,10 +1,10 @@
-#include "../headers//player.hpp"
+#include "../headers/player.hpp"
 
-Player::Player(GameDataRef data):
-    Character(data),
+Player::Player(gameDataRef data):
     data(data)
     {
-        playerSprite.setTexture(data->getTexture("player.png"));
+        //playerSprite.setTexture(data->getTexture("player.png"));
+        playerSprite.setTexture(data->assetManager.getTexture("Player"));
     }
 
 void Player::draw() {
@@ -39,17 +39,16 @@ int Player::getMovementSpeed(){
 
 void Player::playerMove(sf::Keyboard::Key key) {
     if(sf::Keyboard::Key::Up == key){
-        birdPosition.y -= movementSpeed;
+        playerPosition.y -= movementSpeed;
     }else if (sf::Keyboard::Key::Down == key){
-        birdPosition.y += movementSpeed;
+        playerPosition.y += movementSpeed;
     }else if (sf::Keyboard::Key::Right == key){
-        birdPosition.x += movementSpeed;
+        playerPosition.x += movementSpeed;
     }else if (sf::Keyboard::Key::Left == key){
-        birdPosition.x -= movementSpeed;
+        playerPosition.x -= movementSpeed;
     }else if(sf::Keyboard::Key::Space == key){
         
     }
-    playerSprite.setPosition(birdPosition);
+    playerSprite.setPosition(playerPosition);
 	}
-}
 
