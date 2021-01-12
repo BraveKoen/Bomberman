@@ -4,11 +4,9 @@
 #include <memory>
 #include <string>
 #include <SFML/Graphics.hpp>
-#include "stateMachine.hpp"
-#include "assetManager.hpp"
-#include "inputManager.hpp"
-#include "tileMap.hpp"
-#include "definitions.hpp"
+#include "../headers/stateMachine.hpp"
+#include "../headers/assetManager.hpp"
+#include "../headers/inputManager.hpp"
 
 struct GameData{
     sf::RenderWindow window;

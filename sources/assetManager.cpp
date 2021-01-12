@@ -8,10 +8,6 @@ void AssetManager::loadTexture(std::string name, std::string fileName){
     }
 }
 
-sf::Texture & AssetManager::getTexture(std::string name){
-    return textures[name];
-}
-
 void AssetManager::loadFont(std::string name, std::string fileName){
     sf::Font font;
 
@@ -22,4 +18,8 @@ void AssetManager::loadFont(std::string name, std::string fileName){
 
 sf::Font & AssetManager::getFont(std::string name){
     return fonts[name];
+}
+
+sf::Texture & AssetManager::getTexture(std::string name){
+    return textures[name];
 }
