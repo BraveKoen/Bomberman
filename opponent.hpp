@@ -1,15 +1,15 @@
-#ifndef __PLAYER_HPP__
-#define __PLAYER_HPP__
+#ifndef __OPPONENT_HPP__
+#define __OPPONENT_HPP__
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
 #include "character.hpp"
 
-class Player : public Character{
+class Opponent : public Character{
 public:
-    Player(GameDataRef data);
-    ~Player();
+    Opponent(GameDataRef data);
+    ~Opponent();
 
     void draw() override;
 
@@ -22,15 +22,13 @@ public:
     void setMovementSpeed(uint8_t speed) override;
     int getMovementSpeed() override;
 
-    void playerMove(sf::Keyboard::Key key);
-
 private:
 
     GameDataRef data;
-    sf::Sprite playerSprite;
-    sf::Vector2f playerPosition;
+    sf::Sprite opponentSprite;
+    sf::Vector2f opponentPosition;
     uint16_t movementSpeed = 2;
-    uint8_t playerHealth = 100;
+    uint8_t opponentHealth = 100;
 };
 
-#endif // __PLAYER_HPP__
+#endif // __OPPONENT_HPP__
