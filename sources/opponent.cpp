@@ -1,7 +1,6 @@
 #include "..//headers//opponent.hpp"
 
 Opponent::Opponent(gameDataRef data):
-    Character(data),
     data(data)
 {
     opponentSprite.setTexture(data->assetManager.getTexture("opponent.png"));  
