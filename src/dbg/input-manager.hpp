@@ -12,5 +12,5 @@ public:
     ) const -> bool;
     auto getMousePosition(
         sf::RenderWindow &window
-    ) const -> sf::Vector2i;
+    ) const -> sf::Vector2f;
 };

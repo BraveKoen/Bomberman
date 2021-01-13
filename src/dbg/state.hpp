@@ -2,10 +2,10 @@
 
 class State {
 public:
-    virtual auto init() -> void = 0;
-    virtual auto handleInput() -> void = 0;
-    virtual auto update(float delta) -> void = 0;
-    virtual auto draw(float delta) -> void = 0;
-    virtual auto pause() -> void {}   // note: defines impl.
-    virtual auto resume() -> void {}  // note: defines impl.
+    virtual void init() = 0;
+    virtual void handleInput() = 0;
+    virtual void update(float delta) = 0;
+    virtual void draw(float delta) = 0;
+    virtual void pause() {}   // note: defines impl.
+    virtual void resume() {}  // note: defines impl.
 };

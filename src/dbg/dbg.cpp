@@ -8,7 +8,7 @@ auto isEscapePressed() -> bool {
     return sf::Keyboard::isKeyPressed(sf::Keyboard::Escape);
 }
 
-auto runGame(gameDataRef data) -> void {
+void runGame(gameDataRef data) {
     auto const mainMenu = std::make_unique<MainMenuState>(data);
     mainMenu->init();
 
@@ -27,7 +27,7 @@ auto runGame(gameDataRef data) -> void {
     }
 }
 
-auto main() -> int {
+int main() {
     auto data = std::make_shared<GameData>();
     data->window.create(
         {400, 500},

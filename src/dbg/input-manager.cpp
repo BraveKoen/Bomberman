@@ -10,12 +10,11 @@ auto InputManager::isSpriteClicked(
     sf::RenderWindow& window
 ) const -> bool {
     return sf::Mouse::isButtonPressed(button)
-        and sprite.getGlobalBounds().contains(
-            window.mapPixelToCoords(getMousePosition(window)));
+        and sprite.getGlobalBounds().contains(getMousePosition(window));
 }
 
 auto InputManager::getMousePosition(
     sf::RenderWindow &window
-) const -> sf::Vector2i {
-    return sf::Mouse::getPosition(window);
+) const -> sf::Vector2f {
+    return window.mapPixelToCoords(sf::Mouse::getPosition(window));
 }

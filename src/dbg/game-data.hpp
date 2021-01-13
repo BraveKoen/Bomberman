@@ -8,7 +8,7 @@ struct GameData {
     // StateMachine machine;
     sf::RenderWindow window;
     // AssetManager assets;
-    InputManager input;
+    InputManager inputManager;
 };
 
 using gameDataRef = std::shared_ptr<GameData>;
