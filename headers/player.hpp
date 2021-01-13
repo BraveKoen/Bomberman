@@ -3,13 +3,15 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <memory> 
 
+#include "bombHandler.hpp"
 #include "character.hpp"
 
 class Player : public Character{
 public:
-    Player(gameDataRef data);
-    ~Player();
+    Player(gameDataRef data, std::shared_ptr<BombHandler> bombHandler);
+    ~Player(){std::cout << "PlayerDespt" << std::endl;}
 
     void draw() override;
 
@@ -29,10 +31,12 @@ public:
 private:
 
     gameDataRef data;
+    std::shared_ptr<BombHandler> bombHandler;
     sf::Sprite playerSprite;
     sf::Vector2f playerPosition;
     uint16_t movementSpeed = 2;
     uint8_t playerHealth = 100;
+    int playerId = 69;
 };
 
 #endif // __PLAYER_HPP__

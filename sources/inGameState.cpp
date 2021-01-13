@@ -9,9 +9,11 @@ InGameState::InGameState(gameDataRef data):
 }
 
 void InGameState::init(){
-    data->assetManager.loadTexture("Player", "resources/button-1.png");
-    p1 = new Player(data);
+    data->assetManager.loadTexture("Player", "resources/man.gif");
+    data->assetManager.loadTexture("Dynamite", "resources/dynamite.png");
     
+    bHandler = std::make_shared<BombHandler>(data);
+    p1 = std::make_unique<Player>(data, bHandler);
 }
 
 void InGameState::handleInput(){
@@ -37,5 +39,7 @@ void InGameState::draw(float delta) {
     
     data->window.clear(sf::Color::Blue);
     p1->draw();
+    bHandler->update();
+    bHandler->draw();
     data->window.display();
 }

@@ -8,7 +8,7 @@
 
 class Opponent : public Character{
 public:
-    Opponent(GameDataRef data);
+    Opponent(gameDataRef data);
     ~Opponent();
 
     void draw() override;
@@ -24,7 +24,7 @@ public:
 
 private:
 
-    GameDataRef data; //the data
+    gameDataRef data; //the data
     sf::Sprite opponentSprite;
     sf::Vector2f opponentPosition;
     uint16_t movementSpeed = 2;
