@@ -1,20 +1,23 @@
+#include "../headers/breakableWall.hpp"
+
 breakableWall::breakableWall(gameDataRef gameData): 
     gameData(gameData)
     {}
 
-void breakableWall::spawnWall(sf::Vector2f position);
-    sf::Sprite sprite(this->_data->assets.GetTexture("breakableWall"));
+void breakableWall::spawnWall(sf::Vector2f position){
+    sf::Sprite sprite(gameData->assetManager.getTexture("breakableWall"));
     sprite.setPosition(position);
-    pipeSprites.push_back(sprite);
+    breakableWallSprites.push_back(sprite);
+}
 
 void breakableWall::drawWall(){
     for(auto & sprite : breakableWallSprites){
-        gameData.window.draw(sprite);
+        gameData->window.draw(sprite);
     }
 }
 
 
-const breakableWall::std::vector<sf::Sprite> &getSprites() const{
+const std::vector<sf::Sprite> & breakableWall::getSprites() const{
     return breakableWallSprites;
 }
 

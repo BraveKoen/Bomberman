@@ -1,9 +1,11 @@
 #include "../headers/game.hpp"
-//#include "../headers/mainMenu.hpp"
+// #include "../headers/mainMenu.hpp"
+#include "../headers/mapSelector.hpp"
 
 Game::Game(int width, int height, std::string title){
     gameData->window.create(sf::VideoMode(width, height), title, sf::Style::Close | sf::Style::Titlebar);
-    //gameData->stateMachine.addState(std::make_unique<MainMenuState>(gameData));
+    gameData->stateMachine.addState(std::make_unique<MapSelector>(gameData));
+
     run();
 }
 

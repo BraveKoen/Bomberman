@@ -10,7 +10,7 @@ class unbreakableWall
 public:
     unbreakableWall(gameDataRef data);
 
-    void spawnWall();
+    void spawnWall(sf::Vector2f position);
     void drawWall();
 
     const std::vector<sf::Sprite> &getSprites() const;
