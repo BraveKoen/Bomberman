@@ -8,14 +8,14 @@
 
 class MapSelector : public State{
 public:
-    MapSelector(GameData gameData);
+    MapSelector(gameDataRef gameData);
 
     void init();
     void handleInput();
     void update(float deltaTime);
     void draw(float deltaTime);
 private:
-    GameData gameData;
+    gameDataRef gameData;
     sf::Sprite background;
     std::Vector<sf::Sprite> menuOptions;
 };

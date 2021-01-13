@@ -1,4 +1,4 @@
-breakableWall::breakableWall(GameData gameData): 
+breakableWall::breakableWall(gameDataRef gameData): 
     gameData(gameData)
     {}
 
