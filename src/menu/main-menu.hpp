@@ -4,7 +4,7 @@
 #include "../dbg/game-data.hpp"
 #include "../dbg/state.hpp"
 
-class MainMenuState : public State {
+class MainMenuState: public State {
 private:
     sf::Sprite button1;
     sf::Sprite button2;
@@ -18,8 +18,8 @@ private:
     gameDataRef data;    
 public:
     MainMenuState(gameDataRef data);
-    virtual auto init() -> void override;
-    virtual auto handleInput() -> void override;
-    virtual auto update(float delta) -> void override;
-    virtual auto draw(float delta) -> void override;
+    virtual void init() override;
+    virtual void handleInput() override;
+    virtual void update(float delta) override;
+    virtual void draw(float delta) override;
 };
