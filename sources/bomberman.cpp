@@ -1,6 +1,7 @@
 #include <iostream>
 #include "../headers/game.hpp"
+#include "../headers/definitions.hpp"
 
 int main(){
-    Game(800, 600, "Bomberman");
+    Game(screenWidth, screenHeight, "Bomberman");
 }

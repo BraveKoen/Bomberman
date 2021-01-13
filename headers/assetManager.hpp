@@ -9,10 +9,10 @@ class AssetManager{
         std::map<std::string, sf::Texture> textures;
         std::map<std::string, sf::Font> fonts;
     public:
-        void LoadTexture(std::string name, std::string fileName);
+        void loadTexture(std::string name, std::string fileName);
         sf::Texture & getTexture(std::string name);
 
-        void LoadFont(std::string name, std::string fileName);
+        void loadFont(std::string name, std::string fileName);
         sf::Font & getFont(std::string name);
 };
 
