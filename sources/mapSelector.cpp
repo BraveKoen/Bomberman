@@ -2,7 +2,7 @@
 #include "../headers/mapSelector.hpp"
 #include "../headers/definitions.hpp"
 
-MapSelector::MapSelector(GameData gameData):
+MapSelector::MapSelector(gameDataRef gameData):
 gameData(gameData)
 {}
 

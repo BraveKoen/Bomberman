@@ -8,7 +8,7 @@
 class breakableWall
 {
 public:
-    breakableWall(GameData data);
+    breakableWall(gameDataRef data);
 
     void spawnWall();
     void drawWall();
@@ -19,7 +19,7 @@ public:
     void setWallScale(sf::Vector2f scale);
 
 private:
-    GameData gameData;
+    gameDataRef gameData;
     std::vector<sf::Sprite> breakableWallSprites;
 };
 
