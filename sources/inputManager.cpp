@@ -2,7 +2,7 @@
 
 sf::Vector2f InputManager::getMousePosition(sf::RenderWindow & window){
     sf::Vector2i pos = sf::Mouse::getPosition(window);
-    return sf::Vector2f(static_cast< float >( pos.x ), static_cast< float >( pos.y ));
+    return sf::Vector2f(window.mapPixelToCoords(sf::Mouse::getPosition(window)));
 }
 
 sf::Vector2i InputManager::getMousePositionInt(sf::RenderWindow & window){
