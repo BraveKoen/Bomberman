@@ -17,7 +17,7 @@ public:
 private:
     gameDataRef gameData;
     sf::Sprite background;
-    std::Vector<sf::Sprite> menuOptions;
+    std::vector<sf::Sprite> menuOptions;
 };
 
 #endif // __MAPSELECTOR_HPP__
