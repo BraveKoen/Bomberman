@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "game.hpp"
 #include "player.hpp"
+#include "bombHandler.hpp"
 
 class InGameState : public State{
 public:
@@ -17,7 +18,10 @@ public:
 
 private:
     gameDataRef data;
-    Player *p1;
+    
+    std::shared_ptr<BombHandler> bHandler = nullptr;
+    std::unique_ptr<Player> p1 = nullptr;
+
     
 };
 

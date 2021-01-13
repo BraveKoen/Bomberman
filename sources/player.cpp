@@ -1,10 +1,12 @@
 #include "../headers/player.hpp"
 
-Player::Player(gameDataRef data):
-    data(data)
+Player::Player(gameDataRef data, std::shared_ptr<BombHandler> bombHandler):
+    data(data),
+    bombHandler(bombHandler)
     {
         //playerSprite.setTexture(data->getTexture("player.png"));
         playerSprite.setTexture(data->assetManager.getTexture("Player"));
+        playerSprite.setScale(0.2, 0.2);
     }
 
 void Player::draw() {
@@ -46,7 +48,9 @@ void Player::playerMove(sf::Keyboard::Key key) {
         playerPosition.x += movementSpeed;
     }else if (sf::Keyboard::Key::Left == key){
         playerPosition.x -= movementSpeed;
-    }else if(sf::Keyboard::Key::Space == key){
+    }
+    if(sf::Keyboard::Key::Space == key){
+        bombHandler->createBomb(playerId, 12, 12, 5, playerPosition);
         
     }
     playerSprite.setPosition(playerPosition);
