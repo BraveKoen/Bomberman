@@ -23,12 +23,11 @@ void BombHandler::update(){
     for(auto &bomb : bombs){
         if(bomb->isExploded(clock.getElapsedTime().asSeconds())){
             bombs.erase(bombs.begin() + count);
-            
-            std::cout << "Delete" << std::endl;
+            std::cout << "Delted" << std::endl;
             break;
-
+        }else{
+            count++;
         }
-        count++;
+        
     }
-    std::cout << bombs.size() << std::endl;
 }

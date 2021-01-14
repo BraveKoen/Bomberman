@@ -11,3 +11,4 @@ sf::Vector2i InputManager::getMousePositionInt(sf::RenderWindow & window){
 bool InputManager::isSpriteClicked(sf::Sprite object, sf::Mouse::Button button, sf::RenderWindow & window){
     return sf::Mouse::isButtonPressed(button) && object.getGlobalBounds().contains(getMousePosition(window));
 }
+

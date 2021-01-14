@@ -9,7 +9,7 @@
 
 class Player : public Character{
 public:
-    Player(gameDataRef data, std::shared_ptr<BombHandler> bombHandler);
+    Player(gameDataRef data, std::shared_ptr<BombHandler> bombHandler, bool arrowkeys);
     ~Player(){std::cout << "PlayerDespt" << std::endl;}
 
     void draw() override;
@@ -25,7 +25,7 @@ public:
 
     sf::Sprite getSprite(){return playerSprite;};
 
-    void playerMove(sf::Keyboard::Key key);
+    void playerMove();
 
 private:
     std::shared_ptr<BombHandler> bombHandler;
@@ -35,6 +35,7 @@ private:
     uint16_t movementSpeed = 2;
     uint8_t playerHealth = 100;
     int playerId = 69;
+    bool arrowKeys;
 };
 
 #endif // __PLAYER_HPP__
