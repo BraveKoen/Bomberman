@@ -32,8 +32,8 @@ bool MapSelectorState::isValidFile(std::string fileName){
 }
 
 std::vector<std::vector<std::string>> MapSelectorState::makeMap(std::string fileName){
-    std::vector<std::vector<std::string>> map;
-    std::vector<std::string> mapLine;
+    std::vector<std::vector<std::string>> map = {};
+    std::vector<std::string> mapLine = {};
     std::ifstream file(fileName);
     std::string line;
     while (getline(file, line)) {
@@ -78,7 +78,6 @@ void MapSelectorState::spawnMapButtons(){
         menuOptionsText.push_back(optionText);
     }
 }
-
 
 MapSelectorState::MapSelectorState(gameDataRef gameData):
     gameData(gameData),
@@ -130,9 +129,8 @@ void MapSelectorState::init(){
     
     spawnMapButtons();
 
-    sf::Sprite playButton;
-        playButton.setTexture(gameData->assetManager.getTexture("mapSelectorState option"));
-        playButton.setPosition(10.0, 10,0);
+    playButton.setTexture(gameData->assetManager.getTexture("mapSelectorState option"));
+    playButton.setPosition(10.0, 10.0);
 
     // sf::Vector2f mapSelectorStateOptionSize = sf::Vector2f( 
 	// 	static_cast< float >( gameData->assetManager.getTexture("mapSelectorState option").getSize().x ), 
@@ -164,8 +162,18 @@ void MapSelectorState::init(){
     //     menuOptionsText.push_back(optionText);
     // }
     
+    auto test = tileMapVector[0].getMap();
+    for (size_t i = 0; i < test.size(); i++)
+    {
+        for (size_t j = 0; j < test[i].size(); j++)
+        {
+            std::cout << " " << test[i][j];
+        }
+        std::cout << std::endl;
+        
+    }
+    
 }
-
 
 void MapSelectorState::handleInput(){
     sf::Event event;
@@ -181,8 +189,8 @@ void MapSelectorState::handleInput(){
         }
         if(gameData->inputManager.isSpriteClicked(playButton, sf::Mouse::Left, gameData->window)){
             std::cout << "go to inGameState" << std::endl;
-            gameData->tileMap = tileMapVector[mapToDisplayIndex];
-            // gameData->stateMachine.addState(std::make_unique<InGameState>(gameData), true);
+            // gameData->tileMap = tileMapVector[mapToDisplayIndex];
+            // gameData->stateMachine.addState(std::make_unique<InGameState>(gameData));
         } 
     }
 }
@@ -200,7 +208,7 @@ void MapSelectorState::draw(float deltaTime){
         gameData->window.draw(menuOptions[i]);
         gameData->window.draw(menuOptionsText[i]);
     }
-    gameData->window.draw(tileMapVector[mapToDisplayIndex]);
+    drawTileMap(tileMapVector[mapToDisplayIndex], gameData, true);
 
     gameData->window.display();
 }

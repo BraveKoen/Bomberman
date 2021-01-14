@@ -7,7 +7,7 @@
 #include "../headers/stateMachine.hpp"
 #include "../headers/assetManager.hpp"
 #include "../headers/inputManager.hpp"
-#include "../headers/tileMap.hpp"
+// #include "../headers/tileMap.hpp"
 #include "definitions.hpp"
 
 struct GameData{
@@ -15,7 +15,7 @@ struct GameData{
     StateMachine stateMachine;
     AssetManager assetManager;
     InputManager inputManager;
-    TileMap tileMap;
+    // TileMap tileMap;
 
 };
 
