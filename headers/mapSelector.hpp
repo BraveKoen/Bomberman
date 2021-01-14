@@ -16,6 +16,7 @@ public:
     void draw(float deltaTime);
 private:
     gameDataRef gameData;
+    std::vector<sf::Text> menuOptionsText;
     sf::Sprite background;
     std::vector<sf::Sprite> menuOptions;
 };

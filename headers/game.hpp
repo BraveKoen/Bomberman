@@ -8,6 +8,7 @@
 #include "../headers/assetManager.hpp"
 #include "../headers/inputManager.hpp"
 #include "tileMap.hpp"
+#include "definitions.hpp"
 
 struct GameData{
     sf::RenderWindow window;
