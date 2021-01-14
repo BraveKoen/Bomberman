@@ -1,16 +1,15 @@
 #include "../headers/tileMap.hpp"
+#include "../headers/game.hpp"
 
-TileMap::TileMap(sf::Vector2f position, sf::Vector2f size, gameDataRef gameData, sf::Vector2u mapSize):
+TileMap::TileMap(sf::Vector2f position, sf::Vector2f size, sf::Vector2u mapSize):
     position(position),
     size(size),
-    gameData(gameData),
     mapSize(mapSize)
     {}
 
-TileMap::TileMap(sf::Vector2f position, sf::Vector2f size, gameDataRef gameData, std::vector<std::vector<std::string>> map, sf::Vector2u mapSize):
+TileMap::TileMap(sf::Vector2f position, sf::Vector2f size, std::vector<std::vector<std::string>> map, sf::Vector2u mapSize):
     position(position),
     size(size),
-    gameData(gameData),
     map(map),
     mapSize(mapSize)
     {}
@@ -69,41 +68,4 @@ std::string TileMap::getTile(sf::Vector2u tilePosition)const{
 
 std::string TileMap::getTile(sf::Vector2f screenPosition){
     return getTile(screenPosToTilePos(screenPosition));
-}
-
-void TileMap::draw(bool drawPlayerSpawns){
-    sf::Sprite background(gameData->assetManager.getTexture("map background"));
-    background.setPosition(position);
-    background.setScale(size.x/background.getTexture()->getSize().x, size.y/background.getTexture()->getSize().y);
-    gameData->window.draw(background);
-
-    for(unsigned int i=0; i<map.size(); i++){
-        for(unsigned int j=0; j<map[i].size(); j++){
-            if(map[i][j] != "empty"){
-                sf::Sprite sprite;
-                if(map[i][j] == "solid"){
-                    sprite.setTexture(gameData->assetManager.getTexture("unbreakable wall"));
-                }else if(map[i][j] == "break"){
-                    sprite.setTexture(gameData->assetManager.getTexture("breakable wall"));
-                }else if(drawPlayerSpawns){
-                    if(map[i][j] == "play1"){
-                        sprite.setTexture(gameData->assetManager.getTexture("player1 spawn location"));
-                    }else if(map[i][j] == "play2"){
-                        sprite.setTexture(gameData->assetManager.getTexture("player2 spawn location"));
-                    }else if(map[i][j] == "play3"){
-                        sprite.setTexture(gameData->assetManager.getTexture("player3 spawn location"));
-                    }else if(map[i][j] == "play4"){
-                        sprite.setTexture(gameData->assetManager.getTexture("player4 spawn location"));
-                    }else{
-                        break;
-                    }
-                }else{
-                    break;
-                }
-                sprite.setPosition(position.x+((size.x/mapSize.x)*i), position.y+((size.y/mapSize.y)*i));
-                sprite.setScale((size.x/mapSize.x)/sprite.getTexture()->getSize().x, (size.y/mapSize.y)/sprite.getTexture()->getSize().y);
-                gameData->window.draw(sprite);
-            }
-        }
-    }
 }
