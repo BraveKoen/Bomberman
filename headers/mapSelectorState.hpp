@@ -3,8 +3,10 @@
 
 #include "state.hpp"
 #include "game.hpp"
+#include "tileMap.hpp"
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <string>
 
 class MapSelectorState : public State{
 public:
@@ -16,9 +18,16 @@ public:
     void draw(float deltaTime);
 private:
     gameDataRef gameData;
+    int mapToDisplayIndex;
     std::vector<sf::Text> menuOptionsText;
     sf::Sprite background;
     std::vector<sf::Sprite> menuOptions;
+    std::vector<std::string> mapNames;
+    std::vector<TileMap> tileMapVector;  
+
+    bool MapSelectorState::isValidFile(std::string fileName);
+    std::vector<std::vector<std::string>> MapSelectorState::makeMap(std::string fileName);
+    void MapSelectorState::spawnButtons(int ammountOfMaps);
 };
 
 #endif // __MAPSELECTORSTATE_HPP__
