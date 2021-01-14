@@ -1,6 +1,7 @@
 #ifndef __TILEMAP_HPP__
 #define __TILEMAP_HPP__
 
+#include <SFML/Graphics.hpp>
 #include <vector>
 
 class TileMap{
@@ -13,15 +14,15 @@ class TileMap{
         TileMap(sf::Vector2f position, sf::Vector2f size, sf::Vector2u mapSize=sf::Vector2u(15,15));
         TileMap(sf::Vector2f position, sf::Vector2f size, std::vector<std::vector<std::string>> map, sf::Vector2u mapSize=sf::Vector2u(15,15));
         //General setters
-        void setPosition(sf::Vector2f newPosition);
-        void setSize(sf::Vector2f newSize);
+        void setTileMapPosition(sf::Vector2f newPosition);
+        void setTileMapSize(sf::Vector2f newSize);
         void setMapSize(sf::Vector2u newMapSize);
-        void setMap(std::vector<std::vector<std::string>> map);
+        void setMap(std::vector<std::vector<std::string>> newMap);
         //Generals getters
-        sf::Vector2f newPosition getPosition()const;
-        sf::Vector2f newSize getSize()const;
-        sf::Vector2u newMapSize getMapSize()const;
-        std::vector<std::vector<std::string>> map setMap()const;
+        sf::Vector2f getTileMapPosition()const;
+        sf::Vector2f getTileMapSize()const;
+        sf::Vector2u getMapSize()const;
+        std::vector<std::vector<std::string>> setMap()const;
         //Tile setters and getters
         void setTile(sf::Vector2u tilePosition, std::string type); //Based on tile coordinates
         void setTile(sf::Vector2f screenPosition, std::string type); //Based on screen coordinates
