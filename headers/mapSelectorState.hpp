@@ -27,7 +27,7 @@ private:
 
     bool MapSelectorState::isValidFile(std::string fileName);
     std::vector<std::vector<std::string>> MapSelectorState::makeMap(std::string fileName);
-    void MapSelectorState::spawnButtons(int ammountOfMaps);
+    void MapSelectorState::spawnMapButtons();
 };
 
 #endif // __MAPSELECTORSTATE_HPP__

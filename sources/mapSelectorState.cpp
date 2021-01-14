@@ -48,12 +48,12 @@ std::vector<std::vector<std::string>> MapSelectorState::makeMap(std::string file
     return map;
 }
 
-void MapSelectorState::spawnButtons(int ammountOfMaps){
+void MapSelectorState::spawnMapButtons(){
     sf::Vector2f mapSelectorStateOptionSize = sf::Vector2f( 
 		static_cast< float >( gameData->assetManager.getTexture("mapSelectorState option").getSize().x ), 
 		static_cast< float >( gameData->assetManager.getTexture("mapSelectorState option").getSize().y )
 	);
-    for(unsigned int i=0; i<ammountOfMaps; i++){
+    for(unsigned int i=0; i<mapNames.size(); i++){
         sf::Sprite optionSprite;
         optionSprite.setTexture(gameData->assetManager.getTexture("mapSelectorState option"));
         optionSprite.setScale(
@@ -98,7 +98,7 @@ void MapSelectorState::init(){
                 std::string fileName = entry.path().u8string();
                 std::vector<std::vector<std::string>> map = makeMap(entry.path().u8string());
                 TileMap tileMap(sf::Vector2f(500, 100), sf::Vector2f(500, 500), map, sf::Vector2u(map.size(), map[0].size()));
-                tileMapVector.push_back(tileMap)
+                tileMapVector.push_back(tileMap);
 
 
                 fileName = fileName.substr(15, fileName.length()-19);
@@ -113,6 +113,11 @@ void MapSelectorState::init(){
         
     gameData->assetManager.loadTexture("mapSelectorState background", mapSelectorStateBackgroundFilepath);
     gameData->assetManager.loadTexture("mapSelectorState option", mapSelectorStateOptionFilepath);
+    gameData->assetManager.loadTexture("unbreakable wall", solid);
+    gameData->assetManager.loadTexture("breakable wall", breakable);
+    gameData->assetManager.loadTexture("player1 spawn location", play1);
+    gameData->assetManager.loadTexture("player2 spawn location", play2);
+    gameData->assetManager.loadTexture("map background", mapBackground);
     background.setTexture(gameData->assetManager.getTexture("mapSelectorState background"));
     sf::Vector2f mapSelectorStateBackgroundSize = sf::Vector2f( 
 		static_cast< float >( gameData->assetManager.getTexture("mapSelectorState background").getSize().x ), 
@@ -123,9 +128,12 @@ void MapSelectorState::init(){
         gameData->window.getSize().y/mapSelectorStateBackgroundSize.y
     );
     
-    
-    int ammountOfMaps = mapNames.size();
-    spawnButtons(ammountOfMaps);
+    spawnMapButtons();
+
+    sf::Sprite playButton;
+        playButton.setTexture(gameData->assetManager.getTexture("mapSelectorState option"));
+        playButton.setPosition(10.0, 10,0);
+
     // sf::Vector2f mapSelectorStateOptionSize = sf::Vector2f( 
 	// 	static_cast< float >( gameData->assetManager.getTexture("mapSelectorState option").getSize().x ), 
 	// 	static_cast< float >( gameData->assetManager.getTexture("mapSelectorState option").getSize().y )
@@ -171,6 +179,11 @@ void MapSelectorState::handleInput(){
                 mapToDisplayIndex = i;
             }            
         }
+        if(gameData->inputManager.isSpriteClicked(playButton, sf::Mouse::Left, gameData->window)){
+            std::cout << "go to inGameState" << std::endl;
+            gameData->tileMap = tileMapVector[mapToDisplayIndex];
+            // gameData->stateMachine.addState(std::make_unique<InGameState>(gameData), true);
+        } 
     }
 }
 
@@ -182,6 +195,7 @@ void MapSelectorState::draw(float deltaTime){
     gameData->window.clear();
 
     gameData->window.draw(background);
+    gameData->window.draw(playButton);
     for(unsigned short int i=0; i<menuOptions.size(); i++){
         gameData->window.draw(menuOptions[i]);
         gameData->window.draw(menuOptionsText[i]);
