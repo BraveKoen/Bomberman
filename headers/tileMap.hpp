@@ -22,7 +22,7 @@ class TileMap{
         sf::Vector2f getTileMapPosition()const;
         sf::Vector2f getTileMapSize()const;
         sf::Vector2u getMapSize()const;
-        std::vector<std::vector<std::string>> setMap()const;
+        std::vector<std::vector<std::string>> getMap()const;
         //Tile setters and getters
         void setTile(sf::Vector2u tilePosition, std::string type); //Based on tile coordinates
         void setTile(sf::Vector2f screenPosition, std::string type); //Based on screen coordinates

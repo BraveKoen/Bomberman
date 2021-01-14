@@ -23,18 +23,18 @@ void TileMap::setMap(std::vector<std::vector<std::string>> newMap){
 }
 
 sf::Vector2f TileMap::getTileMapPosition()const{
-    return position
+    return position;
 }
 
 sf::Vector2f TileMap::getTileMapSize()const{
-
+    return size;
 }
 
 sf::Vector2u TileMap::getMapSize()const{
-
+    return mapSize;
 }
 
-std::vector<std::vector<std::string>> TileMap::setMap()const{
+std::vector<std::vector<std::string>> TileMap::getMap()const{
 
 }
 
