@@ -1,14 +1,14 @@
-#ifndef __MAPSELECTOR_HPP__
-#define __MAPSELECTOR_HPP__
+#ifndef __MAPSELECTORSTATE_HPP__
+#define __MAPSELECTORSTATE_HPP__
 
 #include "state.hpp"
 #include "game.hpp"
 #include <SFML/Graphics.hpp>
 #include <vector>
 
-class MapSelector : public State{
+class MapSelectorState : public State{
 public:
-    MapSelector(gameDataRef gameData);
+    MapSelectorState(gameDataRef gameData);
 
     void init();
     void handleInput();
@@ -21,4 +21,4 @@ private:
     std::vector<sf::Sprite> menuOptions;
 };
 
-#endif // __MAPSELECTOR_HPP__
+#endif // __MAPSELECTORSTATE_HPP__

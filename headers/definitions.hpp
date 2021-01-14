@@ -4,8 +4,8 @@
 #define screenWidth 1280
 #define screenHeight 720
 
-#define mapSelectorBackgroundFilepath "resources/mapSelectorMenuBackground.png"
-#define mapSelectorOptionFilepath "resources/mapSelectorMenuButton.png"
+#define mapSelectorStateBackgroundFilepath "resources/mapSelectorStateMenuBackground.png"
+#define mapSelectorStateOptionFilepath "resources/mapSelectorStateMenuButton.png"
 
 #define globalFont "resources/256BYTES.TTF"
 
