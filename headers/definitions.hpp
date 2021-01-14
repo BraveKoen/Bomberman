@@ -5,6 +5,10 @@
 #define screenHeight 720
 
 #define mapSelectorBackgroundFilepath "resources/mapSelectorMenuBackground.png"
-#define mapSelectorOptionFilepath "resources/test.png"
+#define mapSelectorOptionFilepath "resources/mapSelectorMenuButton.png"
+
+#define globalFont "resources/256BYTES.TTF"
+
+#define mapFolderLocation "resources\\maps"
 
 #endif // __DEFINITIONS_HPP__ 
