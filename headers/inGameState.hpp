@@ -2,6 +2,8 @@
 #define __INGAMESTATE_HPP__
 
 #include <SFML/Graphics.hpp>
+#include <vector>
+
 #include "game.hpp"
 #include "player.hpp"
 #include "bombHandler.hpp"
@@ -20,7 +22,7 @@ private:
     gameDataRef data;
     
     std::shared_ptr<BombHandler> bHandler = nullptr;
-    std::unique_ptr<Player> p1 = nullptr;
+    std::vector<std::unique_ptr<Player>> players;
 
     
 };

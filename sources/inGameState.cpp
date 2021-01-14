@@ -13,7 +13,13 @@ void InGameState::init(){
     data->assetManager.loadTexture("Dynamite", "resources/dynamite.png");
     
     bHandler = std::make_shared<BombHandler>(data);
-    p1 = std::make_unique<Player>(data, bHandler);
+    players.push_back(std::make_unique<Player>(data, bHandler, 0));
+    
+    bool lol = 0;
+    for(int i; i <= data->playerCount; i ++){
+        players.push_back(std::make_unique<Player>(data, bHandler, lol));
+        lol = true;
+    }
 }
 
 void InGameState::handleInput(){
@@ -22,14 +28,17 @@ void InGameState::handleInput(){
     while (data->window.pollEvent(event)) {
         if (sf::Event::Closed == event.type) {
             data->window.close();
-        } else if (sf::Event::KeyPressed == event.type) {
-            p1->playerMove(event.key.code);
         }
     }
     
 }
 
 void InGameState::update(float delta) {
+
+    for(auto &player : players){
+        player->playerMove();
+    }
+
     
     return;
     
@@ -38,7 +47,11 @@ void InGameState::update(float delta) {
 void InGameState::draw(float delta) {
     
     data->window.clear(sf::Color::Blue);
-    p1->draw();
+
+    for(auto &player : players){
+            player->draw();
+        }
+
     bHandler->update();
     bHandler->draw();
     data->window.display();

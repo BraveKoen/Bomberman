@@ -13,6 +13,7 @@ struct GameData{
     StateMachine stateMachine;
     AssetManager assetManager;
     InputManager inputManager;
+    int playerCount = 1;
 };
 
 typedef std::shared_ptr<GameData> gameDataRef;

@@ -2,12 +2,13 @@
 #define __BOMB_HPP__
 
 #include <SFML/Graphics.hpp>
+#include <iostream>
 #include "game.hpp"
 
 class Bomb{
 public:
     Bomb(gameDataRef data, int playerId, int lenghtX, int lenghtY, int explodeTime,float timeCreated, sf::Vector2f pos);
-    ~Bomb(){}
+    ~Bomb(){std::cout << "Bomb Gone!" << std::endl;}
 
     void draw();
 
