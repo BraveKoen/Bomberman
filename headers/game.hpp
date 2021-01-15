@@ -15,7 +15,7 @@ struct GameData{
     InputManager inputManager;
 };
 
-typedef std::shared_ptr<GameData> gameDataRef;
+using gameDataRef = std::shared_ptr<GameData>;
 
 class Game{
     private:

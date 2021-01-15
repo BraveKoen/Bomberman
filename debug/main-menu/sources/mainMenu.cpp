@@ -1,55 +1,51 @@
 #define SFML_STATIC
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include "main-menu.hpp"
+#include "../headers/definitions.hpp"
+#include "../headers/inputManager.hpp"
+#include "../headers/assetManager.hpp"
+#include "../headers/mainMenu.hpp"
 
 MainMenuState::MainMenuState(gameDataRef data):
-    data(data)
+    data{data}
 {}
 
-auto MainMenuState::init() -> void {
-    // quick workaround, should invoke asset manager instead
-    auto isLoaded = texture1.loadFromFile("../../resource/button-1.png");
-    isLoaded |= texture2.loadFromFile("../../resource/button-2.png");
-    isLoaded |= texture3.loadFromFile("../../resource/button-3.png");
-    //
-    if (not isLoaded) {
-        std::cout << "Couldn't load textures :(\n";
-        return;
-    }
-    button1.setTexture(texture1);
-    button2.setTexture(texture2);
-    button3.setTexture(texture3);
-
+void MainMenuState::init() {
+    button1.setTexture(data->assetManager
+        .loadTexture("button1", Resource::button1FilePath));
+    button2.setTexture(data->assetManager
+        .loadTexture("button2", Resource::button2FilePath));
+    button3.setTexture(data->assetManager
+        .loadTexture("button3", Resource::button3FilePath));
     button1.setPosition({100, 100});
     button2.setPosition({100, 200});
     button3.setPosition({100, 300});
 }
 
-auto MainMenuState::handleInput() -> void {
+void MainMenuState::handleInput() {
     sf::Event event;
 
     while (data->window.pollEvent(event)) {
         if (sf::Event::Closed == event.type) {
             data->window.close();
-        } else if (data->input.isSpriteClicked(
+        } else if (data->inputManager.isSpriteClicked(
                 button1, sf::Mouse::Left, data->window)) {
             std::cout << "button1 was clicked\n";
-        } else if (data->input.isSpriteClicked(
+        } else if (data->inputManager.isSpriteClicked(
                 button2, sf::Mouse::Left, data->window)) {
             std::cout << "button2 was clicked\n";
-        } else if (data->input.isSpriteClicked(
+        } else if (data->inputManager.isSpriteClicked(
                 button3, sf::Mouse::Left, data->window)) {
             std::cout << "button3 was clicked\n";
         }
     }
 }
 
-auto MainMenuState::update(float delta) -> void {
+void MainMenuState::update(float delta) {
     (void)delta;
 }
 
-auto MainMenuState::draw(float delta) -> void {
+void MainMenuState::draw(float delta) {
     data->window.clear(sf::Color::Red);
     data->window.draw(button1);
     data->window.draw(button2);

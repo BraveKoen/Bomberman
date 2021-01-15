@@ -9,7 +9,7 @@ if /i "%~1" == "rebuild" (
 
 if errorlevel 1 1>&2 (
     echo;
-    set /p "=Unable to build target executable :(" 0<nul
+    set /p "=Unable to build target executable :^(" 0<nul
     pause 1>nul
     exit /b 1
 )

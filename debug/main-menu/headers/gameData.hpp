@@ -2,12 +2,13 @@
 #define SFML_STATIC
 #include <SFML/Graphics.hpp>
 #include <memory>
-#include "input-manager.hpp"
+#include "../headers/assetManager.hpp"
+#include "../headers/inputManager.hpp"
 
 struct GameData {
     // StateMachine machine;
     sf::RenderWindow window;
-    // AssetManager assets;
+    AssetManager assetManager;
     InputManager inputManager;
 };
 

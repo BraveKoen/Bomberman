@@ -1,5 +1,5 @@
 #include "../headers/game.hpp"
-#include "../headers/mainMenu.hpp"
+#include "../headers/mainMenuState.hpp"
 
 Game::Game(int width, int height, std::string title){
     gameData->window.create(sf::VideoMode(width, height), title, sf::Style::Close | sf::Style::Titlebar);
