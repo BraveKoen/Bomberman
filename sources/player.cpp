@@ -13,6 +13,14 @@ void Player::draw() {
     data->window.draw(playerSprite);
 }
 
+void Player::update(){
+    if(bombCooldown){
+        if((timeBombPlaced + 5) <= clock.getElapsedTime().asSeconds()){
+            bombCooldown = false;
+        }
+    }
+}
+
 
 void Player::setHealth(uint8_t health){
     playerHealth = health;
@@ -50,8 +58,10 @@ void Player::playerMove(){
         }else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)){
             playerPosition.x -= movementSpeed;
         }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::RControl)){
-            bombHandler->createBomb(playerId, 12, 12, 1, playerPosition);   
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::RControl) && !bombCooldown){
+            bombHandler->createBomb(playerId, 12, 12, 5, playerPosition); 
+            bombCooldown = true;
+            timeBombPlaced = clock.getElapsedTime().asSeconds();
         }
 
     }else{
@@ -64,13 +74,13 @@ void Player::playerMove(){
         }else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)){
             playerPosition.x -= movementSpeed;
         }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)){
-            bombHandler->createBomb(playerId, 12, 12, 1, playerPosition);   
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) && !bombCooldown){
+            bombHandler->createBomb(playerId, 12, 12, 5, playerPosition);   
+            bombCooldown = true;
+            bombCooldown = true;
+            timeBombPlaced = clock.getElapsedTime().asSeconds();
         }
     }
-
-
-
     playerSprite.setPosition(playerPosition);
 	}
 

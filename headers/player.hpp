@@ -14,6 +14,7 @@ public:
     ~Player(){std::cout << "PlayerDespt" << std::endl;}
 
     void draw() override;
+    void update();
 
     void setHealth(uint8_t health) override;
     int getHealth() override;
@@ -38,6 +39,9 @@ private:
     uint8_t playerHealth = 100;
     int playerId = 69;
     bool arrowKeys;
+    sf::Clock clock;
+    float timeBombPlaced;
+    bool bombCooldown = false;
 };
 
 #endif // __PLAYER_HPP__

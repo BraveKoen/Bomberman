@@ -37,6 +37,7 @@ void InGameState::update(float delta) {
 
     for(auto &player : players){
         player->playerMove();
+        player->update();
     }
 
     
