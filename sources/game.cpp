@@ -27,9 +27,7 @@ void Game::run(){
             gameData->stateMachine.getActiveState()->update(delta);
             accumulator -= delta;
         }
-
         interpolation = accumulator/delta;
         gameData->stateMachine.getActiveState()->draw(interpolation);
     }
-    
 }

@@ -5,9 +5,6 @@ MainMenuState::MainMenuState(gameDataRef gameData):
 {}
 
 void MainMenuState::init() {
-    // should be moved to main/game:
-    gameData->assetManager.loadFont("defaultFont", Resource::globalFont);
-    //
     const auto& texture = gameData->assetManager
         .loadTexture("menuButton", Resource::menuButtonFilePath);
     constexpr std::array buttons{
