@@ -82,5 +82,5 @@ void Player::playerMove(){
         }
     }
     playerSprite.setPosition(playerPosition);
-	}
+}
 
