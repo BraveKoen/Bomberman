@@ -5,10 +5,10 @@
 #include "Game.hpp"
 #include <vector>
 
-class unbreakableWall
+class UnbreakableWall
 {
 public:
-    unbreakableWall(gameDataRef data);
+    UnbreakableWall(gameDataRef data);
 
     void spawnWall(sf::Vector2f position);
     void drawWall();

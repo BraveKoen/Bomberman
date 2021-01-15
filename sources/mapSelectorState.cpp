@@ -5,6 +5,11 @@
 #include <iostream>
 #include <fstream>
 
+MapSelectorState::MapSelectorState(gameDataRef gameData):
+    gameData(gameData),
+    mapToDisplayIndex(0)
+{}
+
 bool MapSelectorState::isValidFile(std::string fileName){
     bool valid = true;
     std::ifstream file(fileName);
@@ -87,11 +92,6 @@ void MapSelectorState::spawnMapButtons(){
         menuOptionsText.push_back(optionText);
     }
 }
-
-MapSelectorState::MapSelectorState(gameDataRef gameData):
-    gameData(gameData),
-    mapToDisplayIndex(0)
-{}
 
 void MapSelectorState::init(){
     int ammountOfFiles = 0;
