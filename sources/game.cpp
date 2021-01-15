@@ -1,10 +1,11 @@
 #include "../headers/game.hpp"
+
 #include "../headers/inGameState.hpp"
+//#include "../headers/mainMenu.hpp"
 
 Game::Game(int width, int height, std::string title){
     gameData->window.create(sf::VideoMode(width, height), title, sf::Style::Close | sf::Style::Titlebar);
-    gameData->stateMachine.addState(std::make_unique<InGameState>(gameData));
-
+    //gameData->stateMachine.addState(std::make_unique<MainMenuState>(gameData));
     run();
 }
 
