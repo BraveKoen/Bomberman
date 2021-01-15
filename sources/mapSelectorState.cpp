@@ -1,5 +1,6 @@
 #include "../headers/mapSelectorState.hpp"
 #include "../headers/definitions.hpp"
+// #include "../headers/inGameState.hpp"
 #include <experimental/filesystem>
 #include <stdio.h>
 #include <iostream>
@@ -158,7 +159,7 @@ void MapSelectorState::handleInput(){
         if(gameData->inputManager.isSpriteClicked(playButton, sf::Mouse::Left, gameData->window)){
             std::cout << "go to inGameState" << std::endl;
             gameData->tileMap = tileMapVector[mapToDisplayIndex];
-            gameData->stateMachine.addState(std::make_unique<InGameState>(gameData));
+            // gameData->stateMachine.addState(std::make_unique<InGameState>(gameData));
         } 
     }
 }
