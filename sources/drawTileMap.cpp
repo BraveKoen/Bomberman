@@ -1,4 +1,4 @@
-
+#include "../headers/drawTileMap.cpp"
 
 void drawTileMap(TileMap tileMap, gameDataRef gameData, bool drawPlayerSpawns){
     sf::Sprite background(gameData->assetManager.getTexture("map background"));
