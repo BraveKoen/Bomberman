@@ -11,7 +11,7 @@ void MainMenuState::init() {
     const auto& texture = gameData->assetManager
         .loadTexture("menuButton", Resource::menuButtonFilePath);
     constexpr std::array buttons{
-        std::pair<const char*, buttonFunc>{"Play", Util::switchState<MainMenuState>},
+        std::pair<const char*, buttonFunc>{"Play", Util::switchState<MapSelectorState>},
         std::pair<const char*, buttonFunc>{"Highscores", Util::switchState<MainMenuState>},
         std::pair<const char*, buttonFunc>{"Exit", [](gameDataRef gameData){gameData->window.close();}}
     };
@@ -54,11 +54,11 @@ void MainMenuState::update(float delta) {
 }
 
 void MainMenuState::draw(float delta) {
+    (void)delta;
     gameData->window.clear(sf::Color::Red);
 
     for (const auto& button : menuButtons) {
         button.draw(gameData->window);
     }
     gameData->window.display();
-    (void)delta;
 }

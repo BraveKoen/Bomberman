@@ -15,6 +15,9 @@ namespace Resource {
     constexpr auto play1 = "resources/play1.png";
     constexpr auto play2 = "resources/play2.png";
     constexpr auto mapBackground = "resources/mapBackground.png";
+
+    constexpr auto mapSelectorStateBackgroundFilepath = "resources/mapSelectorStateMenuBackground.png";
+    constexpr auto mapSelectorStateOptionFilepath = "resources/mapSelectorStateMenuButton.png";
 }
 
 #endif // __DEFINITIONS_HPP__

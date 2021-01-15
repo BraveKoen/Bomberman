@@ -6,7 +6,7 @@
 namespace Util {
     template<typename T>
     void switchState(gameDataRef gameData) {
-        gameData->stateMachine.addState(std::make_unique<T>(gameData));
+        gameData->stateMachine.addState(std::make_unique<T>(gameData), false);
     }
 
     template<typename T>

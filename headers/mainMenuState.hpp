@@ -12,6 +12,7 @@
 #include "../headers/inputManager.hpp"
 #include "../headers/assetManager.hpp"
 #include "../headers/menuButton.hpp"
+#include "../headers/mapSelectorState.hpp"
 
 class MainMenuState: public State {
 private:

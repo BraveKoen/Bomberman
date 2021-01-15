@@ -1,12 +1,8 @@
-#include <SFML/Graphics.hpp>
-#include <iostream>
 #include "../headers/inGameState.hpp"
-
 
 InGameState::InGameState(gameDataRef data):
     data(data)
-{
-}
+{}
 
 void InGameState::init(){
     data->assetManager.loadTexture("Player", "resources/man.gif");
@@ -34,7 +30,7 @@ void InGameState::handleInput(){
 }
 
 void InGameState::update(float delta) {
-
+    (void)delta;
     for(auto &player : players){
         player->playerMove();
         player->update();
@@ -43,13 +39,12 @@ void InGameState::update(float delta) {
 }
 
 void InGameState::draw(float delta) {
-    
+    (void)delta;
     data->window.clear(sf::Color::Blue);
 
     for(auto &player : players){
         player->draw();
     }
-
     bHandler->update();
     bHandler->draw();
     data->window.display();

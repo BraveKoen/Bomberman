@@ -9,8 +9,8 @@ class TileMap{
     private:
         sf::Vector2f position;
         sf::Vector2f size;
-        sf::Vector2u mapSize;
         std::vector<std::vector<std::string>> map;
+        sf::Vector2u mapSize;
     public:
         TileMap(){}
         TileMap(sf::Vector2f position, sf::Vector2f size, sf::Vector2u mapSize=sf::Vector2u(15,15));

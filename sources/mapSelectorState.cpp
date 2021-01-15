@@ -1,10 +1,4 @@
 #include "../headers/mapSelectorState.hpp"
-#include "../headers/definitions.hpp"
-// #include "../headers/inGameState.hpp"
-#include <experimental/filesystem>
-#include <stdio.h>
-#include <iostream>
-#include <fstream>
 
 MapSelectorState::MapSelectorState(gameDataRef gameData):
     gameData(gameData),
@@ -96,7 +90,7 @@ void MapSelectorState::spawnMapButtons(){
 
 void MapSelectorState::init(){
     int ammountOfFiles = 0;
-    for(const auto & entry : std::experimental::filesystem::directory_iterator(mapFolderLocation)){
+    for(const auto & entry : std::experimental::filesystem::directory_iterator(Resource::mapFolderLocation)){
         if(entry.path().extension().u8string() == ".txt"){
             if(isValidFile(entry.path().u8string())){
                 if(ammountOfFiles >= 5){
@@ -121,13 +115,13 @@ void MapSelectorState::init(){
         }
     }
         
-    gameData->assetManager.loadTexture("mapSelectorState background", mapSelectorStateBackgroundFilepath);
-    gameData->assetManager.loadTexture("mapSelectorState option", mapSelectorStateOptionFilepath);
-    gameData->assetManager.loadTexture("unbreakable wall", solid);
-    gameData->assetManager.loadTexture("breakable wall", breakable);
-    gameData->assetManager.loadTexture("player1 spawn location", play1);
-    gameData->assetManager.loadTexture("player2 spawn location", play2);
-    gameData->assetManager.loadTexture("map background", mapBackground);
+    gameData->assetManager.loadTexture("mapSelectorState background", Resource::mapSelectorStateBackgroundFilepath);
+    gameData->assetManager.loadTexture("mapSelectorState option", Resource::mapSelectorStateOptionFilepath);
+    gameData->assetManager.loadTexture("unbreakable wall", Resource::solid);
+    gameData->assetManager.loadTexture("breakable wall", Resource::breakable);
+    gameData->assetManager.loadTexture("player1 spawn location", Resource::play1);
+    gameData->assetManager.loadTexture("player2 spawn location", Resource::play2);
+    gameData->assetManager.loadTexture("map background", Resource::mapBackground);
     background.setTexture(gameData->assetManager.getTexture("mapSelectorState background"));
     sf::Vector2f mapSelectorStateBackgroundSize = sf::Vector2f( 
 		static_cast< float >( gameData->assetManager.getTexture("mapSelectorState background").getSize().x ), 
@@ -141,7 +135,9 @@ void MapSelectorState::init(){
     spawnMapButtons();
 
     playButton.setTexture(gameData->assetManager.getTexture("mapSelectorState option"));
-    playButton.setPosition(650.0, 650.0);    
+    playButton.setPosition(650.0, 650.0);
+    returnButton.setTexture(gameData->assetManager.getTexture("mapSelectorState option"));
+    returnButton.setPosition(550.0, 650.0);
 }
 
 void MapSelectorState::handleInput(){
@@ -154,25 +150,30 @@ void MapSelectorState::handleInput(){
         for(unsigned short int i=0; i<menuOptions.size(); i++){
             if(gameData->inputManager.isSpriteClicked(menuOptions[i], sf::Mouse::Left, gameData->window)){
                 mapToDisplayIndex = i;
-            }            
+            }
         }
         if(gameData->inputManager.isSpriteClicked(playButton, sf::Mouse::Left, gameData->window)){
-            std::cout << "go to inGameState" << std::endl;
+            // std::cout << "go to inGameState" << std::endl;
             gameData->tileMap = tileMapVector[mapToDisplayIndex];
-            // gameData->stateMachine.addState(std::make_unique<InGameState>(gameData));
+            gameData->stateMachine.addState(std::make_unique<InGameState>(gameData));
+        }
+        if(gameData->inputManager.isSpriteClicked(returnButton, sf::Mouse::Left, gameData->window)){
+            gameData->stateMachine.removeState();
         } 
     }
 }
 
 void MapSelectorState::update(float deltaTime){
-
+    (void)deltaTime;
 }
 
 void MapSelectorState::draw(float deltaTime){
+    (void)deltaTime;
     gameData->window.clear();
 
     gameData->window.draw(background);
     gameData->window.draw(playButton);
+    gameData->window.draw(returnButton);
     for(unsigned short int i=0; i<menuOptions.size(); i++){
         gameData->window.draw(menuOptions[i]);
         gameData->window.draw(menuOptionsText[i]);
