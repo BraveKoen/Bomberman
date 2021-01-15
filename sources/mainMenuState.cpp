@@ -18,7 +18,7 @@ void MainMenuState::init() {
         sprite.setPosition(Util::centerPosition(
             gameData->window.getSize(), sprite.getGlobalBounds(), buttons.size(), index));
 
-        sf::Text text{buttons[index].first, gameData->assetManager.getFont("defaultFont")};
+        sf::Text text{buttons[index].first, gameData->assetManager.getFont("default font")};
         text.setFillColor(sf::Color::Cyan);
         text.setOrigin(Util::centerRect(text.getGlobalBounds(), {2, 2}));
         text.setPosition(Util::centerVector(sprite.getPosition(), sprite.getGlobalBounds(), {2, 2.6f}));
