@@ -1,3 +1,7 @@
 .vscode
 .gitignore
 *.exe
+sources/tileMap.cpp
+headers/tileMap.hpp
+sources/drawTileMap.cpp
+headers/drawTileMap.hpp

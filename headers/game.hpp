@@ -4,10 +4,10 @@
 #include <memory>
 #include <string>
 #include <SFML/Graphics.hpp>
-#include "../headers/stateMachine.hpp"
-#include "../headers/assetManager.hpp"
-#include "../headers/inputManager.hpp"
-// #include "../headers/tileMap.hpp"
+#include "stateMachine.hpp"
+#include "assetManager.hpp"
+#include "inputManager.hpp"
+#include "tileMap.hpp"
 #include "definitions.hpp"
 
 struct GameData{
@@ -15,7 +15,7 @@ struct GameData{
     StateMachine stateMachine;
     AssetManager assetManager;
     InputManager inputManager;
-    // TileMap tileMap;
+    TileMap tileMap;
 
 };
 
