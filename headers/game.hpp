@@ -16,6 +16,7 @@ struct GameData{
     AssetManager assetManager;
     InputManager inputManager;
     TileMap tileMap;
+    int playerCount = 1;
 };
 
 typedef std::shared_ptr<GameData> gameDataRef;
