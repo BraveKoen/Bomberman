@@ -4,9 +4,9 @@
 #include <memory>
 #include <string>
 #include <SFML/Graphics.hpp>
-#include "../headers/stateMachine.hpp"
-#include "../headers/assetManager.hpp"
-#include "../headers/inputManager.hpp"
+#include "stateMachine.hpp"
+#include "assetManager.hpp"
+#include "inputManager.hpp"
 #include "tileMap.hpp"
 #include "definitions.hpp"
 
