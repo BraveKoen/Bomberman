@@ -1,20 +1,20 @@
 #ifndef __DEFINITIONS_HPP__
 #define __DEFINITIONS_HPP__
 
-#define screenWidth 1280
-#define screenHeight 720
+namespace Resource {
+    constexpr auto screenWidth = 1280;
+    constexpr auto screenHeight = 720;
 
-#define solid "resources/solid.png"
-#define breakable "resources/break.png"
-#define play1 "resources/play1.png"
-#define play2 "resources/play2.png"
-#define mapBackground "resources/mapBackground.png"
+    constexpr auto mapFolderLocation = "resources/maps";
 
-#define globalFont "resources/256BYTES.TTF"
+    constexpr auto menuButtonFilePath = "resources/menuButton.png";
+    constexpr auto globalFont = "resources/256bytes.ttf";
 
-#define mapFolderLocation "resources/maps"
+    constexpr auto solid = "resources/solid.png";
+    constexpr auto breakable = "resources/break.png";
+    constexpr auto play1 = "resources/play1.png";
+    constexpr auto play2 = "resources/play2.png";
+    constexpr auto mapBackground = "resources/mapBackground.png";
+}
 
-#define mapSelectorBackgroundFilepath "../resources/test.png"
-#define mapSelectorOptionFilepath "../resources/test.png"
-
-#endif // __DEFINITIONS_HPP__ 
+#endif // __DEFINITIONS_HPP__

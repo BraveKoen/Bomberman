@@ -1,8 +1,8 @@
 #define SFML_STATIC
 #include <SFML/Graphics.hpp>
 #include <memory>
-#include "game-data.hpp"
-#include "../menu/main-menu.hpp"
+#include "../headers/gameData.hpp"
+#include "../headers/mainMenu.hpp"
 
 auto isEscapePressed() -> bool {
     return sf::Keyboard::isKeyPressed(sf::Keyboard::Escape);
@@ -31,7 +31,7 @@ int main() {
     auto data = std::make_shared<GameData>();
     data->window.create(
         {400, 500},
-        "Bomberman - dbg",
+        "Bomberman",
         sf::Style::Titlebar | sf::Style::Close
     );
     runGame(data);

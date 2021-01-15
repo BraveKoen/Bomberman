@@ -17,7 +17,7 @@ struct GameData{
     int playerCount = 1;
 };
 
-typedef std::shared_ptr<GameData> gameDataRef;
+using gameDataRef = std::shared_ptr<GameData>;
 
 class Game{
     private:

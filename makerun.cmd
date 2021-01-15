@@ -1,6 +1,11 @@
 @echo off
 
-make -f makefile.make 1>&2
+set "make_cmd=make -f makefile 1>&2"
+
+if /i "%~1" == "rebuild" (
+    %make_cmd% clean
+)
+%make_cmd%
 
 if errorlevel 1 1>&2 (
     echo;

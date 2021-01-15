@@ -6,7 +6,7 @@
 
 #include "State.hpp"
 
-typedef std::unique_ptr<State> stateRef;
+using stateRef = std::unique_ptr<State>;
 
 class StateMachine{
     private:

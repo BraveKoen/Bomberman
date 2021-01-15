@@ -1,25 +1,21 @@
 #include "../headers/assetManager.hpp"
 
-void AssetManager::loadTexture(std::string name, std::string fileName){
+const sf::Texture& AssetManager::loadTexture(std::string name, std::string fileName) {
     sf::Texture texure;
-
-    if(texure.loadFromFile(fileName)){
-        textures[name] = texure;
-    }
+    texure.loadFromFile(fileName);
+    return textures[name] = texure;
 }
 
-void AssetManager::loadFont(std::string name, std::string fileName){
+const sf::Font& AssetManager::loadFont(std::string name, std::string fileName) {
     sf::Font font;
-
-    if(font.loadFromFile(fileName)){
-        fonts[name] = font;
-    }
+    font.loadFromFile(fileName);
+    return fonts[name] = font;
 }
 
-sf::Font & AssetManager::getFont(std::string name){
-    return fonts[name];
+const sf::Texture& AssetManager::getTexture(std::string name) const {
+    return textures.at(name);
 }
 
-sf::Texture & AssetManager::getTexture(std::string name){
-    return textures[name];
+const sf::Font& AssetManager::getFont(std::string name) const {
+    return fonts.at(name);
 }

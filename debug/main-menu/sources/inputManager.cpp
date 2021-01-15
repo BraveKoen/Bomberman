@@ -1,6 +1,6 @@
 #define SFML_STATIC
 #include <SFML/Graphics.hpp>
-#include "input-manager.hpp"
+#include "../headers/inputManager.hpp"
 
 InputManager::InputManager() {}
 
