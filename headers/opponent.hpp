@@ -23,7 +23,7 @@ public:
     int getMovementSpeed() override;
 
 private:
-    gameDataRef data;
+    gameDataRef data; //the data
     sf::Sprite opponentSprite;
     sf::Vector2f opponentPosition;
     uint16_t movementSpeed = 2;

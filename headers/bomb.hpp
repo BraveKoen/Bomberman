@@ -7,7 +7,7 @@
 
 class Bomb{
 public:
-    Bomb(gameDataRef data, int playerId, int lenghtX, int lenghtY, int explodeTime,float timeCreated, sf::Vector2f pos);
+    Bomb(gameDataRef data, int playerId, int lenghtX, int lenghtY, float explodeTime, float timeCreated, sf::Vector2f pos);
     ~Bomb(){std::cout << "Bomb Gone!" << std::endl;}
 
     void draw();
@@ -22,18 +22,17 @@ public:
 
 private:
 
-gameDataRef data;
-int id; // playerId who placed it
+    gameDataRef data;
+    int id; // playerId who placed it
 
-int lenghtX; //How big is the explotion in x 
-int lenghtY;//How big is the explotion in y
+    int lenghtX; //How big is the explotion in x 
+    int lenghtY;//How big is the explotion in y
 
-int explodeTime; //How many seconds does it need to explode
-float timeCreated; //When is the bomb placed
+    float explodeTime; //How many seconds does it need to explode
+    float timeCreated; //When is the bomb placed
 
-sf::Sprite bombSprite;
-sf::Vector2f bombPosition;
-
+    sf::Sprite bombSprite;
+    sf::Vector2f bombPosition;
 };
 
 #endif // __BOMB_HPP__

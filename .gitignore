@@ -1,5 +1,12 @@
 .vscode
+<<<<<<< HEAD
 .gitignore
 *.exe
 .ignore
 *.o
+=======
+*.exe
+.gitignore
+*.o
+
+>>>>>>> 2edd3f2dbed014492b6574f6b47d83e70980af01

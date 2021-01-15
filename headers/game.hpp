@@ -15,11 +15,8 @@ struct GameData{
     StateMachine stateMachine;
     AssetManager assetManager;
     InputManager inputManager;
-<<<<<<< HEAD
     TileMap tileMap;
-=======
     int playerCount = 1;
->>>>>>> player can now use arrow and awsd
 };
 
 typedef std::shared_ptr<GameData> gameDataRef;

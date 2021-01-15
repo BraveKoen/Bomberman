@@ -13,9 +13,7 @@ public:
     BombHandler(gameDataRef data);
     ~BombHandler(){}
 
-
-
-    void createBomb(int playerId, int lenghtX, int lenghtY, int explodeTime, sf::Vector2f pos); //!!!!! heb bij GameDataRef ergens een clock nodig die start bij het begin van de game
+    void createBomb(int playerId, int lenghtX, int lenghtY, int explodeTime, sf::Vector2f pos);
 
     void draw();
 

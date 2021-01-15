@@ -1,6 +1,6 @@
 #include "../headers/bomb.hpp"
 
-Bomb::Bomb(gameDataRef data, int playerId, int lenghtX, int lenghtY, int explodeTime, float timeCreated, sf::Vector2f pos):
+Bomb::Bomb(gameDataRef data, int playerId, int lenghtX, int lenghtY, float explodeTime, float timeCreated, sf::Vector2f pos):
     data(data),
     id(playerId),
     lenghtX(lenghtX),
@@ -22,10 +22,10 @@ void Bomb::explode() {
     //explode animation
 }
 
-bool Bomb::explodeTime(sf::Time currentTime){
-    if(timeCreated.asSeconds() + explodeTime > currentTime.asSeconds()){
-        return false;
-    }
+bool Bomb::isExploded(float currentTime){
+    if(timeCreated + explodeTime > currentTime){
+         return false;
+     }
     return true;
 }
 

@@ -37,11 +37,9 @@ void InGameState::update(float delta) {
 
     for(auto &player : players){
         player->playerMove();
+        player->update();
     }
-
-    
     return;
-    
 }
 
 void InGameState::draw(float delta) {
@@ -49,8 +47,8 @@ void InGameState::draw(float delta) {
     data->window.clear(sf::Color::Blue);
 
     for(auto &player : players){
-            player->draw();
-        }
+        player->draw();
+    }
 
     bHandler->update();
     bHandler->draw();

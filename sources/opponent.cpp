@@ -4,9 +4,7 @@ Opponent::Opponent(gameDataRef data):
     data(data)
 {
     opponentSprite.setTexture(data->assetManager.getTexture("opponent.png"));  
-
 }
-
 
 void Opponent::draw(){
     data->window.draw(opponentSprite);

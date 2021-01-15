@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <memory> 
+
 #include "bombHandler.hpp"
 #include "character.hpp"
 
@@ -13,6 +14,7 @@ public:
     ~Player(){std::cout << "PlayerDespt" << std::endl;}
 
     void draw() override;
+    void update();
 
     void setHealth(uint8_t health) override;
     int getHealth() override;
@@ -28,14 +30,17 @@ public:
     void playerMove();
 
 private:
-    std::shared_ptr<BombHandler> bombHandler;
     gameDataRef data;
+    std::shared_ptr<BombHandler> bombHandler;
     sf::Sprite playerSprite;
     sf::Vector2f playerPosition;
     uint16_t movementSpeed = 2;
     uint8_t playerHealth = 100;
     int playerId = 69;
     bool arrowKeys;
+    sf::Clock clock;
+    float timeBombPlaced;
+    bool bombCooldown = false;
 };
 
 #endif // __PLAYER_HPP__

@@ -8,7 +8,6 @@
 #include "player.hpp"
 #include "bombHandler.hpp"
 
-
 class InGameState : public State{
 public:
     InGameState(gameDataRef data);
