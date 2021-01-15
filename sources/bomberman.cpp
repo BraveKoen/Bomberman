@@ -3,5 +3,5 @@
 #include "../headers/definitions.hpp"
 
 int main(){
-    Game(screenWidth, screenHeight, "Bomberman");
+    Game(Resource::screenWidth, Resource::screenHeight, "Bomberman");
 }

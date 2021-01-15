@@ -34,5 +34,5 @@ int Bomb::getBombId(){
 }
 
 bool Bomb::playerHit(){
-    //collition 
+    return false;
 }

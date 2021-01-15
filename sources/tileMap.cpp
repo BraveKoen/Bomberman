@@ -1,5 +1,4 @@
 #include "../headers/tileMap.hpp"
-#include "../headers/game.hpp"
 
 TileMap::TileMap(sf::Vector2f position, sf::Vector2f size, sf::Vector2u mapSize):
     position(position),
