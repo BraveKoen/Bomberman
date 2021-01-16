@@ -6,7 +6,7 @@ MainMenuState::MainMenuState(gameDataRef gameData):
 
 void MainMenuState::init() {
     const auto& texture = gameData->assetManager
-        .loadTexture("menuButton", Resource::menuButtonFilePath);
+        .getTexture("default button");
     constexpr std::array buttons{
         std::pair<const char*, buttonFunc>{"Play", Util::switchState<MapSelectorState>},
         std::pair<const char*, buttonFunc>{"Highscores", Util::switchState<MainMenuState>},
