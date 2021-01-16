@@ -25,6 +25,15 @@ void MainMenuState::init() {
 
         menuButtons.emplace_back(std::move(sprite), std::move(text), buttons[index].second);
     }
+    background.setTexture(gameData->assetManager.getTexture("default background"));
+    sf::Vector2f mapSelectorStateBackgroundSize = sf::Vector2f( 
+		static_cast< float >( gameData->assetManager.getTexture("default background").getSize().x ), 
+		static_cast< float >( gameData->assetManager.getTexture("default background").getSize().y )
+	);
+    background.setScale(
+        gameData->window.getSize().x/mapSelectorStateBackgroundSize.x, 
+        gameData->window.getSize().y/mapSelectorStateBackgroundSize.y
+    );
 }
 
 void MainMenuState::handleInput() {
@@ -54,6 +63,7 @@ void MainMenuState::draw(float delta) {
     (void)delta;
     gameData->window.clear(sf::Color::Red);
 
+    gameData->window.draw(background);
     for (const auto& button : menuButtons) {
         button.draw(gameData->window);
     }

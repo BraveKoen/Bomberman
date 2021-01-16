@@ -22,6 +22,7 @@ private:
     gameDataRef data;
     std::shared_ptr<BombHandler> bHandler = nullptr;
     std::vector<std::unique_ptr<Player>> players;
+    sf::Sprite background;
 };
 
 #endif // __INGAMESTATE_HPP__

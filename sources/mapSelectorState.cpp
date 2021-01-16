@@ -115,17 +115,16 @@ void MapSelectorState::init(){
         }
     }
         
-    gameData->assetManager.loadTexture("mapSelectorState background", Resource::mapSelectorStateBackgroundFilepath);
     gameData->assetManager.loadTexture("mapSelectorState option", Resource::mapSelectorStateOptionFilepath);
     gameData->assetManager.loadTexture("unbreakable wall", Resource::solid);
     gameData->assetManager.loadTexture("breakable wall", Resource::breakable);
     gameData->assetManager.loadTexture("player1 spawn location", Resource::play1);
     gameData->assetManager.loadTexture("player2 spawn location", Resource::play2);
     gameData->assetManager.loadTexture("map background", Resource::mapBackground);
-    background.setTexture(gameData->assetManager.getTexture("mapSelectorState background"));
+    background.setTexture(gameData->assetManager.getTexture("default background"));
     sf::Vector2f mapSelectorStateBackgroundSize = sf::Vector2f( 
-		static_cast< float >( gameData->assetManager.getTexture("mapSelectorState background").getSize().x ), 
-		static_cast< float >( gameData->assetManager.getTexture("mapSelectorState background").getSize().y )
+		static_cast< float >( gameData->assetManager.getTexture("default background").getSize().x ), 
+		static_cast< float >( gameData->assetManager.getTexture("default background").getSize().y )
 	);
     background.setScale(
         gameData->window.getSize().x/mapSelectorStateBackgroundSize.x, 

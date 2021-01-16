@@ -16,6 +16,15 @@ void InGameState::init(){
         players.push_back(std::make_unique<Player>(data, bHandler, lol));
         lol = true;
     }
+    background.setTexture(data->assetManager.getTexture("default background"));
+    sf::Vector2f mapSelectorStateBackgroundSize = sf::Vector2f( 
+		static_cast< float >( data->assetManager.getTexture("default background").getSize().x ), 
+		static_cast< float >( data->assetManager.getTexture("default background").getSize().y )
+	);
+    background.setScale(
+        data->window.getSize().x/mapSelectorStateBackgroundSize.x, 
+        data->window.getSize().y/mapSelectorStateBackgroundSize.y
+    );
 }
 
 void InGameState::handleInput(){
@@ -42,6 +51,7 @@ void InGameState::draw(float delta) {
     (void)delta;
     data->window.clear(sf::Color::Blue);
 
+    data->window.draw(background);
     for(auto &player : players){
         player->draw();
     }
