@@ -59,12 +59,12 @@ std::vector<std::vector<std::string>> MapSelectorState::makeMap(std::string file
 
 void MapSelectorState::spawnMapButtons(){
     sf::Vector2f mapSelectorStateOptionSize = sf::Vector2f( 
-		static_cast< float >( gameData->assetManager.getTexture("mapSelectorState option").getSize().x ), 
-		static_cast< float >( gameData->assetManager.getTexture("mapSelectorState option").getSize().y )
+		static_cast< float >( gameData->assetManager.getTexture("default button").getSize().x ), 
+		static_cast< float >( gameData->assetManager.getTexture("default button").getSize().y )
 	);
     for(unsigned int i=0; i<mapNames.size(); i++){
         sf::Sprite optionSprite;
-        optionSprite.setTexture(gameData->assetManager.getTexture("mapSelectorState option"));
+        optionSprite.setTexture(gameData->assetManager.getTexture("default button"));
         optionSprite.setScale(
             (gameData->window.getSize().x/mapSelectorStateOptionSize.x)/5, 
             (gameData->window.getSize().y/mapSelectorStateOptionSize.y)/10
@@ -78,11 +78,12 @@ void MapSelectorState::spawnMapButtons(){
         sf::Text optionText;
         optionText.setFont(gameData->assetManager.getFont("default font"));
         optionText.setString(mapNames[i]);
-        optionText.setFillColor(sf::Color::Cyan);
+        optionText.setFillColor(sf::Color(255, 194, 0));
+        optionText.setStyle(sf::Text::Bold);
         optionText.setOrigin(optionText.getGlobalBounds().width/2, optionText.getGlobalBounds().height/2);
         optionText.setPosition(
             (optionSprite.getPosition().x)+(optionSprite.getGlobalBounds().width/2), 
-            (optionSprite.getPosition().y)+(optionSprite.getGlobalBounds().height/3.4)
+            (optionSprite.getPosition().y)+(optionSprite.getGlobalBounds().height/3)
         );
         menuOptionsText.push_back(optionText);
     }
@@ -115,17 +116,15 @@ void MapSelectorState::init(){
         }
     }
         
-    gameData->assetManager.loadTexture("mapSelectorState background", Resource::mapSelectorStateBackgroundFilepath);
-    gameData->assetManager.loadTexture("mapSelectorState option", Resource::mapSelectorStateOptionFilepath);
     gameData->assetManager.loadTexture("unbreakable wall", Resource::solid);
     gameData->assetManager.loadTexture("breakable wall", Resource::breakable);
     gameData->assetManager.loadTexture("player1 spawn location", Resource::play1);
     gameData->assetManager.loadTexture("player2 spawn location", Resource::play2);
     gameData->assetManager.loadTexture("map background", Resource::mapBackground);
-    background.setTexture(gameData->assetManager.getTexture("mapSelectorState background"));
+    background.setTexture(gameData->assetManager.getTexture("default background"));
     sf::Vector2f mapSelectorStateBackgroundSize = sf::Vector2f( 
-		static_cast< float >( gameData->assetManager.getTexture("mapSelectorState background").getSize().x ), 
-		static_cast< float >( gameData->assetManager.getTexture("mapSelectorState background").getSize().y )
+		static_cast< float >( gameData->assetManager.getTexture("default background").getSize().x ), 
+		static_cast< float >( gameData->assetManager.getTexture("default background").getSize().y )
 	);
     background.setScale(
         gameData->window.getSize().x/mapSelectorStateBackgroundSize.x, 
@@ -134,9 +133,9 @@ void MapSelectorState::init(){
     
     spawnMapButtons();
 
-    playButton.setTexture(gameData->assetManager.getTexture("mapSelectorState option"));
-    playButton.setPosition(650.0, 650.0);
-    returnButton.setTexture(gameData->assetManager.getTexture("mapSelectorState option"));
+    playButton.setTexture(gameData->assetManager.getTexture("default button"));
+    playButton.setPosition(750.0, 650.0);
+    returnButton.setTexture(gameData->assetManager.getTexture("default button"));
     returnButton.setPosition(550.0, 650.0);
 }
 

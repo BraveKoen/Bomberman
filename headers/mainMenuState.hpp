@@ -18,6 +18,7 @@ class MainMenuState: public State {
 private:
     gameDataRef gameData;
     std::vector<MenuButton> menuButtons;
+    sf::Sprite background;
 public:
     MainMenuState(gameDataRef gameData);
     virtual void init() override;

@@ -6,6 +6,7 @@
 #include <SFML/Graphics.hpp>
 #include "../headers/stateMachine.hpp"
 #include "../headers/assetManager.hpp"
+#include "../headers/definitions.hpp"
 #include "../headers/inputManager.hpp"
 #include "../headers/tileMap.hpp"
 
