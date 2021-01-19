@@ -1,6 +1,11 @@
 #ifndef __DEFINITIONS_HPP__
 #define __DEFINITIONS_HPP__
 
+#include <memory>
+
+struct GameData;
+using gameDataRef = std::shared_ptr<GameData>;
+
 namespace Resource {
     constexpr auto screenWidth = 1280;
     constexpr auto screenHeight = 720;

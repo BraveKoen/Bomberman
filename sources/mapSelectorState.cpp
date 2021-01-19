@@ -91,6 +91,13 @@ void MapSelectorState::spawnMapButtons(){
 
 void MapSelectorState::init(){
     int ammountOfFiles = 0;
+
+    gameData->assetManager.loadTexture("solid", Resource::solid);
+    gameData->assetManager.loadTexture("break", Resource::breakable);
+    gameData->assetManager.loadTexture("play1", Resource::play1);
+    gameData->assetManager.loadTexture("play2", Resource::play2);
+    gameData->assetManager.loadTexture("background", Resource::mapBackground);
+
     for(const auto & entry : std::experimental::filesystem::directory_iterator(Resource::mapFolderLocation)){
         if(entry.path().extension().u8string() == ".txt"){
             if(isValidFile(entry.path().u8string())){
@@ -102,7 +109,7 @@ void MapSelectorState::init(){
                 std::string fileName = entry.path().u8string();
                 std::vector<std::vector<std::string>> map = makeMap(entry.path().u8string());
                 //to add: scalable dimentions v
-                TileMap tileMap(sf::Vector2f(500, 50), sf::Vector2f(550, 550), map,sf::Vector2u(map.size(), map[0].size()));
+                TileMap tileMap(sf::Vector2f(500, 50), sf::Vector2f(550, 550), gameData, map,sf::Vector2u(map.size(), map[0].size()));
                 tileMapVector.push_back(tileMap);
 
 
@@ -116,11 +123,6 @@ void MapSelectorState::init(){
         }
     }
         
-    gameData->assetManager.loadTexture("unbreakable wall", Resource::solid);
-    gameData->assetManager.loadTexture("breakable wall", Resource::breakable);
-    gameData->assetManager.loadTexture("player1 spawn location", Resource::play1);
-    gameData->assetManager.loadTexture("player2 spawn location", Resource::play2);
-    gameData->assetManager.loadTexture("map background", Resource::mapBackground);
     background.setTexture(gameData->assetManager.getTexture("default background"));
     sf::Vector2f mapSelectorStateBackgroundSize = sf::Vector2f( 
 		static_cast< float >( gameData->assetManager.getTexture("default background").getSize().x ), 
@@ -177,7 +179,7 @@ void MapSelectorState::draw(float deltaTime){
         gameData->window.draw(menuOptions[i]);
         gameData->window.draw(menuOptionsText[i]);
     }
-    drawTileMap(tileMapVector[mapToDisplayIndex], gameData, true);
+    tileMapVector[mapToDisplayIndex].draw(true);
 
     gameData->window.display();
 }
