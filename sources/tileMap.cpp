@@ -112,7 +112,10 @@ std::vector<std::vector<Tile>> TileMap::getMap()const{
 
 void TileMap::setTile(sf::Vector2u tilePosition, std::string type){
     map[tilePosition.x][tilePosition.y].setType(type);
-    map[tilePosition.x][tilePosition.y].setTexture(gameData->assetManager.getTexture(type));
+    if(type != "empty"){
+        map[tilePosition.x][tilePosition.y].setTexture(gameData->assetManager.getTexture(type));
+    }   
+    map[tilePosition.x][tilePosition.y].setScale(sf::Vector2f((size.x/mapSize.x)/map[tilePosition.x][tilePosition.y].getTexture()->getSize().x, (size.y/mapSize.y)/map[tilePosition.x][tilePosition.y].getTexture()->getSize().y));
 }
 
 void TileMap::setTile(sf::Vector2f screenPosition, std::string type){
@@ -159,14 +162,16 @@ std::vector<Tile> TileMap::getSurroundings(const sf::Vector2f & screenPosition, 
     return getSurroundings(screenPosToTilePos(screenPosition), range, includeEmpty);
 }
 
-void TileMap::draw(bool drawPlayerSpawns){ //Needs further optimization
+void TileMap::draw(bool drawPlayerSpawns){
     gameData->window.draw(background);
     for(unsigned int i=0; i<map.size(); i++){
         for(unsigned int j=0; j<map[i].size(); j++){
             if(map[i][j].getType() != "empty"){
-                map[i][j].setPosition(sf::Vector2f(position.x+((size.x/mapSize.x)*i), position.y+((size.y/mapSize.y)*j)));
-                map[i][j].setScale(sf::Vector2f((size.x/mapSize.x)/map[i][j].getTexture()->getSize().x, (size.y/mapSize.y)/map[i][j].getTexture()->getSize().y));
-                map[i][j].draw(gameData->window);
+                if((map[i][j].getType() != "play1" && map[i][j].getType() != "play2" && map[i][j].getType() != "play3" && map[i][j].getType() != "play4") || drawPlayerSpawns){
+                    map[i][j].setPosition(sf::Vector2f(position.x+((size.x/mapSize.x)*i), position.y+((size.y/mapSize.y)*j)));
+                    map[i][j].setScale(sf::Vector2f((size.x/mapSize.x)/map[i][j].getTexture()->getSize().x, (size.y/mapSize.y)/map[i][j].getTexture()->getSize().y));
+                    map[i][j].draw(gameData->window);
+                }
             }
         }
     }

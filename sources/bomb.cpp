@@ -10,9 +10,9 @@ Bomb::Bomb(gameDataRef data, int playerId, int lenghtX, int lenghtY, float explo
     bombPosition(pos)
 {
     auto tileSize = data->tileMap.getTileMapSize().x / data->tileMap.getMapSize().x;
-    bombSprite.setTexture(data->assetManager.getTexture("Dynamite"));
-    bombSprite.setScale(tileSize / data->assetManager.getTexture("Dynamite").getSize().x, tileSize / data->assetManager.getTexture("Dynamite").getSize().y);
-    bombSprite.setOrigin(data->assetManager.getTexture("Dynamite").getSize().x / 2, data->assetManager.getTexture("Dynamite").getSize().y / 2);
+    bombSprite.setTexture(data->assetManager.getTexture("dynamite"));
+    bombSprite.setScale(tileSize / data->assetManager.getTexture("dynamite").getSize().x, tileSize / data->assetManager.getTexture("dynamite").getSize().y);
+    bombSprite.setOrigin(data->assetManager.getTexture("dynamite").getSize().x / 2, data->assetManager.getTexture("dynamite").getSize().y / 2);
     setPos(pos);
 }
 
@@ -39,9 +39,9 @@ void Bomb::explode() {
         if((posVec.x + i) >= tileMapLenght.x){
             continue;
         }else if(!destroyedX){
-            if(data->tileMap.getTile(sf::Vector2u{posVec.x + i, posVec.y})!= "solid"){
+            if(data->tileMap.getTile(sf::Vector2u{posVec.x + i, posVec.y}).getType() != "solid"){
                 destroyedTiles.push_back(sf::Vector2u{posVec.x + i, posVec.y});
-                if(data->tileMap.getTile(sf::Vector2u{posVec.x + i, posVec.y})== "break"){
+                if(data->tileMap.getTile(sf::Vector2u{posVec.x + i, posVec.y}).getType() == "break"){
                     data->tileMap.setTile(sf::Vector2u{posVec.x + i, posVec.y}, "biem");
                     destroyedX = true;
                 }else{
@@ -54,9 +54,9 @@ void Bomb::explode() {
         if(posVec.x == 0){
             continue;
         }else if(!destroyedXL){
-            if(data->tileMap.getTile(sf::Vector2u{posVec.x - i, posVec.y})!= "solid"){
+            if(data->tileMap.getTile(sf::Vector2u{posVec.x - i, posVec.y}).getType() != "solid"){
                 destroyedTiles.push_back(sf::Vector2u{posVec.x - i, posVec.y});
-                if(data->tileMap.getTile(sf::Vector2u{posVec.x - i, posVec.y})== "break"){
+                if(data->tileMap.getTile(sf::Vector2u{posVec.x - i, posVec.y}).getType() == "break"){
                     data->tileMap.setTile(sf::Vector2u{posVec.x - i, posVec.y}, "biem");
                     destroyedXL = true;
                     
@@ -72,9 +72,9 @@ void Bomb::explode() {
         if((posVec.y + i) >= tileMapLenght.y){
             continue;
         }else if(!destroyedY){
-            if(data->tileMap.getTile(sf::Vector2u{posVec.x, posVec.y + i})!= "solid"){
+            if(data->tileMap.getTile(sf::Vector2u{posVec.x, posVec.y + i}).getType() != "solid"){
                 destroyedTiles.push_back(sf::Vector2u{posVec.x, posVec.y + i});
-                if(data->tileMap.getTile(sf::Vector2u{posVec.x, posVec.y + i})== "break"){
+                if(data->tileMap.getTile(sf::Vector2u{posVec.x, posVec.y + i}).getType() == "break"){
                     data->tileMap.setTile(sf::Vector2u{posVec.x, posVec.y + i}, "biem");
                     destroyedY = true;       
                 }else{
@@ -87,9 +87,9 @@ void Bomb::explode() {
         if(posVec.y == 0){
             continue;
         }else if(!destroyedYL){
-            if(data->tileMap.getTile(sf::Vector2u{posVec.x, posVec.y - i})!= "solid"){
+            if(data->tileMap.getTile(sf::Vector2u{posVec.x, posVec.y - i}).getType() != "solid"){
                 destroyedTiles.push_back(sf::Vector2u{posVec.x, posVec.y - i});
-                if(data->tileMap.getTile(sf::Vector2u{posVec.x, posVec.y - i})== "break"){
+                if(data->tileMap.getTile(sf::Vector2u{posVec.x, posVec.y - i}).getType() == "break"){
                     data->tileMap.setTile(sf::Vector2u{posVec.x, posVec.y - i}, "biem");
                     destroyedYL = true;
                 }else{
@@ -117,8 +117,8 @@ bool Bomb::isExploded(float currentTime){
 }
 
 void Bomb::clearBomb(){
-    for(auto &tile : destroyedTiles){
-        data->tileMap.setTile(tile, "empty");
+    for(auto &pos : destroyedTiles){
+        data->tileMap.setTile(pos, "empty");
     }
 }
 

@@ -14,7 +14,7 @@ std::string Tile::getType(){
 }
 
 void Tile::setTexture(const sf::Texture & newTexture){
-    sprite.setTexture(newTexture);
+    sprite.setTexture(newTexture, true);
 }
 
 const sf::Texture* Tile::getTexture(){

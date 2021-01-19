@@ -10,7 +10,7 @@
 
 class Player : public Character{
 public:
-    Player(gameDataRef data, std::shared_ptr<BombHandler> bombHandler, bool arrowkeys);
+    Player(gameDataRef data, std::shared_ptr<BombHandler> bombHandler, bool arrowkeys, sf::Vector2f spawnPosition);
     ~Player(){std::cout << "PlayerDespt" << std::endl;}
 
     void draw() override;

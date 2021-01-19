@@ -1,14 +1,15 @@
 #include "../headers/player.hpp"
 
-Player::Player(gameDataRef data, std::shared_ptr<BombHandler> bombHandler, bool arrowKeys):
+Player::Player(gameDataRef data, std::shared_ptr<BombHandler> bombHandler, bool arrowKeys, sf::Vector2f spawnPosition):
     data(data),
     bombHandler(bombHandler),
-    arrowKeys(arrowKeys)
+    arrowKeys(arrowKeys),
+    playerPosition(spawnPosition)
 {
-    playerSprite.setTexture(data->assetManager.getTexture("Player"));
+    playerSprite.setTexture(data->assetManager.getTexture("player"));
     auto tileSize = data->tileMap.getTileMapSize().x / data->tileMap.getMapSize().x;
-    playerSprite.setScale(tileSize / data->assetManager.getTexture("Player").getSize().x, tileSize / data->assetManager.getTexture("Player").getSize().y);
-    playerSprite.setOrigin(data->assetManager.getTexture("Player").getSize().x / 2, data->assetManager.getTexture("Player").getSize().y / 2);
+    playerSprite.setScale(tileSize / data->assetManager.getTexture("player").getSize().x, tileSize / data->assetManager.getTexture("player").getSize().y);
+    playerSprite.setOrigin(data->assetManager.getTexture("player").getSize().x / 2, data->assetManager.getTexture("player").getSize().y / 2);
 }
 
 void Player::draw() {

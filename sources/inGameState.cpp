@@ -5,17 +5,24 @@ InGameState::InGameState(gameDataRef gameData):
 {}
 
 void InGameState::init(){
-    gameData->assetManager.loadTexture("Player", Resource::play1);
-    gameData->assetManager.loadTexture("Dynamite", Resource::dynamite);
-    gameData->assetManager.loadTexture("Biem", Resource::biem);
+    gameData->assetManager.loadTexture("player", Resource::play1);
+    gameData->assetManager.loadTexture("dynamite", Resource::dynamite);
+    gameData->assetManager.loadTexture("biem", Resource::biem);
+    
     
     bHandler = std::make_shared<BombHandler>(gameData);
-    players.push_back(std::make_unique<Player>(gameData, bHandler, 0));
     
-    bool lol = 0;
-    for(int i; i <= gameData->playerCount; i ++){
-        players.push_back(std::make_unique<Player>(gameData, bHandler, lol));
-        lol = true;
+    bool useArrowKeys = 0;
+
+    auto posTileMap = gameData->tileMap.searchForType("play1");
+    auto spawnLoc = sf::Vector2f{10,10};
+    if(posTileMap.size() > 0){
+        spawnLoc = gameData->tileMap.tilePosToScreenPos(posTileMap[0]);
+    }
+
+    for(int i = 0; i <= gameData->playerCount; i++){
+        players.push_back(std::make_unique<Player>(gameData, bHandler, useArrowKeys, spawnLoc));
+        useArrowKeys = true;
     }
     background.setTexture(gameData->assetManager.getTexture("default background"));
     sf::Vector2f mapSelectorStateBackgroundSize = sf::Vector2f( 
@@ -52,7 +59,8 @@ void InGameState::draw(float delta){
     (void)delta;
     gameData->window.clear();
     gameData->window.draw(background); //idk of dit handig is
-    drawTileMap(gameData->tileMap , gameData, true);
+    //drawTileMap(gameData->tileMap , gameData, true);
+    gameData->tileMap.draw();
 
     bHandler->update();
     bHandler->draw();
