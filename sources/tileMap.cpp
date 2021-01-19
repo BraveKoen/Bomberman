@@ -127,7 +127,7 @@ Tile TileMap::getTile(sf::Vector2f screenPosition){
     return getTile(screenPosToTilePos(screenPosition));
 }
 
-sd::vector<sf::Vector2u> TileMap::searchForType(const std::string & type){
+std::vector<sf::Vector2u> TileMap::searchForType(const std::string & type){
     std::vector<sf::Vector2u> positions;
     for(unsigned int i=0; i<map.size(); i++){
         for(unsigned int j=0; j<map[i].size(); j++){

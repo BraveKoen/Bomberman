@@ -42,7 +42,7 @@ public:
     Tile getTile(sf::Vector2u tilePosition)const; //Based on tile coordinates
     Tile getTile(sf::Vector2f screenPosition); //Based on screen coordinates
 
-    sd::vector<sf::Vector2u> searchForType(const std::string & type);
+    std::vector<sf::Vector2u> searchForType(const std::string & type);
 
     std::vector<Tile> getSurroundings(const sf::Vector2u & tilePosition, const unsigned int & range, const bool & includeEmpty);
     std::vector<Tile> getSurroundings(const sf::Vector2f & screenPosition, const unsigned int & range=1, const bool & includeEmpty=false); //range is the number of tiles away from the position we return (including corners). 
