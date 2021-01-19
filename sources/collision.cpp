@@ -1,4 +1,17 @@
 #include "../headers/collision.hpp"
+#include "../headers/tile.hpp"
+
+bool Collision::isSpriteColliding(
+    const sf::Sprite& target,
+    const std::vector<Tile>& surroundings
+) const {
+    for (const auto& tile : surroundings) {
+        if (isBoundsColliding(tile.getBounds(), target.getGlobalBounds())) {
+            return true;
+        }
+    }
+    return false;
+}
 
 bool Collision::isSpriteColliding(
     sf::Sprite sprite1,

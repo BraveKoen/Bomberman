@@ -25,7 +25,7 @@ public:
     void setMovementSpeed(uint8_t speed) override;
     int getMovementSpeed() override;
 
-    sf::Sprite getSprite(){return playerSprite;};
+    sf::Sprite& getSprite(){return playerSprite;};
 
     void playerMove();
     void revertMove();
@@ -36,7 +36,7 @@ private:
     sf::Sprite playerSprite;
     sf::Vector2f playerPosition;
     sf::Vector2f prevPosition;
-    uint16_t movementSpeed = 2;
+    uint16_t movementSpeed = 4;
     uint8_t playerHealth = 100;
     int playerId = 69;
     bool arrowKeys;

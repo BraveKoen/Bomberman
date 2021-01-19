@@ -8,6 +8,7 @@
 #include <iostream>
 #include "tile.hpp"
 #include "definitions.hpp"
+#include "tile.hpp"
 
 class TileMap{
 private:

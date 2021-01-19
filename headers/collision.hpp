@@ -3,10 +3,15 @@
 
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include "tile.hpp"
 
 class Collision {
 public:
     Collision() = default;
+    bool isSpriteColliding(
+        const sf::Sprite& target,
+        const std::vector<Tile>& surroundings
+    ) const;
     bool isSpriteColliding(
         sf::Sprite sprite1,
         float scale1,

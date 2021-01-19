@@ -20,7 +20,7 @@ public:
     void setScale(const sf::Vector2f & newScale);
     sf::Vector2f getScale();
     sf::Vector2f getSize();
-    sf::FloatRect getBounds();
+    const sf::FloatRect getBounds() const;
     void draw(sf::RenderWindow & window);
 };
 

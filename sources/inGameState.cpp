@@ -1,4 +1,6 @@
 #include "../headers/inGameState.hpp"
+#include "../headers/drawTileMap.hpp"
+#include "../headers/tileMap.hpp"
 
 InGameState::InGameState(gameDataRef gameData):
     gameData{gameData}
@@ -54,6 +56,12 @@ void InGameState::update(float delta) {
     (void)delta;
     for(auto &player : players){
         player->playerMove();
+
+        if (collision.isSpriteColliding(player->getSprite(),
+            gameData->tileMap.getSurroundings(player->getPosition()))
+        ) {
+            player->revertMove();
+        }
         player->update();
     }
 }

@@ -1,5 +1,6 @@
 #include "../headers/tileMap.hpp"
 #include "../headers/game.hpp"
+#include "../headers/tile.hpp"
 
 void TileMap::expandTileMap(){
     for(unsigned int i=0; i<mapSize.x; i++){

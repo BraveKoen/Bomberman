@@ -41,7 +41,7 @@ sf::Vector2f Tile::getSize(){
     return sf::Vector2f(sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
 }
 
-sf::FloatRect Tile::getBounds(){
+const sf::FloatRect Tile::getBounds() const {
     return sprite.getGlobalBounds();
 }
 
