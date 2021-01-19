@@ -7,6 +7,7 @@
 
 #include "bombHandler.hpp"
 #include "character.hpp"
+#include "../AnimatedSpriteLib/AnimatedSprite.hpp"
 
 class Player : public Character{
 public:
@@ -41,6 +42,12 @@ private:
     sf::Clock clock;
     float timeBombPlaced;
     bool bombCooldown = false;
+    Animation walkingAnimationDown;
+    Animation walkingAnimationLeft;
+    Animation walkingAnimationRight;
+    Animation walkingAnimationUp;
+    Animation* currentAnimation;
+    AnimatedSprite animatedSprite;
 };
 
 #endif // __PLAYER_HPP__

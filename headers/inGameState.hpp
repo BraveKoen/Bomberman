@@ -6,6 +6,7 @@
 
 #include "game.hpp"
 #include "player.hpp"
+#include "definitions.hpp"
 #include "bombHandler.hpp"
 
 class InGameState : public State{

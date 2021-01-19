@@ -5,7 +5,8 @@ InGameState::InGameState(gameDataRef data):
 {}
 
 void InGameState::init(){
-    data->assetManager.loadTexture("Player", "resources/man.gif");
+    // data->assetManager.loadTexture("Player", "resources/man.gif");
+    data->assetManager.loadTexture("Player", Resource::playerSprite);
     data->assetManager.loadTexture("Dynamite", "resources/dynamite.png");
     
     bHandler = std::make_shared<BombHandler>(data);
