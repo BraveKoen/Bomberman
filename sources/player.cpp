@@ -111,5 +111,6 @@ void Player::revertMove(const char & axis) {
     }else{
         playerPosition = prevPosition;
     }
-    playerSprite.setPosition(playerPosition);
+    // playerSprite.setPosition(playerPosition);
+    animatedSprite.setPosition(playerPosition);
 }
