@@ -1,7 +1,7 @@
 #include "../headers/inGameState.hpp"
 
 InGameState::InGameState(gameDataRef gameData):
-    gameData(gameData)
+    gameData{gameData}
 {}
 
 void InGameState::init(){
@@ -41,24 +41,24 @@ void InGameState::init(){
 }
 
 void InGameState::handleInput(){
-        sf::Event event;
+    sf::Event event;
+
     while (gameData->window.pollEvent(event)) {
-        if (sf::Event::Closed == event.type){
+        if (sf::Event::Closed == event.type) {
             gameData->window.close();
         }
-    }   
+    }
 }
 
-void InGameState::update(float delta){
+void InGameState::update(float delta) {
     (void)delta;
     for(auto &player : players){
         player->playerMove();
         player->update();
     }
-    return;
 }
 
-void InGameState::draw(float delta){
+void InGameState::draw(float delta) {
     (void)delta;
     gameData->window.clear();
     gameData->window.draw(background); //idk of dit handig is
@@ -71,6 +71,5 @@ void InGameState::draw(float delta){
     for(auto &player : players){
         player->draw();
     }
-
     gameData->window.display();
 }

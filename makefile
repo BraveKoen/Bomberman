@@ -7,7 +7,7 @@ SFML_STL := -lsfml-main -lsfml-graphics-s -lsfml-window-s -lsfml-system-s
 WIN_STL := -lgdi32 -lopengl32 -lwinmm -lfreetype -lstdc++fs
 
 FLAGS := -std=c++17 -pedantic -Wall -Werror -Wextra -D SFML_STATIC
-OBJECTS := bomberman.o game.o state.o input.o asset.o menu.o button.o menubutton.o bomb.o bombhdlr.o player.o opponent.o drawmap.o tilemap.o gamestate.o mapselect.o
+OBJECTS := bomberman.o game.o state.o input.o asset.o menu.o button.o menubutton.o bomb.o bombhdlr.o player.o opponent.o drawmap.o tilemap.o gamestate.o mapselect.o collision.o
 
 SRC := sources/
 HDR := headers/
@@ -63,11 +63,14 @@ tilemap.o: $(SRC)tileMap.cpp $(HDR)tileMap.hpp
 drawmap.o: $(SRC)drawTileMap.cpp $(HDR)drawTileMap.hpp $(HDR)tileMap.hpp $(HDR)game.hpp
 	g++ $(FLAGS) -c $(SRC)drawTileMap.cpp -I $(SFML_INC) -o drawmap.o
 
-gamestate.o: $(SRC)inGameState.cpp $(HDR)inGameState.hpp $(HDR)game.hpp $(HDR)player.hpp $(HDR)bombHandler.hpp
+gamestate.o: $(SRC)inGameState.cpp $(HDR)inGameState.hpp $(HDR)game.hpp $(HDR)player.hpp $(HDR)utilities.hpp $(HDR)bombHandler.hpp
 	g++ $(FLAGS) -c $(SRC)inGameState.cpp -I $(SFML_INC) -o gamestate.o
 
 mapselect.o: $(SRC)mapSelectorState.cpp $(HDR)mapSelectorState.hpp $(HDR)drawTileMap.hpp $(HDR)tileMap.hpp $(HDR)definitions.hpp $(HDR)game.hpp $(HDR)state.hpp
 	g++ $(FLAGS) -c $(SRC)mapSelectorState.cpp -I $(SFML_INC) -o mapselect.o
+
+collision.o: $(SRC)collision.cpp $(HDR)collision.hpp
+	g++ $(FLAGS) -c $(SRC)collision.cpp -I $(SFML_INC) -o collision.o
 
 .PHONY: build clean
 

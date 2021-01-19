@@ -25,7 +25,6 @@ namespace Resource {
 
     constexpr auto defaultBackground = "resources/defaultBackground.png";
     constexpr auto defaultButton = "resources/defaultButton.png";
-    constexpr auto mapSelectorStateOptionFilepath = "resources/mapSelectorStateMenuButton.png";
 }
 
 #endif // __DEFINITIONS_HPP__

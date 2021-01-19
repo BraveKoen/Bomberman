@@ -3,6 +3,30 @@
 
 #include "../headers/game.hpp"
 
+template<typename T>
+inline sf::Vector2f operator/(
+    const sf::Vector2<T>& left,
+    const sf::Vector2f& right
+) {
+    return {left.x / right.x, left.y / right.y};
+}
+
+inline sf::Vector2f operator/(
+    const sf::Vector2f& left,
+    const sf::Vector2f& right
+) {
+    return {left.x / right.x, left.y / right.y};
+}
+
+inline sf::Vector2f operator/(
+    const sf::Vector2u& left,
+    const sf::Vector2u& right
+) {
+    const auto leftX{static_cast<float>(left.x)};
+    const auto leftY{static_cast<float>(left.y)};
+    return {leftX / right.x, leftY / right.y};
+}
+
 namespace Util {
     template<typename T>
     void switchState(gameDataRef gameData) {
@@ -10,31 +34,7 @@ namespace Util {
     }
 
     template<typename T>
-    constexpr sf::Vector2f scaleVector(
-        const sf::Vector2<T>& base,
-        const sf::Vector2<T>& offset,
-        const sf::Vector2f& scale
-    ) {
-        return {
-            base.x / offset.x / scale.x,
-            base.y / offset.y / scale.y
-        };
-    }
-
-    template<typename T>
-    constexpr sf::Vector2<T> centerVector(
-        const sf::Vector2<T>& base,
-        const sf::Rect<T>& offset,
-        const sf::Vector2<T>& scale
-    ) {
-        return {
-            base.x + (offset.width / scale.x),
-            base.y + (offset.height / scale.y)
-        };
-    }
-
-    template<typename T>
-    constexpr sf::Vector2<T> centerRect(
+    constexpr sf::Vector2<T> scaleRect(
         const sf::Rect<T>& base,
         const sf::Vector2<T>& scale
     ) {
@@ -44,20 +44,29 @@ namespace Util {
         };
     }
 
-    template<typename T, typename R>
-    constexpr sf::Vector2f centerPosition(
+    template<typename T>
+    constexpr sf::Vector2<T> centerVector(
         const sf::Vector2<T>& base,
-        const sf::Rect<R>& offset,
-        const std::size_t total,
-        const std::size_t index
+        const sf::Rect<T>& offset,
+        const sf::Vector2<T>& scale
+    ) {
+        return base + scaleRect(offset, scale);
+    }
+
+    template<typename T, typename R>
+    constexpr sf::Vector2f centerRect(
+        const sf::Vector2<T>& canvas,
+        const sf::Rect<R>& rect,
+        const std::size_t index,
+        const std::size_t total
     ) {
         const auto factorDec = (1.0f / (total * 2)) + 1;
-        const auto decrement = offset.height / 2 * total * factorDec;
+        const auto decrement = rect.height / 2 * total * factorDec;
         const auto factorInc = (1.0f / total) + 1;
-        const auto increment = offset.height * factorInc * index;
+        const auto increment = rect.height * factorInc * index;
         return {
-            (base.x / 2) - (offset.width / 2),
-            (base.y / 2) - decrement + increment
+            (canvas.x / 2) - (rect.width / 2),
+            (canvas.y / 2) - decrement + increment
         };
     }
 }

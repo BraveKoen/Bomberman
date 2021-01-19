@@ -30,11 +30,11 @@ TileMap::TileMap(sf::Vector2f position, sf::Vector2f size, gameDataRef gameData,
     size(size),
     gameData(gameData),
     mapSize(mapSize)
-    {
-        expandTileMap();
-        background.setTexture(gameData->assetManager.getTexture("background"));
-        processSizeAndPositionChanges();
-    }
+{
+    expandTileMap();
+    background.setTexture(gameData->assetManager.getTexture("background"));
+    processSizeAndPositionChanges();
+}
 
 TileMap::TileMap(sf::Vector2f position, sf::Vector2f size, gameDataRef gameData, std::vector<std::vector<std::string>> newMap, sf::Vector2u mapSize):
     position(position),

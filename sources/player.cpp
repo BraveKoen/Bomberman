@@ -51,12 +51,16 @@ int Player::getMovementSpeed(){
 void Player::playerMove(){
     if(arrowKeys){
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)){
+            prevPosition = playerPosition;
             playerPosition.y -= movementSpeed;
         }else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)){
+            prevPosition = playerPosition;
             playerPosition.y += movementSpeed;
         }else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)){
+            prevPosition = playerPosition;
             playerPosition.x += movementSpeed;
         }else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)){
+            prevPosition = playerPosition;
             playerPosition.x -= movementSpeed;
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::RControl) && !bombCooldown){
@@ -66,12 +70,16 @@ void Player::playerMove(){
         }
     }else{
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)){
+            prevPosition = playerPosition;
             playerPosition.y -= movementSpeed;
         }else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)){
+            prevPosition = playerPosition;
             playerPosition.y += movementSpeed;
         }else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)){
+            prevPosition = playerPosition;
             playerPosition.x += movementSpeed;
         }else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)){
+            prevPosition = playerPosition;
             playerPosition.x -= movementSpeed;
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) && !bombCooldown){
@@ -80,5 +88,10 @@ void Player::playerMove(){
             timeBombPlaced = clock.getElapsedTime().asSeconds();
         }
     }
+    playerSprite.setPosition(playerPosition);
+}
+
+void Player::revertMove() {
+    playerPosition = prevPosition;
     playerSprite.setPosition(playerPosition);
 }

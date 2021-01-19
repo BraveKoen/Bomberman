@@ -28,12 +28,14 @@ public:
     sf::Sprite getSprite(){return playerSprite;};
 
     void playerMove();
+    void revertMove();
 
 private:
     gameDataRef data;
     std::shared_ptr<BombHandler> bombHandler;
     sf::Sprite playerSprite;
     sf::Vector2f playerPosition;
+    sf::Vector2f prevPosition;
     uint16_t movementSpeed = 2;
     uint8_t playerHealth = 100;
     int playerId = 69;

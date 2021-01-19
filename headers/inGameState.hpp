@@ -6,13 +6,14 @@
 
 #include "game.hpp"
 #include "player.hpp"
+#include "utilities.hpp"
 #include "bombHandler.hpp"
 #include "definitions.hpp"
+#include "collision.hpp"
 
-class InGameState : public State{
+class InGameState : public State {
 public:
     InGameState(gameDataRef gameData);
-    ~InGameState(){}
 
     void init() override;
     void handleInput() override;
@@ -23,6 +24,7 @@ private:
     gameDataRef gameData;
     std::shared_ptr<BombHandler> bHandler = nullptr;
     std::vector<std::unique_ptr<Player>> players;
+    Collision collision;
     sf::Sprite background;
 };
 

@@ -5,35 +5,31 @@ MainMenuState::MainMenuState(gameDataRef gameData):
 {}
 
 void MainMenuState::init() {
-    const auto& texture = gameData->assetManager
-        .getTexture("default button");
+    const auto& windowSize = gameData->window.getSize();
+    using buttonData = std::pair<const char*, buttonFunc>;
     constexpr std::array buttons{
-        std::pair<const char*, buttonFunc>{"Play", Util::switchState<MapSelectorState>},
-        std::pair<const char*, buttonFunc>{"Highscores", Util::switchState<MainMenuState>},
-        std::pair<const char*, buttonFunc>{"Exit", [](gameDataRef gameData){gameData->window.close();}}
+        buttonData{"Play", Util::switchState<MapSelectorState>},
+        buttonData{"Highscores", Util::switchState<MainMenuState>},
+        buttonData{"Exit", [](gameDataRef gameData){gameData->window.close();}}
     };
     for (std::size_t index = 0; index < buttons.size(); ++index) {
+        static const auto& texture = gameData->assetManager.getTexture("default button");
         sf::Sprite sprite{texture};
-        sprite.setScale(Util::scaleVector(gameData->window.getSize(), texture.getSize(), {5, 10}));
-        sprite.setPosition(Util::centerPosition(
-            gameData->window.getSize(), sprite.getGlobalBounds(), buttons.size(), index));
+        sprite.setScale(windowSize / texture.getSize() / sf::Vector2f{5, 10});
+        const auto& spriteBounds = sprite.getGlobalBounds();
+        sprite.setPosition(Util::centerRect(windowSize, spriteBounds, index, buttons.size()));
 
-        sf::Text text{buttons[index].first, gameData->assetManager.getFont("default font")};
+        static const auto& font = gameData->assetManager.getFont("default font");
+        sf::Text text{buttons[index].first, font};
         text.setFillColor(sf::Color::Cyan);
-        text.setOrigin(Util::centerRect(text.getGlobalBounds(), {2, 2}));
-        text.setPosition(Util::centerVector(sprite.getPosition(), sprite.getGlobalBounds(), {2, 2.6f}));
+        text.setOrigin(Util::scaleRect(text.getGlobalBounds(), {2, 2}));
+        text.setPosition(Util::centerVector(sprite.getPosition(), spriteBounds, {2, 2.5}));
 
         menuButtons.emplace_back(std::move(sprite), std::move(text), buttons[index].second);
     }
-    background.setTexture(gameData->assetManager.getTexture("default background"));
-    sf::Vector2f mapSelectorStateBackgroundSize = sf::Vector2f( 
-		static_cast< float >( gameData->assetManager.getTexture("default background").getSize().x ), 
-		static_cast< float >( gameData->assetManager.getTexture("default background").getSize().y )
-	);
-    background.setScale(
-        gameData->window.getSize().x/mapSelectorStateBackgroundSize.x, 
-        gameData->window.getSize().y/mapSelectorStateBackgroundSize.y
-    );
+    const auto& bgTexture = gameData->assetManager.getTexture("default background");
+    background.setTexture(bgTexture);
+    background.setScale(windowSize / bgTexture.getSize());
 }
 
 void MainMenuState::handleInput() {
@@ -62,8 +58,8 @@ void MainMenuState::update(float delta) {
 void MainMenuState::draw(float delta) {
     (void)delta;
     gameData->window.clear(sf::Color::Red);
-
     gameData->window.draw(background);
+
     for (const auto& button : menuButtons) {
         button.draw(gameData->window);
     }
