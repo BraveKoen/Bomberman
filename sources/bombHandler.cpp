@@ -3,9 +3,7 @@
 
 BombHandler::BombHandler(gameDataRef data):
     data(data)
-{
-
-}
+{}
 
 void BombHandler::createBomb(int playerId, int lenghtX, int lenghtY, int explodeTime, sf::Vector2f pos){
     bombs.push_back(std::make_unique<Bomb>(data, playerId, lenghtX, lenghtY, explodeTime, clock.getElapsedTime().asSeconds(), pos));
@@ -26,7 +24,6 @@ void BombHandler::update(){
             break;
         }else{
             count++;
-        }
-        
+        } 
     }
 }
