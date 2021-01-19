@@ -7,6 +7,7 @@
 
 #include "bombHandler.hpp"
 #include "character.hpp"
+#include "../AnimatedSpriteLib/AnimatedSprite.hpp"
 
 class Player : public Character {
 public:
