@@ -7,10 +7,11 @@
 #include "game.hpp"
 #include "player.hpp"
 #include "bombHandler.hpp"
+#include "definitions.hpp"
 
 class InGameState : public State{
 public:
-    InGameState(gameDataRef data);
+    InGameState(gameDataRef gameData);
     ~InGameState(){}
 
     void init() override;
@@ -19,7 +20,7 @@ public:
     void draw(float delta) override;
 
 private:
-    gameDataRef data;
+    gameDataRef gameData;
     std::shared_ptr<BombHandler> bHandler = nullptr;
     std::vector<std::unique_ptr<Player>> players;
     sf::Sprite background;

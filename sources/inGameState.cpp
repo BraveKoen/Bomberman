@@ -1,44 +1,55 @@
 #include "../headers/inGameState.hpp"
 
-InGameState::InGameState(gameDataRef data):
-    data(data)
+InGameState::InGameState(gameDataRef gameData):
+    gameData(gameData)
 {}
 
 void InGameState::init(){
-    data->assetManager.loadTexture("Player", "resources/man.gif");
-    data->assetManager.loadTexture("Dynamite", "resources/dynamite.png");
+    gameData->assetManager.loadTexture("player", Resource::play1);
+    gameData->assetManager.loadTexture("dynamite", Resource::dynamite);
+    gameData->assetManager.loadTexture("biem", Resource::biem);
     
-    bHandler = std::make_shared<BombHandler>(data);
-    players.push_back(std::make_unique<Player>(data, bHandler, 0));
-    
-    bool lol = 0;
-    for(int i; i <= data->playerCount; i ++){
-        players.push_back(std::make_unique<Player>(data, bHandler, lol));
-        lol = true;
+    bHandler = std::make_shared<BombHandler>(gameData);
+
+
+   //needs to be fixed! 
+    bool useArrowKeys = 0;
+
+    auto posTileMap = gameData->tileMap.searchForType("play1");
+    auto spawnLoc = sf::Vector2f{10,10};
+    if(posTileMap.size() > 0){
+        spawnLoc = gameData->tileMap.tilePosToScreenPos(posTileMap[0]);
     }
-    background.setTexture(data->assetManager.getTexture("default background"));
+
+    for(int i = 0; i <= gameData->playerCount; i++){
+        players.push_back(std::make_unique<Player>(gameData, bHandler, useArrowKeys, spawnLoc));
+        useArrowKeys = true;
+    }
+
+    //needs to be fixed! 
+    background.setTexture(gameData->assetManager.getTexture("default background"));
     sf::Vector2f mapSelectorStateBackgroundSize = sf::Vector2f( 
-		static_cast< float >( data->assetManager.getTexture("default background").getSize().x ), 
-		static_cast< float >( data->assetManager.getTexture("default background").getSize().y )
+		static_cast< float >( gameData->assetManager.getTexture("default background").getSize().x ), 
+		static_cast< float >( gameData->assetManager.getTexture("default background").getSize().y )
 	);
     background.setScale(
-        data->window.getSize().x/mapSelectorStateBackgroundSize.x, 
-        data->window.getSize().y/mapSelectorStateBackgroundSize.y
+        gameData->window.getSize().x/mapSelectorStateBackgroundSize.x, 
+        gameData->window.getSize().y/mapSelectorStateBackgroundSize.y
     );
+    gameData->tileMap.setTileMapPosition(sf::Vector2f(0, 0));
+    gameData->tileMap.setTileMapSize(sf::Vector2f(Resource::screenHeight, Resource::screenHeight));
 }
 
 void InGameState::handleInput(){
         sf::Event event;
-
-    while (data->window.pollEvent(event)) {
-        if (sf::Event::Closed == event.type) {
-            data->window.close();
+    while (gameData->window.pollEvent(event)) {
+        if (sf::Event::Closed == event.type){
+            gameData->window.close();
         }
-    }
-    
+    }   
 }
 
-void InGameState::update(float delta) {
+void InGameState::update(float delta){
     (void)delta;
     for(auto &player : players){
         player->playerMove();
@@ -47,15 +58,19 @@ void InGameState::update(float delta) {
     return;
 }
 
-void InGameState::draw(float delta) {
+void InGameState::draw(float delta){
     (void)delta;
-    data->window.clear(sf::Color::Blue);
+    gameData->window.clear();
+    gameData->window.draw(background); //idk of dit handig is
+    //drawTileMap(gameData->tileMap , gameData, true);
+    gameData->tileMap.draw();
 
-    data->window.draw(background);
+    bHandler->update();
+    bHandler->draw();
+
     for(auto &player : players){
         player->draw();
     }
-    bHandler->update();
-    bHandler->draw();
-    data->window.display();
+
+    gameData->window.display();
 }

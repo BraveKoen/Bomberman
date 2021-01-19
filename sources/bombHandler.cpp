@@ -3,9 +3,7 @@
 
 BombHandler::BombHandler(gameDataRef data):
     data(data)
-{
-
-}
+{}
 
 void BombHandler::createBomb(int playerId, int lenghtX, int lenghtY, int explodeTime, sf::Vector2f pos){
     bombs.push_back(std::make_unique<Bomb>(data, playerId, lenghtX, lenghtY, explodeTime, clock.getElapsedTime().asSeconds(), pos));
@@ -23,11 +21,9 @@ void BombHandler::update(){
     for(auto &bomb : bombs){
         if(bomb->isExploded(clock.getElapsedTime().asSeconds())){
             bombs.erase(bombs.begin() + count);
-            std::cout << "Delted" << std::endl;
             break;
         }else{
             count++;
-        }
-        
+        } 
     }
 }

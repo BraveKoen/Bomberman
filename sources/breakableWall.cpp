@@ -16,7 +16,6 @@ void BreakableWall::drawWall(){
     }
 }
 
-
 const std::vector<sf::Sprite> & BreakableWall::getSprites() const{
     return breakableWallSprites;
 }

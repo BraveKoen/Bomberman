@@ -3,7 +3,7 @@
 Tile::Tile(std::string type, sf::Sprite sprite):
     type(type),
     sprite(sprite)
-    {}
+{}
 
 void Tile::setType(std::string newType){
     type = newType;
@@ -14,7 +14,7 @@ std::string Tile::getType(){
 }
 
 void Tile::setTexture(const sf::Texture & newTexture){
-    sprite.setTexture(newTexture);
+    sprite.setTexture(newTexture, true);
 }
 
 const sf::Texture* Tile::getTexture(){

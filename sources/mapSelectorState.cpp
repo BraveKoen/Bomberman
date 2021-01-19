@@ -97,6 +97,7 @@ void MapSelectorState::init(){
     gameData->assetManager.loadTexture("play1", Resource::play1);
     gameData->assetManager.loadTexture("play2", Resource::play2);
     gameData->assetManager.loadTexture("background", Resource::mapBackground);
+    gameData->assetManager.loadTexture("empty", Resource::solid);
 
     for(const auto & entry : std::experimental::filesystem::directory_iterator(Resource::mapFolderLocation)){
         if(entry.path().extension().u8string() == ".txt"){
