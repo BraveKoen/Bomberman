@@ -9,13 +9,24 @@ Bomb::Bomb(gameDataRef data, int playerId, int lenghtX, int lenghtY, float explo
     timeCreated(timeCreated),
     bombPosition(pos)
 {
-    bombSprite.setTexture(data->assetManager.getTexture("Dynamite"));
+    bombSprite.setTexture(data->assetManager.getTexture("Bomb"));
     bombSprite.setScale(0.2, 0.2);
     bombSprite.setPosition(pos);
+
+    fuse.setSpriteSheet(data->assetManager.getTexture("Bomb"));
+    fuse.addFrame(sf::IntRect(0, 0, 450, 375));
+    fuse.addFrame(sf::IntRect(450, 0, 450, 375));
+    fuse.addFrame(sf::IntRect(0, 375, 450, 375));
+    fuse.addFrame(sf::IntRect(450, 0, 450, 375));
+
+    currentAnimation = &fuse;
+    animatedSprite.setPosition(bombPosition);
+    animatedSprite.play(*currentAnimation);
 }
 
 void Bomb::draw(){
-    data->window.draw(bombSprite);
+    data->window.draw(animatedSprite);
+    animatedSprite.update(sf::seconds(1000.0f));
 }
 
 void Bomb::explode() {

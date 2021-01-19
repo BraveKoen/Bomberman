@@ -34,7 +34,6 @@ Player::Player(gameDataRef data, std::shared_ptr<BombHandler> bombHandler, bool 
     walkingAnimationUp.addFrame(sf::IntRect( 0, 96, 32, 32));
     
     currentAnimation = &walkingAnimationDown;
-    // AnimatedSprite animatedSprite();
     animatedSprite.setPosition(playerPosition);
     animatedSprite.play(*currentAnimation);
 }
@@ -128,6 +127,5 @@ void Player::playerMove(){
             timeBombPlaced = clock.getElapsedTime().asSeconds();
         }
     }
-    // playerSprite.setPosition(playerPosition);
     animatedSprite.setPosition(playerPosition);
 }

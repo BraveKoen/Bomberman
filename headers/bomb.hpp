@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "game.hpp"
+#include "../AnimatedSpriteLib/AnimatedSprite.hpp"
 
 class Bomb{
 public:
@@ -33,6 +34,9 @@ private:
 
     sf::Sprite bombSprite;
     sf::Vector2f bombPosition;
+    Animation fuse;
+    Animation* currentAnimation;
+    AnimatedSprite animatedSprite;
 };
 
 #endif // __BOMB_HPP__
