@@ -30,6 +30,7 @@ namespace Resource {
     constexpr auto defaultButton = "resources/defaultButton.png";
 
     constexpr auto playerSprite = "resources/playerSprite.png";
+    constexpr auto bombSprite = "resources/bombSprite.png";
 }
 
 #endif // __DEFINITIONS_HPP__
