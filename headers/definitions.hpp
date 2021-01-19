@@ -32,6 +32,7 @@ namespace Resource {
     constexpr float defaultPlayerMoveSpeed = 2.5;
     constexpr unsigned int defaultPlayerLives = 5;
     constexpr auto playerSprite = "resources/playerSprite.png";
+    constexpr auto bombSprite = "resources/bombSprite.png";
 }
 
 #endif // __DEFINITIONS_HPP__
