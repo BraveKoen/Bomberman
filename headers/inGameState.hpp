@@ -7,6 +7,7 @@
 #include "game.hpp"
 #include "player.hpp"
 #include "utilities.hpp"
+#include "definitions.hpp"
 #include "bombHandler.hpp"
 #include "definitions.hpp"
 #include "collision.hpp"

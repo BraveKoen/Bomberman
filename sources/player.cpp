@@ -14,7 +14,8 @@ Player::Player(gameDataRef data, std::shared_ptr<BombHandler> bombHandler, bool 
 }
 
 void Player::draw() {
-    data->window.draw(playerSprite);
+    data->window.draw(animatedSprite);
+    animatedSprite.update(sf::seconds(100.0f));
 }
 
 void Player::update(){
