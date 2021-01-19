@@ -20,19 +20,27 @@ public:
 
     bool playerHit();
 
+    void setPos(sf::Vector2f pos);
+
+    void clearBomb();
+
 private:
 
     gameDataRef data;
     int id; // playerId who placed it
 
-    int lenghtX; //How big is the explotion in x 
-    int lenghtY;//How big is the explotion in y
+    int lengthX; //How big is the explotion in x 
+    int lengthY;//How big is the explotion in y
 
     float explodeTime; //How many seconds does it need to explode
     float timeCreated; //When is the bomb placed
 
     sf::Sprite bombSprite;
     sf::Vector2f bombPosition;
+
+    std::vector<sf::Vector2u> destroyedTiles;
+    bool explodeAnimation = false;
+    bool isDone = false;
 };
 
 #endif // __BOMB_HPP__

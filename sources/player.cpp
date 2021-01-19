@@ -6,7 +6,9 @@ Player::Player(gameDataRef data, std::shared_ptr<BombHandler> bombHandler, bool 
     arrowKeys(arrowKeys)
 {
     playerSprite.setTexture(data->assetManager.getTexture("Player"));
-    playerSprite.setScale(0.2, 0.2);
+    auto tileSize = data->tileMap.getTileMapSize().x / data->tileMap.getMapSize().x;
+    playerSprite.setScale(tileSize / data->assetManager.getTexture("Player").getSize().x, tileSize / data->assetManager.getTexture("Player").getSize().y);
+    playerSprite.setOrigin(data->assetManager.getTexture("Player").getSize().x / 2, data->assetManager.getTexture("Player").getSize().y / 2);
 }
 
 void Player::draw() {
@@ -57,7 +59,7 @@ void Player::playerMove(){
             playerPosition.x -= movementSpeed;
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::RControl) && !bombCooldown){
-            bombHandler->createBomb(playerId, 12, 12, 5, playerPosition); 
+            bombHandler->createBomb(playerId, 4, 4, 2, playerPosition); 
             bombCooldown = true;
             timeBombPlaced = clock.getElapsedTime().asSeconds();
         }
@@ -72,7 +74,7 @@ void Player::playerMove(){
             playerPosition.x -= movementSpeed;
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) && !bombCooldown){
-            bombHandler->createBomb(playerId, 12, 12, 5, playerPosition);   
+            bombHandler->createBomb(playerId, 4, 4, 2, playerPosition);   
             bombCooldown = true;
             timeBombPlaced = clock.getElapsedTime().asSeconds();
         }
