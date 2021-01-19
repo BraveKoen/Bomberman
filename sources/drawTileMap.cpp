@@ -14,6 +14,8 @@ void drawTileMap(TileMap tileMap, gameDataRef gameData, bool drawPlayerSpawns){
                     sprite.setTexture(gameData->assetManager.getTexture("unbreakable wall"));
                 }else if(map[i][j] == "break"){
                     sprite.setTexture(gameData->assetManager.getTexture("breakable wall"));
+                }else if(map[i][j] == "biem"){
+                    sprite.setTexture(gameData->assetManager.getTexture("Biem"));
                 }else if(drawPlayerSpawns){
                     if(map[i][j] == "play1"){
                         sprite.setTexture(gameData->assetManager.getTexture("player1 spawn location"));

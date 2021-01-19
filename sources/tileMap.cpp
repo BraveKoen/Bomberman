@@ -18,7 +18,7 @@ sf::Vector2u TileMap::screenPosToTilePos(sf::Vector2f screenPosition){  //Return
 }
 
 sf::Vector2f TileMap::tilePosToScreenPos(sf::Vector2u tilePosition){ //Returns the center of the tile in screenspace
-    return sf::Vector2f((size.x/mapSize.x*tilePosition.x)+position.x-(size.x/mapSize.x/2), (size.y/mapSize.y*tilePosition.y)+position.y-(size.y/mapSize.y/2));
+    return sf::Vector2f((size.x/mapSize.x*(tilePosition.x + 1))+position.x-(size.x/mapSize.x/2), (size.y/mapSize.y*(tilePosition.y + 1))+position.y-(size.y/mapSize.y/2));
 }
 
 void TileMap::setTileMapPosition(sf::Vector2f newPosition){
