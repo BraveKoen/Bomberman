@@ -9,9 +9,10 @@ void InGameState::init(){
     gameData->assetManager.loadTexture("dynamite", Resource::dynamite);
     gameData->assetManager.loadTexture("biem", Resource::biem);
     
-    
     bHandler = std::make_shared<BombHandler>(gameData);
-    
+
+
+   //needs to be fixed! 
     bool useArrowKeys = 0;
 
     auto posTileMap = gameData->tileMap.searchForType("play1");
@@ -24,6 +25,8 @@ void InGameState::init(){
         players.push_back(std::make_unique<Player>(gameData, bHandler, useArrowKeys, spawnLoc));
         useArrowKeys = true;
     }
+
+    //needs to be fixed! 
     background.setTexture(gameData->assetManager.getTexture("default background"));
     sf::Vector2f mapSelectorStateBackgroundSize = sf::Vector2f( 
 		static_cast< float >( gameData->assetManager.getTexture("default background").getSize().x ), 

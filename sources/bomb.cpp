@@ -113,7 +113,6 @@ bool Bomb::isExploded(float currentTime){
         return true;
     }
     return false;
-
 }
 
 void Bomb::clearBomb(){

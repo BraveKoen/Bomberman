@@ -41,12 +41,12 @@ TileMap::TileMap(sf::Vector2f position, sf::Vector2f size, gameDataRef gameData,
     size(size),
     gameData(gameData),
     mapSize(mapSize)
-    {
-        expandTileMap();
-        setMap(newMap);
-        background.setTexture(gameData->assetManager.getTexture("background"));
-        processSizeAndPositionChanges();
-    }
+{
+    expandTileMap();
+    setMap(newMap);
+    background.setTexture(gameData->assetManager.getTexture("background"));
+    processSizeAndPositionChanges();
+}
 
 sf::Vector2u TileMap::screenPosToTilePos(sf::Vector2f screenPosition){  //Returns the tile that the given screenspace position is in
     return sf::Vector2u((screenPosition.x-position.x)/(size.x/mapSize.x), (screenPosition.y-position.y)/(size.y/mapSize.y));
