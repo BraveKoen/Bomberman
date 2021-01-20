@@ -6,7 +6,7 @@ bool Collision::isSpriteColliding(
     const std::vector<Tile>& surroundings
 ) const {
     for (const auto& tile : surroundings) {
-        if (isBoundsColliding(tile.getBounds(), target.getGlobalBounds())) {
+        if (target.getGlobalBounds().intersects(tile.getBounds())) {
             return true;
         }
     }

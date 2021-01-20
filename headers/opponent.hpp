@@ -9,18 +9,18 @@
 class Opponent : public Character{
 public:
     Opponent(gameDataRef data);
-    ~Opponent();
+    // ~Opponent();
 
     void draw() override;
 
     void setHealth(uint8_t health) override;
-    int getHealth() override;
+    int getHealth() const override;
 
-    void setPosition(sf::Vector2f pos) override;
-    sf::Vector2f getPosition() override;
+    void setPosition(const sf::Vector2f& pos) override;
+    const sf::Vector2f& getPosition() const override;
 
     void setMovementSpeed(uint8_t speed) override;
-    int getMovementSpeed() override;
+    int getMovementSpeed() const override;
 
 private:
     gameDataRef data; //the data

@@ -22,9 +22,9 @@ public:
 
 private:
     gameDataRef gameData;
+    Collision collision;
     std::shared_ptr<BombHandler> bHandler = nullptr;
     std::vector<std::unique_ptr<Player>> players;
-    Collision collision;
     sf::Sprite background;
 };
 

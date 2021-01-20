@@ -7,7 +7,7 @@ SFML_STL := -lsfml-main -lsfml-graphics-s -lsfml-window-s -lsfml-system-s
 WIN_STL := -lgdi32 -lopengl32 -lwinmm -lfreetype -lstdc++fs
 
 FLAGS := -std=c++17 -pedantic -Wall -Werror -Wextra -D SFML_STATIC
-OBJECTS := bomberman.o game.o state.o input.o asset.o menu.o button.o menubutton.o bomb.o bombhdlr.o player.o opponent.o tile.o tilemap.o drawmap.o gamestate.o mapselect.o collision.o
+OBJECTS := bomberman.o game.o state.o input.o asset.o menu.o button.o menubutton.o bomb.o bombhdlr.o player.o opponent.o tile.o tilemap.o gamestate.o mapselect.o collision.o
 
 SRC := sources/
 HDR := headers/
@@ -45,7 +45,7 @@ button.o: $(SRC)button.cpp $(HDR)button.hpp $(HDR)game.hpp
 menubutton.o: $(SRC)menuButton.cpp $(HDR)menuButton.hpp $(HDR)button.hpp $(HDR)game.hpp
 	g++ $(FLAGS) -c $(SRC)menuButton.cpp -I $(SFML_INC) -o menubutton.o
 
-bomb.o: $(SRC)bomb.cpp $(HDR)bomb.hpp $(HDR)game.hpp
+bomb.o: $(SRC)bomb.cpp $(HDR)bomb.hpp $(HDR)game.hpp $(HDR)tile.hpp $(HDR)tileMap.hpp
 	g++ $(FLAGS) -c $(SRC)bomb.cpp -I $(SFML_INC) -o bomb.o
 
 bombhdlr.o: $(SRC)bombHandler.cpp $(HDR)bomb.hpp
@@ -63,13 +63,10 @@ tile.o: $(SRC)tile.cpp $(HDR)tile.hpp
 tilemap.o: $(SRC)tileMap.cpp $(HDR)tileMap.hpp $(HDR)tile.hpp $(HDR)game.hpp $(HDR)definitions.hpp
 	g++ $(FLAGS) -c $(SRC)tileMap.cpp -I $(SFML_INC) -o tilemap.o
 
-drawmap.o: $(SRC)drawTileMap.cpp $(HDR)drawTileMap.hpp $(HDR)tileMap.hpp $(HDR)game.hpp
-	g++ $(FLAGS) -c $(SRC)drawTileMap.cpp -I $(SFML_INC) -o drawmap.o
-
-gamestate.o: $(SRC)inGameState.cpp $(HDR)inGameState.hpp $(HDR)game.hpp $(HDR)player.hpp $(HDR)utilities.hpp $(HDR)bombHandler.hpp $(HDR)tileMap.hpp $(HDR)drawTileMap.hpp
+gamestate.o: $(SRC)inGameState.cpp $(HDR)inGameState.hpp $(HDR)game.hpp $(HDR)player.hpp $(HDR)utilities.hpp $(HDR)bombHandler.hpp $(HDR)tileMap.hpp
 	g++ $(FLAGS) -c $(SRC)inGameState.cpp -I $(SFML_INC) -o gamestate.o
 
-mapselect.o: $(SRC)mapSelectorState.cpp $(HDR)mapSelectorState.hpp $(HDR)drawTileMap.hpp $(HDR)tileMap.hpp $(HDR)definitions.hpp $(HDR)game.hpp $(HDR)state.hpp
+mapselect.o: $(SRC)mapSelectorState.cpp $(HDR)mapSelectorState.hpp $(HDR)tileMap.hpp $(HDR)definitions.hpp $(HDR)game.hpp $(HDR)state.hpp
 	g++ $(FLAGS) -c $(SRC)mapSelectorState.cpp -I $(SFML_INC) -o mapselect.o
 
 collision.o: $(SRC)collision.cpp $(HDR)collision.hpp
