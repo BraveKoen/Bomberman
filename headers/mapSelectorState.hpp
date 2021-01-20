@@ -29,7 +29,9 @@ private:
     std::vector<sf::Text> menuOptionsText;
     sf::Sprite background;
     sf::Sprite playButton;
+    sf::Text playButtonText;
     sf::Sprite returnButton;
+    sf::Text returnButtonText;
     std::vector<sf::Sprite> menuOptions;
     std::vector<std::string> mapNames;
     std::vector<TileMap> tileMapVector;  
