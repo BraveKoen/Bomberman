@@ -14,22 +14,20 @@ void InGameState::init(){
 
     gameData->tileMap.setTileMapPosition(sf::Vector2f(0, 0));
     gameData->tileMap.setTileMapSize(sf::Vector2f(Resource::screenHeight, Resource::screenHeight));
+<<<<<<< 10fa9c9a59fed2b237e9d585c0b62c0cbdde06f1
 
     //needs to be fixed! 
     bool useArrowKeys = 0;
+=======
+>>>>>>> server
 
     auto posTileMap = gameData->tileMap.searchForType("play1");
     auto spawnLoc = sf::Vector2f{0, 0};
     if(posTileMap.size() > 0){
         spawnLoc = gameData->tileMap.tilePosToScreenPos(posTileMap[0]);
     }
+    players.push_back(std::make_unique<Player>(gameData, bHandler, false, spawnLoc));
 
-    for(int i = 0; i <= gameData->playerCount; i++){
-        players.push_back(std::make_unique<Player>(gameData, bHandler, useArrowKeys, spawnLoc));
-        useArrowKeys = true;
-    }
-
-    //needs to be fixed! 
     background.setTexture(gameData->assetManager.getTexture("default background"));
     sf::Vector2f mapSelectorStateBackgroundSize = sf::Vector2f( 
 		static_cast< float >( gameData->assetManager.getTexture("default background").getSize().x ), 
@@ -39,6 +37,10 @@ void InGameState::init(){
         gameData->window.getSize().x/mapSelectorStateBackgroundSize.x, 
         gameData->window.getSize().y/mapSelectorStateBackgroundSize.y
     );
+<<<<<<< 10fa9c9a59fed2b237e9d585c0b62c0cbdde06f1
+=======
+    
+>>>>>>> server
 }
 
 void InGameState::handleInput(){
