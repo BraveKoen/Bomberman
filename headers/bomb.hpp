@@ -46,7 +46,6 @@ private:
 
     sf::Sprite bombSprite;
     sf::Vector2f bombPosition;
-<<<<<<< HEAD
 
     std::vector<sf::Vector2u> destroyedTiles;
     bool explodeAnimation = false;
@@ -57,11 +56,6 @@ private:
     std::vector<sf::Texture> bombExplosionAnimation;
     unsigned int bombExplosionAnimationIterator;
     sf::Clock clock;    
-=======
-    Animation fuse;
-    Animation* currentAnimation;
-    AnimatedSprite animatedSprite;
->>>>>>> added bomb fuse animation
 };
 
 #endif // __BOMB_HPP__

@@ -44,8 +44,7 @@ Bomb::Bomb(
 }
 
 void Bomb::draw(){
-    data->window.draw(animatedSprite);
-    animatedSprite.update(sf::seconds(1000.0f));
+    data->window.draw(bombSprite);
 }
 
 void Bomb::setPos(sf::Vector2f pos){
