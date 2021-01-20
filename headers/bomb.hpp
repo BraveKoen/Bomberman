@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <vector>
 #include "game.hpp"
 
 class Bomb{
@@ -24,6 +25,8 @@ public:
 
     void clearBomb();
 
+    void animateFuse();
+
 private:
 
     gameDataRef data;
@@ -41,6 +44,10 @@ private:
     std::vector<sf::Vector2u> destroyedTiles;
     bool explodeAnimation = false;
     bool isDone = false;
+
+    std::vector<sf::Texture> bombFuseAnimation;
+    unsigned int bombFuseAnimationIterator;
+    sf::Clock clock;    
 };
 
 #endif // __BOMB_HPP__
