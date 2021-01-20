@@ -11,6 +11,8 @@ Player::Player(gameDataRef data, std::shared_ptr<BombHandler> bombHandler, bool 
     playerSprite.setScale(tileSize / data->assetManager.getTexture("player").getSize().x / 2, tileSize / data->assetManager.getTexture("player").getSize().y / 2);
     playerSprite.setOrigin(data->assetManager.getTexture("player").getSize().x / 2, data->assetManager.getTexture("player").getSize().y / 2);
     playerSprite.setPosition(playerPosition);
+    std::cout << tileSize << std::endl;
+    movementSpeed = tileSize / 36 + 1;
 }
 
 void Player::draw() {
@@ -18,6 +20,15 @@ void Player::draw() {
 }
 
 void Player::update(){
+    if(bombHandler->checkBombCollition(playerSprite) && !playerHit){
+        timePlayerHit = clock.getElapsedTime().asSeconds();
+        playerHit = true;
+    }else{
+        if((timePlayerHit + 2.5) <= clock.getElapsedTime().asSeconds()){
+            playerHit = false;
+        }
+    }
+
     if(bombCooldown){
         if((timeBombPlaced + 5) <= clock.getElapsedTime().asSeconds()){
             bombCooldown = false;
@@ -104,7 +115,7 @@ bool Player::playerMove(){
             return true;
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) && !bombCooldown){
-            bombHandler->createBomb(playerId, 4, 4, 2, playerPosition);   
+            bombHandler->createBomb(playerId, 2, 3, 2, playerPosition);   
             bombCooldown = true;
             timeBombPlaced = clock.getElapsedTime().asSeconds();
         }

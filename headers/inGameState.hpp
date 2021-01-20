@@ -3,9 +3,11 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <string>
 
 #include "game.hpp"
 #include "player.hpp"
+#include "opponent.hpp"
 #include "utilities.hpp"
 #include "bombHandler.hpp"
 #include "definitions.hpp"
@@ -25,6 +27,7 @@ private:
     Collision collision;
     std::shared_ptr<BombHandler> bHandler = nullptr;
     std::vector<std::unique_ptr<Player>> players;
+    std::vector<std::unique_ptr<Opponent>> opponents;
     sf::Sprite background;
 };
 

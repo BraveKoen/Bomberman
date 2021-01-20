@@ -17,7 +17,9 @@ Bomb::Bomb(gameDataRef data, int playerId, int lenghtX, int lenghtY, float explo
 }
 
 void Bomb::draw(){
-    data->window.draw(bombSprite);
+    if(!isDone){
+        data->window.draw(bombSprite);
+    }
 }
 
 void Bomb::setPos(sf::Vector2f pos){
@@ -126,5 +128,15 @@ int Bomb::getBombId(){
 }
 
 bool Bomb::playerHit(){
+    return false;
+}
+
+bool Bomb::bombColliding(const sf::Sprite& target){
+    for(auto &pos : destroyedTiles){
+        auto test = data->tileMap.getTile(pos);
+        if(target.getGlobalBounds().intersects(test.getBounds())){
+            return true;
+        }
+    }
     return false;
 }
