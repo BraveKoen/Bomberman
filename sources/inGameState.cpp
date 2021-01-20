@@ -13,12 +13,14 @@ void InGameState::init(){
     //gameData->assetManager.loadTexture("opponent", Resource::play2); //More opponent stuff, this is all for the yet-to-be-implemented online multiplayer
     gameData->assetManager.loadTexture("dynamite", Resource::dynamite);
     gameData->assetManager.loadTexture("biem", Resource::biem);
-
+    gameData->assetManager.loadTexture("bomb", Resource::bombSprite);
+    
     background.setTexture(gameData->assetManager.getTexture("default background"));
     background.setScale(
         gameData->window.getSize().x/gameData->assetManager.getTexture("default background").getSize().x, 
         gameData->window.getSize().y/gameData->assetManager.getTexture("default background").getSize().y
     );
+    
     
     bHandler = std::make_shared<BombHandler>(gameData);
 
