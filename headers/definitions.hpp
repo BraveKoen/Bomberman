@@ -25,6 +25,9 @@ namespace Resource {
 
     constexpr auto defaultBackground = "resources/defaultBackground.png";
     constexpr auto defaultButton = "resources/defaultButton.png";
+
+    constexpr auto defaultPlayerMoveSpeed = 150;
+    constexpr auto defaultPlayerLives = 5;
 }
 
 #endif // __DEFINITIONS_HPP__
