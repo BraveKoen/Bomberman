@@ -23,30 +23,15 @@ void InGameState::init(){
     auto spawnLocPlayer = sf::Vector2f{0, 0};
     auto spawnLocOpponent = sf::Vector2f{200, 0};
     if(posTileMap.size() > 0){
-<<<<<<< dc188b03a001ecdc826d23da2fc28485735c6dce
-<<<<<<< 94e0fd9b996c98dbe4f8af7079f0facf6407dd16
-=======
->>>>>>> bomb hit player
 
         spawnLocPlayer = gameData->tileMap.tilePosToScreenPos(posTileMap[0]);
         spawnLocOpponent = gameData->tileMap.tilePosToScreenPos(posTileMap[1]);
         
-<<<<<<< dc188b03a001ecdc826d23da2fc28485735c6dce
     }
 
     players.push_back(std::make_unique<Player>(gameData, bHandler, false, spawnLocPlayer));
     opponents.push_back(std::make_unique<Opponent>(gameData, bHandler, spawnLocOpponent));
 
-=======
-        spawnLoc = gameData->tileMap.tilePosToScreenPos(posTileMap[0]);
-=======
->>>>>>> bomb hit player
-    }
-
-    players.push_back(std::make_unique<Player>(gameData, bHandler, false, spawnLocPlayer));
-    opponents.push_back(std::make_unique<Opponent>(gameData, bHandler, spawnLocOpponent));
-
->>>>>>> server
     background.setTexture(gameData->assetManager.getTexture("default background"));
     sf::Vector2f mapSelectorStateBackgroundSize = sf::Vector2f( 
 		static_cast< float >( gameData->assetManager.getTexture("default background").getSize().x ), 
