@@ -10,6 +10,7 @@
 #include "bombHandler.hpp"
 #include "definitions.hpp"
 #include "collision.hpp"
+#include "controlScheme.hpp"
 
 class InGameState : public State {
 public:

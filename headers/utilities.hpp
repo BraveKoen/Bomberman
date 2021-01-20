@@ -27,6 +27,27 @@ inline sf::Vector2f operator/(
     return {leftX / right.x, leftY / right.y};
 }
 
+inline sf::Vector2f operator+(
+    const sf::Vector2f& left,
+    const sf::Vector2f& right
+) {
+    return {left.x + right.x, left.y + right.y};
+}
+
+inline sf::Vector2i operator+(
+    const sf::Vector2i& left,
+    const sf::Vector2i& right
+) {
+    return {left.x + right.x, left.y + right.y};
+}
+
+inline sf::Vector2f operator-(
+    const sf::Vector2f& left,
+    const sf::Vector2f& right
+) {
+    return {left.x - right.x, left.y - right.y};
+}
+
 namespace Util {
     template<typename T>
     void switchState(gameDataRef gameData) {
