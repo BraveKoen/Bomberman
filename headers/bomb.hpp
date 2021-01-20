@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <vector>
 #include "game.hpp"
 #include "tile.hpp"
 #include "collision.hpp"
@@ -27,6 +28,7 @@ public:
     void clearBomb();
 
     bool bombColliding(const sf::Sprite& target);
+    void animateFuse();
 
 private:
 
@@ -46,6 +48,9 @@ private:
 
     bool isDone = false;
 
+    std::vector<sf::Texture> bombFuseAnimation;
+    unsigned int bombFuseAnimationIterator;
+    sf::Clock clock;    
 };
 
 #endif // __BOMB_HPP__

@@ -23,6 +23,7 @@ void BombHandler::update(){
             bombs.erase(bombs.begin() + count);
             break;
         }else{
+            bomb->animateFuse();
             count++;
         } 
     }
