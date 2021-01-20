@@ -10,7 +10,14 @@ Bomb::Bomb(gameDataRef data, int playerId, int lenghtX, int lenghtY, float explo
     bombPosition(pos)
 {
     auto tileSize = data->tileMap.getTileMapSize().x / data->tileMap.getMapSize().x;
-    bombSprite.setTexture(data->assetManager.getTexture("dynamite"));
+    
+    bombFuseAnimationIterator = 0;
+    bombFuseAnimation.push_back(data->assetManager.getTexture("bomb frame 1"));
+    bombFuseAnimation.push_back(data->assetManager.getTexture("bomb frame 2"));
+    bombFuseAnimation.push_back(data->assetManager.getTexture("bomb frame 3"));
+    bombFuseAnimation.push_back(data->assetManager.getTexture("bomb frame 4"));
+
+    bombSprite.setTexture(bombFuseAnimation.at(bombFuseAnimationIterator));
     bombSprite.setScale(tileSize / data->assetManager.getTexture("dynamite").getSize().x, tileSize / data->assetManager.getTexture("dynamite").getSize().y);
     bombSprite.setOrigin(data->assetManager.getTexture("dynamite").getSize().x / 2, data->assetManager.getTexture("dynamite").getSize().y / 2);
     setPos(pos);
@@ -132,4 +139,15 @@ bool Bomb::bombColliding(const sf::Sprite& target){
         }
     }
     return false;
+    
+void Bomb::animateFuse(){
+    if (clock.getElapsedTime().asSeconds() > 0.5f/bombFuseAnimation.size()){
+        if(bombFuseAnimationIterator < bombFuseAnimation.size()-1){
+            bombFuseAnimationIterator++;
+        }else{
+            bombFuseAnimationIterator = 0;
+        }
+        bombSprite.setTexture(bombFuseAnimation.at(bombFuseAnimationIterator));
+        clock.restart();
+    }
 }
