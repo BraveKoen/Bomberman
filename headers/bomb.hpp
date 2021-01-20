@@ -4,7 +4,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "game.hpp"
-#include "../AnimatedSpriteLib/AnimatedSprite.hpp"
 
 class Bomb{
 public:
