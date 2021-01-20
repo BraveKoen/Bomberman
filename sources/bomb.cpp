@@ -1,6 +1,14 @@
 #include "../headers/bomb.hpp"
 
-Bomb::Bomb(gameDataRef data, int playerId, int lenghtX, int lenghtY, float explodeTime, float timeCreated, sf::Vector2f pos):
+Bomb::Bomb(
+    gameDataRef data, 
+    int playerId, 
+    int lenghtX, 
+    int lenghtY, 
+    float explodeTime, 
+    float timeCreated, 
+    sf::Vector2f pos
+):
     data(data),
     id(playerId),
     lengthX(lenghtX),
@@ -12,14 +20,26 @@ Bomb::Bomb(gameDataRef data, int playerId, int lenghtX, int lenghtY, float explo
     auto tileSize = data->tileMap.getTileMapSize().x / data->tileMap.getMapSize().x;
     
     bombFuseAnimationIterator = 0;
-    bombFuseAnimation.push_back(data->assetManager.getTexture("bomb frame 1"));
-    bombFuseAnimation.push_back(data->assetManager.getTexture("bomb frame 2"));
-    bombFuseAnimation.push_back(data->assetManager.getTexture("bomb frame 3"));
-    bombFuseAnimation.push_back(data->assetManager.getTexture("bomb frame 4"));
+    bombFuseAnimation.push_back(data->assetManager.getTexture("bomb fuse frame 1"));
+    bombFuseAnimation.push_back(data->assetManager.getTexture("bomb fuse frame 2"));
+    bombFuseAnimation.push_back(data->assetManager.getTexture("bomb fuse frame 3"));
+    bombFuseAnimation.push_back(data->assetManager.getTexture("bomb fuse frame 4"));
+    
+    bombExplosionAnimationIterator = 0;
+    bombExplosionAnimation.push_back(data->assetManager.getTexture("bomb explosion frame 1"));
+    bombExplosionAnimation.push_back(data->assetManager.getTexture("bomb explosion frame 2"));
+    bombExplosionAnimation.push_back(data->assetManager.getTexture("bomb explosion frame 3"));
+    bombExplosionAnimation.push_back(data->assetManager.getTexture("bomb explosion frame 4"));
 
     bombSprite.setTexture(bombFuseAnimation.at(bombFuseAnimationIterator));
-    bombSprite.setScale(tileSize / data->assetManager.getTexture("dynamite").getSize().x, tileSize / data->assetManager.getTexture("dynamite").getSize().y);
-    bombSprite.setOrigin(data->assetManager.getTexture("dynamite").getSize().x / 2, data->assetManager.getTexture("dynamite").getSize().y / 2);
+    bombSprite.setScale(
+        tileSize / data->assetManager.getTexture("bomb fuse frame 1").getSize().x, 
+        tileSize / data->assetManager.getTexture("bomb fuse frame 1").getSize().y
+    );
+    bombSprite.setOrigin(
+        data->assetManager.getTexture("bomb fuse frame 1").getSize().x / 2, 
+        data->assetManager.getTexture("bomb fuse frame 1").getSize().y / 2
+    );
     setPos(pos);
 }
 
@@ -110,12 +130,12 @@ void Bomb::explode() {
 }
 
 bool Bomb::isExploded(float currentTime){
-    if((timeCreated + explodeTime < currentTime) && !isDone){
+    if((timeCreated + explodeTime < currentTime) && !primed){
         explode();
-        isDone = true;
+        primed = true;
         return false;
     }
-    if((timeCreated + explodeTime + 2 < currentTime) && isDone){
+    if((timeCreated + explodeTime + 2 < currentTime) && primed){
         clearBomb();
         return true;
     }
@@ -146,4 +166,20 @@ void Bomb::animateFuse(){
         bombSprite.setTexture(bombFuseAnimation.at(bombFuseAnimationIterator));
         clock.restart();
     }
+}
+
+void Bomb::animateExplosion(){
+    if (clock.getElapsedTime().asSeconds() > 0.5f/bombExplosionAnimation.size()){
+        if(bombExplosionAnimationIterator < bombExplosionAnimation.size()-1){
+            bombExplosionAnimationIterator++;
+        }else{
+            bombExplosionAnimationIterator = 0;
+        }
+        bombSprite.setTexture(bombExplosionAnimation.at(bombExplosionAnimationIterator));
+        clock.restart();
+    }
+}
+
+bool Bomb::getPrimed(){
+    return primed;
 }
