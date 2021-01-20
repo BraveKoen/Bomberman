@@ -110,7 +110,13 @@ void MapSelectorState::init(){
                 std::string fileName = entry.path().u8string();
                 std::vector<std::vector<std::string>> map = makeMap(entry.path().u8string());
                 //to add: scalable dimentions v
-                TileMap tileMap(sf::Vector2f(500, 50), sf::Vector2f(550, 550), gameData, map,sf::Vector2u(map.size(), map[0].size()));
+                TileMap tileMap(
+                    sf::Vector2f(Resource::screenWidth/7*3, Resource::screenHeight/5), 
+                    sf::Vector2f(Resource::screenHeight/5*3, Resource::screenHeight/5*3), 
+                    gameData, 
+                    map,
+                    sf::Vector2u(map.size(), map[0].size())
+                );
                 tileMapVector.push_back(tileMap);
 
 
@@ -137,9 +143,36 @@ void MapSelectorState::init(){
     spawnMapButtons();
 
     playButton.setTexture(gameData->assetManager.getTexture("default button"));
-    playButton.setPosition(750.0, 650.0);
+    playButton.setPosition(Resource::screenWidth/7*4.4, Resource::screenHeight/5*4.25);
+    playButton.setScale(
+        (gameData->window.getSize().x/gameData->assetManager.getTexture("default button").getSize().x)/5, 
+        (gameData->window.getSize().y/gameData->assetManager.getTexture("default button").getSize().y)/10
+    );
+    playButtonText.setFont(gameData->assetManager.getFont("default font"));
+    playButtonText.setString("Play");
+    playButtonText.setFillColor(sf::Color(255, 194, 0));
+    playButtonText.setStyle(sf::Text::Bold);
+    playButtonText.setOrigin(playButtonText.getGlobalBounds().width/2, playButtonText.getGlobalBounds().height/2);
+    playButtonText.setPosition(
+            (playButton.getPosition().x)+(playButton.getGlobalBounds().width/2), 
+            (playButton.getPosition().y)+(playButton.getGlobalBounds().height/3)
+    );
+
     returnButton.setTexture(gameData->assetManager.getTexture("default button"));
-    returnButton.setPosition(550.0, 650.0);
+    returnButton.setPosition(Resource::screenWidth/7*2.8, Resource::screenHeight/5*4.25);
+    returnButton.setScale(
+        (gameData->window.getSize().x/gameData->assetManager.getTexture("default button").getSize().x)/5, 
+        (gameData->window.getSize().y/gameData->assetManager.getTexture("default button").getSize().y)/10
+    );
+    returnButtonText.setFont(gameData->assetManager.getFont("default font"));
+    returnButtonText.setString("Back");
+    returnButtonText.setFillColor(sf::Color(255, 194, 0));
+    returnButtonText.setStyle(sf::Text::Bold);
+    returnButtonText.setOrigin(returnButtonText.getGlobalBounds().width/2, returnButtonText.getGlobalBounds().height/2);
+    returnButtonText.setPosition(
+        (returnButton.getPosition().x)+(returnButton.getGlobalBounds().width/2), 
+        (returnButton.getPosition().y)+(returnButton.getGlobalBounds().height/3)
+    );
 }
 
 void MapSelectorState::handleInput(){
@@ -175,7 +208,9 @@ void MapSelectorState::draw(float deltaTime){
 
     gameData->window.draw(background);
     gameData->window.draw(playButton);
+    gameData->window.draw(playButtonText);
     gameData->window.draw(returnButton);
+    gameData->window.draw(returnButtonText);
     for(unsigned short int i=0; i<menuOptions.size(); i++){
         gameData->window.draw(menuOptions[i]);
         gameData->window.draw(menuOptionsText[i]);
