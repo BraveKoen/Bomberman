@@ -1,7 +1,10 @@
 #include "../headers/game.hpp"
 #include "../headers/mainMenuState.hpp"
 
-Game::Game(int width, int height, std::string title){
+Game::Game(int width, int height, std::string title):
+    gameData{std::make_shared<GameData>()},
+    delta{1.0f / 60.0f}
+{
     gameData->window.create(sf::VideoMode(width, height), title, sf::Style::Close | sf::Style::Titlebar);
     gameData->stateMachine.addState(std::make_unique<MainMenuState>(gameData));
     gameData->assetManager.loadFont("default font", Resource::globalFont);

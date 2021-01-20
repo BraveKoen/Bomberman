@@ -1,15 +1,16 @@
 #include "../headers/player.hpp"
 
-Player::Player(gameDataRef data, std::shared_ptr<BombHandler> bombHandler, bool arrowKeys, sf::Vector2f spawnPosition):
-    data(data),
-    bombHandler(bombHandler),
-    arrowKeys(arrowKeys),
-    playerPosition(spawnPosition)
+Player::Player(gameDataRef data, std::shared_ptr<BombHandler> bombHandler, bool arrowKeys, const sf::Vector2f& spawnPosition):
+    data{data},
+    bombHandler{bombHandler},
+    arrowKeys{arrowKeys},
+    playerPosition{spawnPosition}
 {
     playerSprite.setTexture(data->assetManager.getTexture("player"));
     auto tileSize = data->tileMap.getTileMapSize().x / data->tileMap.getMapSize().x;
-    playerSprite.setScale(tileSize / data->assetManager.getTexture("player").getSize().x, tileSize / data->assetManager.getTexture("player").getSize().y);
+    playerSprite.setScale(tileSize / data->assetManager.getTexture("player").getSize().x / 2, tileSize / data->assetManager.getTexture("player").getSize().y / 2);
     playerSprite.setOrigin(data->assetManager.getTexture("player").getSize().x / 2, data->assetManager.getTexture("player").getSize().y / 2);
+    playerSprite.setPosition(playerPosition);
 }
 
 void Player::draw() {
@@ -28,15 +29,15 @@ void Player::setHealth(uint8_t health){
     playerHealth = health;
 }
 
-int Player::getHealth(){
+int Player::getHealth() const {
     return playerHealth;
 }
 
-void Player::setPosition(sf::Vector2f pos){
+void Player::setPosition(const sf::Vector2f& pos){
     playerSprite.setPosition(pos);
 }
 
-sf::Vector2f Player::getPosition(){
+const sf::Vector2f& Player::getPosition() const {
     return playerPosition;
 }
 
@@ -44,20 +45,36 @@ void Player::setMovementSpeed(uint8_t speed) {
     movementSpeed = speed;   
 }
 
-int Player::getMovementSpeed(){
+int Player::getMovementSpeed() const {
     return movementSpeed;
 }
 
-void Player::playerMove(){
+sf::Sprite& Player::getSprite(){
+    return playerSprite;
+}
+
+bool Player::playerMove(){
     if(arrowKeys){
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)){
+            prevPosition = playerPosition;
             playerPosition.y -= movementSpeed;
+            playerSprite.setPosition(playerPosition);
+            return true;
         }else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)){
+            prevPosition = playerPosition;
             playerPosition.y += movementSpeed;
+            playerSprite.setPosition(playerPosition);
+            return true;
         }else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)){
+            prevPosition = playerPosition;
             playerPosition.x += movementSpeed;
+            playerSprite.setPosition(playerPosition);
+            return true;
         }else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)){
+            prevPosition = playerPosition;
             playerPosition.x -= movementSpeed;
+            playerSprite.setPosition(playerPosition);
+            return true;
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::RControl) && !bombCooldown){
             bombHandler->createBomb(playerId, 4, 4, 2, playerPosition); 
@@ -66,13 +83,25 @@ void Player::playerMove(){
         }
     }else{
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)){
+            prevPosition = playerPosition;
             playerPosition.y -= movementSpeed;
+            playerSprite.setPosition(playerPosition);
+            return true;
         }else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)){
+            prevPosition = playerPosition;
             playerPosition.y += movementSpeed;
+            playerSprite.setPosition(playerPosition);
+            return true;
         }else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)){
+            prevPosition = playerPosition;
             playerPosition.x += movementSpeed;
+            playerSprite.setPosition(playerPosition);
+            return true;
         }else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)){
+            prevPosition = playerPosition;
             playerPosition.x -= movementSpeed;
+            playerSprite.setPosition(playerPosition);
+            return true;
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) && !bombCooldown){
             bombHandler->createBomb(playerId, 4, 4, 2, playerPosition);   
@@ -80,5 +109,10 @@ void Player::playerMove(){
             timeBombPlaced = clock.getElapsedTime().asSeconds();
         }
     }
+    return false;
+}
+
+void Player::revertMove() {
+    playerPosition = prevPosition;
     playerSprite.setPosition(playerPosition);
 }

@@ -19,13 +19,12 @@ namespace Resource {
     constexpr auto breakable = "resources/break.png";
     constexpr auto play1 = "resources/play1.png";
     constexpr auto play2 = "resources/play2.png";
-    constexpr auto mapBackground = "resources/mapBackground.png";
     constexpr auto dynamite = "resources/dynamite.png";
     constexpr auto biem = "resources/biem.png";
+    constexpr auto mapBackground = "resources/mapBackground.png";
 
     constexpr auto defaultBackground = "resources/defaultBackground.png";
     constexpr auto defaultButton = "resources/defaultButton.png";
-    constexpr auto mapSelectorStateOptionFilepath = "resources/mapSelectorStateMenuButton.png";
 }
 
 #endif // __DEFINITIONS_HPP__

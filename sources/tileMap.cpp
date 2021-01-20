@@ -1,5 +1,6 @@
 #include "../headers/tileMap.hpp"
 #include "../headers/game.hpp"
+#include "../headers/tile.hpp"
 
 void TileMap::expandTileMap(){
     for(unsigned int i=0; i<mapSize.x; i++){
@@ -30,11 +31,11 @@ TileMap::TileMap(sf::Vector2f position, sf::Vector2f size, gameDataRef gameData,
     size(size),
     gameData(gameData),
     mapSize(mapSize)
-    {
-        expandTileMap();
-        background.setTexture(gameData->assetManager.getTexture("background"));
-        processSizeAndPositionChanges();
-    }
+{
+    expandTileMap();
+    background.setTexture(gameData->assetManager.getTexture("background"));
+    processSizeAndPositionChanges();
+}
 
 TileMap::TileMap(sf::Vector2f position, sf::Vector2f size, gameDataRef gameData, std::vector<std::vector<std::string>> newMap, sf::Vector2u mapSize):
     position(position),
@@ -144,12 +145,12 @@ std::vector<sf::Vector2u> TileMap::searchForType(const std::string & type){
 
 std::vector<Tile> TileMap::getSurroundings(const sf::Vector2u & tilePosition, const unsigned int & range, const bool & includeEmpty){
     std::vector<Tile> surroundings;
-    int xStart = tilePosition.x-range;  if(xStart < 0) xStart=0;
-    int xEnd = tilePosition.x+range;    if(xEnd > mapSize.x) xEnd=mapSize.x;
-    int yStart = tilePosition.y-range;  if(yStart < 0) yStart=0;
-    int yEnd = tilePosition.y+range;    if(yEnd > mapSize.y) yEnd=mapSize.y;
-    for(unsigned int i=xStart; i<xEnd; i++){
-        for(unsigned int j=yStart; j<yEnd; j++){
+    const auto xStart = tilePosition.x < range ? 0 : tilePosition.x-range;
+    const auto yStart = tilePosition.y < range ? 0 : tilePosition.y-range;
+    auto xEnd = tilePosition.x+range; if(xEnd > mapSize.x) xEnd=mapSize.x;
+    auto yEnd = tilePosition.y+range; if(yEnd > mapSize.y) yEnd=mapSize.y;
+    for(auto i=xStart; i<=xEnd; i++){
+        for(auto j=yStart; j<=yEnd; j++){
             if(map[i][j].getType() != "empty" || includeEmpty){
                 surroundings.push_back(map[i][j]);
             }

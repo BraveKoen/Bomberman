@@ -5,23 +5,21 @@
 #include "game.hpp"
 #include "bombHandler.hpp"
 
-class Character{
+class Character {
 public:
-    Character(){}
-    ~Character(){}
+    Character() = default;
 
 private:
-
     virtual void draw() = 0;
 
     virtual void setHealth(uint8_t health) = 0;
-    virtual int getHealth() = 0;
+    virtual int getHealth() const = 0;
     
-    virtual void setPosition(sf::Vector2f pos) = 0;
-    virtual sf::Vector2f getPosition() = 0;
+    virtual void setPosition(const sf::Vector2f& pos) = 0;
+    virtual const sf::Vector2f& getPosition() const = 0;
 
     virtual void setMovementSpeed(uint8_t speed) = 0;
-    virtual int getMovementSpeed() = 0;
+    virtual int getMovementSpeed() const = 0;
 };
 
 #endif // __CHARACTER_HPP__

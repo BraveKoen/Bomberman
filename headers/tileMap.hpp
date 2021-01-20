@@ -8,6 +8,7 @@
 #include <iostream>
 #include "tile.hpp"
 #include "definitions.hpp"
+#include "tile.hpp"
 
 class TileMap{
 private:
@@ -20,7 +21,7 @@ private:
     void expandTileMap();
     void processSizeAndPositionChanges();
 public:
-    TileMap(){}
+    TileMap() = default;
     TileMap(sf::Vector2f position, sf::Vector2f size, gameDataRef gameData, sf::Vector2u mapSize=sf::Vector2u(15,15));
     TileMap(sf::Vector2f position, sf::Vector2f size, gameDataRef gameData, std::vector<std::vector<std::string>> newMap, sf::Vector2u mapSize=sf::Vector2u(15,15));
     //Screen coords vs tile coords math functions

@@ -12,16 +12,16 @@ public:
     Tile(std::string type="empty", sf::Sprite sprite=sf::Sprite());
 
     void setType(std::string newType);
-    std::string getType();
+    const std::string& getType() const;
     void setTexture(const sf::Texture & newTexture);
-    const sf::Texture* getTexture();
+    const sf::Texture* getTexture() const;
     void setPosition(const sf::Vector2f & newPosition);
-    sf::Vector2f getPosition();
+    const sf::Vector2f& getPosition() const;
     void setScale(const sf::Vector2f & newScale);
-    sf::Vector2f getScale();
-    sf::Vector2f getSize();
-    sf::FloatRect getBounds();
-    void draw(sf::RenderWindow & window);
+    const sf::Vector2f& getScale() const;
+    const sf::Vector2f getSize() const;
+    const sf::FloatRect getBounds() const;
+    void draw(sf::RenderWindow & window) const;
 };
 
 #endif // __TILE_HPP__

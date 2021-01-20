@@ -1,7 +1,8 @@
 #include "../headers/inGameState.hpp"
+#include "../headers/tileMap.hpp"
 
 InGameState::InGameState(gameDataRef gameData):
-    gameData(gameData)
+    gameData{gameData}
 {}
 
 void InGameState::init(){
@@ -11,12 +12,14 @@ void InGameState::init(){
     
     bHandler = std::make_shared<BombHandler>(gameData);
 
+    gameData->tileMap.setTileMapPosition(sf::Vector2f(0, 0));
+    gameData->tileMap.setTileMapSize(sf::Vector2f(Resource::screenHeight, Resource::screenHeight));
 
-   //needs to be fixed! 
+    //needs to be fixed! 
     bool useArrowKeys = 0;
 
     auto posTileMap = gameData->tileMap.searchForType("play1");
-    auto spawnLoc = sf::Vector2f{10,10};
+    auto spawnLoc = sf::Vector2f{0, 0};
     if(posTileMap.size() > 0){
         spawnLoc = gameData->tileMap.tilePosToScreenPos(posTileMap[0]);
     }
@@ -36,41 +39,42 @@ void InGameState::init(){
         gameData->window.getSize().x/mapSelectorStateBackgroundSize.x, 
         gameData->window.getSize().y/mapSelectorStateBackgroundSize.y
     );
-    gameData->tileMap.setTileMapPosition(sf::Vector2f(0, 0));
-    gameData->tileMap.setTileMapSize(sf::Vector2f(Resource::screenHeight, Resource::screenHeight));
 }
 
 void InGameState::handleInput(){
-        sf::Event event;
+    sf::Event event;
+
     while (gameData->window.pollEvent(event)) {
-        if (sf::Event::Closed == event.type){
+        if (sf::Event::Closed == event.type) {
             gameData->window.close();
         }
-    }   
+    }
 }
 
-void InGameState::update(float delta){
+void InGameState::update(float delta) {
     (void)delta;
-    for(auto &player : players){
-        player->playerMove();
+    for (const auto& player : players) {
+        if (player->playerMove()
+        and collision.isSpriteColliding(player->getSprite(),
+            gameData->tileMap.getSurroundings(player->getPosition()))
+        ) {
+            player->revertMove();
+        }
         player->update();
     }
-    return;
 }
 
-void InGameState::draw(float delta){
+void InGameState::draw(float delta) {
     (void)delta;
     gameData->window.clear();
     gameData->window.draw(background); //idk of dit handig is
-    //drawTileMap(gameData->tileMap , gameData, true);
     gameData->tileMap.draw();
 
     bHandler->update();
     bHandler->draw();
 
-    for(auto &player : players){
+    for (const auto &player : players) {
         player->draw();
     }
-
     gameData->window.display();
 }
