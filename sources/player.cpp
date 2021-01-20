@@ -115,7 +115,7 @@ bool Player::playerMove(){
             return true;
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) && !bombCooldown){
-            bombHandler->createBomb(playerId, 2, 3, 2, playerPosition);   
+            bombHandler->createBomb(playerId, 3, 3, 2, playerPosition);   
             bombCooldown = true;
             timeBombPlaced = clock.getElapsedTime().asSeconds();
         }

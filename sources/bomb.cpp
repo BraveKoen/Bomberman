@@ -38,9 +38,7 @@ void Bomb::explode() {
     destroyedTiles.push_back(sf::Vector2u{posVec.x, posVec.y});
     data->tileMap.setTile(sf::Vector2u{posVec.x, posVec.y}, "biem");
     for(int i = 1; i < (lengthX); i++){ // X as
-        if((posVec.x + i) >= tileMapLenght.x){
-            continue;
-        }else if(!destroyedX){
+        if(!destroyedX && (posVec.x + i) >! tileMapLenght.x){
             if(data->tileMap.getTile(sf::Vector2u{posVec.x + i, posVec.y}).getType() != "solid"){
                 destroyedTiles.push_back(sf::Vector2u{posVec.x + i, posVec.y});
                 if(data->tileMap.getTile(sf::Vector2u{posVec.x + i, posVec.y}).getType() == "break"){
@@ -53,9 +51,7 @@ void Bomb::explode() {
                 destroyedX = true;
             }
         }
-        if(posVec.x == 0){
-            continue;
-        }else if(!destroyedXL){
+        if(!destroyedXL && (posVec.x != 0)){
             if(data->tileMap.getTile(sf::Vector2u{posVec.x - i, posVec.y}).getType() != "solid"){
                 destroyedTiles.push_back(sf::Vector2u{posVec.x - i, posVec.y});
                 if(data->tileMap.getTile(sf::Vector2u{posVec.x - i, posVec.y}).getType() == "break"){
@@ -70,32 +66,29 @@ void Bomb::explode() {
             }
         }
     }
-    for(int i = 1; i < (lengthY); i++){ // Y as
-        if((posVec.y + i) >= tileMapLenght.y){
-            continue;
-        }else if(!destroyedY){
-            if(data->tileMap.getTile(sf::Vector2u{posVec.x, posVec.y + i}).getType() != "solid"){
-                destroyedTiles.push_back(sf::Vector2u{posVec.x, posVec.y + i});
-                if(data->tileMap.getTile(sf::Vector2u{posVec.x, posVec.y + i}).getType() == "break"){
-                    data->tileMap.setTile(sf::Vector2u{posVec.x, posVec.y + i}, "biem");
+    for(int j = 1; j < (lengthY); j++){ // Y as
+        if(!destroyedY && ((posVec.y + j) >! tileMapLenght.y)){
+            if(data->tileMap.getTile(sf::Vector2u{posVec.x, posVec.y + j}).getType() != "solid"){
+                destroyedTiles.push_back(sf::Vector2u{posVec.x, posVec.y + j});
+                if(data->tileMap.getTile(sf::Vector2u{posVec.x, posVec.y + j}).getType() == "break"){
+                    data->tileMap.setTile(sf::Vector2u{posVec.x, posVec.y + j}, "biem");
                     destroyedY = true;       
                 }else{
-                    data->tileMap.setTile(sf::Vector2u{posVec.x, posVec.y + i}, "biem");
+                    data->tileMap.setTile(sf::Vector2u{posVec.x, posVec.y + j}, "biem");
                 }     
             }else{
                 destroyedY = true;
             }
         }
-        if(posVec.y == 0){
-            continue;
-        }else if(!destroyedYL){
-            if(data->tileMap.getTile(sf::Vector2u{posVec.x, posVec.y - i}).getType() != "solid"){
-                destroyedTiles.push_back(sf::Vector2u{posVec.x, posVec.y - i});
-                if(data->tileMap.getTile(sf::Vector2u{posVec.x, posVec.y - i}).getType() == "break"){
-                    data->tileMap.setTile(sf::Vector2u{posVec.x, posVec.y - i}, "biem");
+
+        if(!destroyedYL && (posVec.y != 0)){
+            if(data->tileMap.getTile(sf::Vector2u{posVec.x, posVec.y - j}).getType() != "solid"){
+                destroyedTiles.push_back(sf::Vector2u{posVec.x, posVec.y - j});
+                if(data->tileMap.getTile(sf::Vector2u{posVec.x, posVec.y - j}).getType() == "break"){
+                    data->tileMap.setTile(sf::Vector2u{posVec.x, posVec.y - j}, "biem");
                     destroyedYL = true;
                 }else{
-                    data->tileMap.setTile(sf::Vector2u{posVec.x, posVec.y - i}, "biem");
+                    data->tileMap.setTile(sf::Vector2u{posVec.x, posVec.y - j}, "biem");
                 }     
             }else{
                 destroyedYL = true;
