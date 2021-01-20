@@ -45,9 +45,9 @@ public:
 
     std::vector<sf::Vector2u> searchForType(const std::string & type);
 
-    std::vector<Tile> getSurroundings(const sf::Vector2u & tilePosition, const unsigned int & range, const bool & includeEmpty);
-    std::vector<Tile> getSurroundings(const sf::Vector2f & screenPosition, const unsigned int & range=1, const bool & includeEmpty=false); //range is the number of tiles away from the position we return (including corners). 
-                                                                                                                                  //includeEmpty means to include tiles with type "empty" and textureless sprites (dont draw these!)
+    std::vector<Tile> getSurroundings(const sf::Vector2u & tilePosition, const std::vector<std::string> & exclusions, const unsigned int & range = 1);
+    std::vector<Tile> getSurroundings(const sf::Vector2f & screenPosition, const std::vector<std::string> & exclusions, const unsigned int & range = 1); //range is the number of tiles away from the position we return (including corners). 
+                                                                                                                                  //exclusions are the types to exclude from return
     void draw(bool drawPlayerSpawns=false);
 };
 

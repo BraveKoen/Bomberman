@@ -19,6 +19,8 @@ public:
 
     void update();
 
+    bool checkBombCollition(const sf::Sprite& target);
+
 private:
 
     std::vector<std::unique_ptr<Bomb>> bombs;

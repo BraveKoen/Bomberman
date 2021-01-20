@@ -7,6 +7,7 @@ InGameState::InGameState(gameDataRef gameData):
 
 void InGameState::init(){
     gameData->assetManager.loadTexture("player", Resource::play1);
+    gameData->assetManager.loadTexture("opponent", Resource::play2);
     gameData->assetManager.loadTexture("dynamite", Resource::dynamite);
     gameData->assetManager.loadTexture("biem", Resource::biem);
     
@@ -14,19 +15,22 @@ void InGameState::init(){
 
     gameData->tileMap.setTileMapPosition(sf::Vector2f(0, 0));
     gameData->tileMap.setTileMapSize(sf::Vector2f(Resource::screenHeight, Resource::screenHeight));
-<<<<<<< 10fa9c9a59fed2b237e9d585c0b62c0cbdde06f1
 
     //needs to be fixed! 
     bool useArrowKeys = 0;
-=======
->>>>>>> server
 
     auto posTileMap = gameData->tileMap.searchForType("play1");
-    auto spawnLoc = sf::Vector2f{0, 0};
+    auto spawnLocPlayer = sf::Vector2f{0, 0};
+    auto spawnLocOpponent = sf::Vector2f{200, 0};
     if(posTileMap.size() > 0){
-        spawnLoc = gameData->tileMap.tilePosToScreenPos(posTileMap[0]);
+
+        spawnLocPlayer = gameData->tileMap.tilePosToScreenPos(posTileMap[0]);
+        spawnLocOpponent = gameData->tileMap.tilePosToScreenPos(posTileMap[1]);
+        
     }
-    players.push_back(std::make_unique<Player>(gameData, bHandler, false, spawnLoc));
+
+    players.push_back(std::make_unique<Player>(gameData, bHandler, false, spawnLocPlayer));
+    opponents.push_back(std::make_unique<Opponent>(gameData, bHandler, spawnLocOpponent));
 
     background.setTexture(gameData->assetManager.getTexture("default background"));
     sf::Vector2f mapSelectorStateBackgroundSize = sf::Vector2f( 
@@ -37,10 +41,6 @@ void InGameState::init(){
         gameData->window.getSize().x/mapSelectorStateBackgroundSize.x, 
         gameData->window.getSize().y/mapSelectorStateBackgroundSize.y
     );
-<<<<<<< 10fa9c9a59fed2b237e9d585c0b62c0cbdde06f1
-=======
-    
->>>>>>> server
 }
 
 void InGameState::handleInput(){
@@ -56,10 +56,7 @@ void InGameState::handleInput(){
 void InGameState::update(float delta) {
     (void)delta;
     for (const auto& player : players) {
-        if (player->playerMove()
-        and collision.isSpriteColliding(player->getSprite(),
-            gameData->tileMap.getSurroundings(player->getPosition()))
-        ) {
+        if (player->playerMove() and collision.isSpriteColliding(player->getSprite(), gameData->tileMap.getSurroundings(player->getPosition(), {"biem", "empty", "play1"}))){
             player->revertMove();
         }
         player->update();
@@ -77,6 +74,10 @@ void InGameState::draw(float delta) {
 
     for (const auto &player : players) {
         player->draw();
+    }
+
+    for (const auto &opponent : opponents) {
+        opponent->draw();
     }
     gameData->window.display();
 }

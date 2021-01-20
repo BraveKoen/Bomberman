@@ -8,7 +8,7 @@
 
 class Opponent : public Character{
 public:
-    Opponent(gameDataRef data);
+    Opponent(gameDataRef data, std::shared_ptr<BombHandler> bombHandler, const sf::Vector2f& spawnPosition);
     // ~Opponent();
 
     void draw() override;
@@ -24,6 +24,7 @@ public:
 
 private:
     gameDataRef data; //the data
+    std::shared_ptr<BombHandler> bombHandler;
     sf::Sprite opponentSprite;
     sf::Vector2f opponentPosition;
     uint16_t movementSpeed = 2;

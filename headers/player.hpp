@@ -11,7 +11,6 @@
 class Player : public Character {
 public:
     Player(gameDataRef data, std::shared_ptr<BombHandler> bombHandler, bool arrowkeys, const sf::Vector2f& spawnPosition);
-    // ~Player(){std::cout << "PlayerDespt" << std::endl;}
 
     void draw() override;
     void update();
@@ -37,12 +36,15 @@ private:
     bool arrowKeys;
     sf::Vector2f playerPosition;
     sf::Vector2f prevPosition;
-    uint16_t movementSpeed = 4;
+    uint16_t movementSpeed;
     uint8_t playerHealth = 100;
     int playerId = 69;
     sf::Clock clock;
     float timeBombPlaced;
     bool bombCooldown = false;
+
+    bool playerHit = false;
+    float timePlayerHit;
 };
 
 #endif // __PLAYER_HPP__

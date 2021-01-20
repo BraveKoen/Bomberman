@@ -143,24 +143,33 @@ std::vector<sf::Vector2u> TileMap::searchForType(const std::string & type){
     return positions;
 }
 
-std::vector<Tile> TileMap::getSurroundings(const sf::Vector2u & tilePosition, const unsigned int & range, const bool & includeEmpty){
+std::vector<Tile> TileMap::getSurroundings(const sf::Vector2u & tilePosition, const std::vector<std::string> & exclusions, const unsigned int & range){
     std::vector<Tile> surroundings;
     const auto xStart = tilePosition.x < range ? 0 : tilePosition.x-range;
     const auto yStart = tilePosition.y < range ? 0 : tilePosition.y-range;
     auto xEnd = tilePosition.x+range; if(xEnd > mapSize.x) xEnd=mapSize.x;
     auto yEnd = tilePosition.y+range; if(yEnd > mapSize.y) yEnd=mapSize.y;
+    bool pushBack = true;
     for(auto i=xStart; i<=xEnd; i++){
         for(auto j=yStart; j<=yEnd; j++){
-            if(map[i][j].getType() != "empty" || includeEmpty){
+            for(std::string type : exclusions){
+                if(map[i][j].getType() == type){
+                    pushBack = false;
+                    break;
+                }
+            }
+            if(pushBack){
                 surroundings.push_back(map[i][j]);
+            }else{
+                pushBack = true;
             }
         }
     }
     return surroundings;
 }
 
-std::vector<Tile> TileMap::getSurroundings(const sf::Vector2f & screenPosition, const unsigned int & range, const bool & includeEmpty){
-    return getSurroundings(screenPosToTilePos(screenPosition), range, includeEmpty);
+std::vector<Tile> TileMap::getSurroundings(const sf::Vector2f & screenPosition, const std::vector<std::string> & exclusions, const unsigned int & range){
+    return getSurroundings(screenPosToTilePos(screenPosition), exclusions, range);
 }
 
 void TileMap::draw(bool drawPlayerSpawns){
