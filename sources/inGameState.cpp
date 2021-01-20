@@ -15,22 +15,23 @@ void InGameState::init(){
 
     gameData->tileMap.setTileMapPosition(sf::Vector2f(0, 0));
     gameData->tileMap.setTileMapSize(sf::Vector2f(Resource::screenHeight, Resource::screenHeight));
-<<<<<<< 10fa9c9a59fed2b237e9d585c0b62c0cbdde06f1
 
     //needs to be fixed! 
     bool useArrowKeys = 0;
-=======
->>>>>>> server
 
     auto posTileMap = gameData->tileMap.searchForType("play1");
     auto spawnLocPlayer = sf::Vector2f{0, 0};
     auto spawnLocOpponent = sf::Vector2f{200, 0};
     if(posTileMap.size() > 0){
+<<<<<<< dc188b03a001ecdc826d23da2fc28485735c6dce
 <<<<<<< 94e0fd9b996c98dbe4f8af7079f0facf6407dd16
+=======
+>>>>>>> bomb hit player
 
         spawnLocPlayer = gameData->tileMap.tilePosToScreenPos(posTileMap[0]);
         spawnLocOpponent = gameData->tileMap.tilePosToScreenPos(posTileMap[1]);
         
+<<<<<<< dc188b03a001ecdc826d23da2fc28485735c6dce
     }
 
     players.push_back(std::make_unique<Player>(gameData, bHandler, false, spawnLocPlayer));
@@ -38,8 +39,12 @@ void InGameState::init(){
 
 =======
         spawnLoc = gameData->tileMap.tilePosToScreenPos(posTileMap[0]);
+=======
+>>>>>>> bomb hit player
     }
-    players.push_back(std::make_unique<Player>(gameData, bHandler, false, spawnLoc));
+
+    players.push_back(std::make_unique<Player>(gameData, bHandler, false, spawnLocPlayer));
+    opponents.push_back(std::make_unique<Opponent>(gameData, bHandler, spawnLocOpponent));
 
 >>>>>>> server
     background.setTexture(gameData->assetManager.getTexture("default background"));
@@ -51,10 +56,6 @@ void InGameState::init(){
         gameData->window.getSize().x/mapSelectorStateBackgroundSize.x, 
         gameData->window.getSize().y/mapSelectorStateBackgroundSize.y
     );
-<<<<<<< 10fa9c9a59fed2b237e9d585c0b62c0cbdde06f1
-=======
-    
->>>>>>> server
 }
 
 void InGameState::handleInput(){
