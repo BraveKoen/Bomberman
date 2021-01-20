@@ -9,6 +9,7 @@ void InGameState::init(){
     gameData->assetManager.loadTexture("player", Resource::play1);
     gameData->assetManager.loadTexture("dynamite", Resource::dynamite);
     gameData->assetManager.loadTexture("biem", Resource::biem);
+    gameData->assetManager.loadTexture("bomb", Resource::bombSprite);
     
     bHandler = std::make_shared<BombHandler>(gameData);
 

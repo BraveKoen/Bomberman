@@ -17,8 +17,7 @@ Bomb::Bomb(gameDataRef data, int playerId, int lenghtX, int lenghtY, float explo
 }
 
 void Bomb::draw(){
-    data->window.draw(animatedSprite);
-    animatedSprite.update(sf::seconds(1000.0f));
+    data->window.draw(bombSprite);
 }
 
 void Bomb::setPos(sf::Vector2f pos){
