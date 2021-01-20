@@ -29,6 +29,9 @@ public:
 
     bool bombColliding(const sf::Sprite& target);
     void animateFuse();
+    void animateExplosion();
+
+    bool getPrimed();
 
 private:
 
@@ -45,11 +48,13 @@ private:
     sf::Vector2f bombPosition;
 
     std::vector<sf::Vector2u> destroyedTiles;
-
-    bool isDone = false;
+    bool explodeAnimation = false;
+    bool primed = false;
 
     std::vector<sf::Texture> bombFuseAnimation;
     unsigned int bombFuseAnimationIterator;
+    std::vector<sf::Texture> bombExplosionAnimation;
+    unsigned int bombExplosionAnimationIterator;
     sf::Clock clock;    
 };
 

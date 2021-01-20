@@ -8,12 +8,15 @@ InGameState::InGameState(gameDataRef gameData):
 void InGameState::init(){
     gameData->assetManager.loadTexture("player", Resource::play1);
     gameData->assetManager.loadTexture("opponent", Resource::play2);
-    gameData->assetManager.loadTexture("dynamite", Resource::dynamite);
     gameData->assetManager.loadTexture("biem", Resource::biem);
-    gameData->assetManager.loadTexture("bomb frame 1", Resource::bombFuseSprite1);
-    gameData->assetManager.loadTexture("bomb frame 2", Resource::bombFuseSprite2);
-    gameData->assetManager.loadTexture("bomb frame 3", Resource::bombFuseSprite3);
-    gameData->assetManager.loadTexture("bomb frame 4", Resource::bombFuseSprite4);
+    gameData->assetManager.loadTexture("bomb fuse frame 1", Resource::bombFuseSprite1);
+    gameData->assetManager.loadTexture("bomb fuse frame 2", Resource::bombFuseSprite2);
+    gameData->assetManager.loadTexture("bomb fuse frame 3", Resource::bombFuseSprite3);
+    gameData->assetManager.loadTexture("bomb fuse frame 4", Resource::bombFuseSprite4);
+    gameData->assetManager.loadTexture("bomb explosion frame 1", Resource::bombExplosionSprite1);
+    gameData->assetManager.loadTexture("bomb explosion frame 2", Resource::bombExplosionSprite2);
+    gameData->assetManager.loadTexture("bomb explosion frame 3", Resource::bombExplosionSprite3);
+    gameData->assetManager.loadTexture("bomb explosion frame 4", Resource::bombExplosionSprite4);
     
     bHandler = std::make_shared<BombHandler>(gameData);
 
