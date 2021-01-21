@@ -165,6 +165,14 @@ void InGameState::updateOpponentLocation(){
     }
 }
 
+void InGameState::updateOpponentLocation(){
+    PlayerInfo opponentInfo;
+    while(true){
+        opponentInfo = gameData->server.receiveData();
+        std::cout << "ontvangen bericht!" << std::endl;
+    }
+}
+
 void InGameState::draw(float delta) {
     (void)delta;
     gameData->window.clear();

@@ -161,6 +161,7 @@ bool Player::playerMove(const float & delta){
     if(movementDirection.x==0 && movementDirection.y==0){
         return false;
     }else{
+
         prevPosition = playerPosition;
         playerPosition.x += movementDirection.x * movementSpeed * delta;
         playerPosition.y += movementDirection.y * movementSpeed * delta;
@@ -168,15 +169,6 @@ bool Player::playerMove(const float & delta){
         prevMovementDirection = movementDirection;
         movementDirection = {0,0};
         return true;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M)){
-            if(playerId == -1){
-                playerId = data->server.getPlayerId(playerId);
-            }  
-        }else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::F)){
-            playerId = -1;
-            data->server.playerDisconnect();
- 
-        }
     }
 }
 

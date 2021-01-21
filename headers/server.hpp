@@ -27,8 +27,6 @@ public:
     
     void run();
 
-    void runThread(){mThread = std::thread(&Server::run, this);};
-
     void sendData(PlayerInfo &playerInfo);
 
     void sendData(LobbyInfo &lobbyInfo);

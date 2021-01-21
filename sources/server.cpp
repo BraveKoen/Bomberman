@@ -33,22 +33,11 @@ Server::Server(sf::IpAddress ip, unsigned short port):
 }
 
 
-int Server::getPlayerId(int playerId){
+void Server::serverGetPlayerId(int playerId){
     lobby.playerId = playerId;
-    lobby.disconnected = false;
-    lobby.newPlayer = 3;
     sendPacket.clear();
     sendPacket << lobby;
     socket.send(sendPacket, server, port);
-    sf::Packet packetOntvanger;
-    sf::IpAddress ipOntvanger;
-    uint16_t portOntvanger;
-    if(socket.receive(packetOntvanger, ipOntvanger, portOntvanger) == sf::Socket::Done){
-        packetOntvanger >> lobby;
-        std::cout << lobby.playerId << std::endl;
-        return lobby.playerId;
-    }
-    return -1;
 }
 
 int Server::getPlayerId(int playerId){
@@ -86,7 +75,7 @@ PlayerInfo Server::receiveData(){
         sf::Packet packetOntvanger;
         sf::IpAddress ipOntvanger;
         uint16_t portOntvanger;
-        if(socket.receive(packetOntvanger, ipOntvanger, portOntvanger) != sf::Socket::Done){
+        if(socket.receive(packetOntvanger, ipOntvanger, portOntvanger) == sf::Socket::Done){
             packetOntvanger >> lobbyInfo;
             playerNumber = lobbyInfo.playerId;
             return playerInfo;

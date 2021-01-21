@@ -10,7 +10,9 @@
 #include "controlScheme.hpp"
 #include "collision.hpp"
 #include "utilities.hpp"
+
 #include "serverInfo.hpp"
+
 
 class Player : public Character {
 public:
