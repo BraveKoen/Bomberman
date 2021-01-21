@@ -30,7 +30,7 @@ public:
     void revertMove();
 
     void animateMovementDirection();
-    void animateMovement();
+    void animateMovement(std::vector<sf::IntRect> & animationRect, unsigned int & iterator);
 
 private:
     gameDataRef data;
