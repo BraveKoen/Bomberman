@@ -45,6 +45,15 @@ private:
 
     bool playerHit = false;
     float timePlayerHit;
+
+    std::vector<sf::Texture> playerUpAnimation;
+    unsigned int playerUpAnimationIterator;
+    std::vector<sf::Texture> playerDownAnimation;
+    unsigned int playerDownAnimationIterator;
+    std::vector<sf::Texture> playerLeftAnimation;
+    unsigned int playerLeftAnimationIterator;
+    std::vector<sf::Texture> playerRightAnimation;
+    unsigned int playerRightAnimationIterator;
 };
 
 #endif // __PLAYER_HPP__

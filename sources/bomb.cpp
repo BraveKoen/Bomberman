@@ -20,25 +20,26 @@ Bomb::Bomb(
     auto tileSize = data->tileMap.getTileMapSize().x / data->tileMap.getMapSize().x;
     
     bombFuseAnimationIterator = 0;
-    bombFuseAnimation.push_back(data->assetManager.getTexture("bomb fuse frame 1"));
-    bombFuseAnimation.push_back(data->assetManager.getTexture("bomb fuse frame 2"));
-    bombFuseAnimation.push_back(data->assetManager.getTexture("bomb fuse frame 3"));
-    bombFuseAnimation.push_back(data->assetManager.getTexture("bomb fuse frame 4"));
-    
-    bombExplosionAnimationIterator = 0;
-    bombExplosionAnimation.push_back(data->assetManager.getTexture("bomb explosion frame 1"));
-    bombExplosionAnimation.push_back(data->assetManager.getTexture("bomb explosion frame 2"));
-    bombExplosionAnimation.push_back(data->assetManager.getTexture("bomb explosion frame 3"));
-    bombExplosionAnimation.push_back(data->assetManager.getTexture("bomb explosion frame 4"));
+    bombFuseAnimationRects.push_back(sf::IntRect(0, 0, 450, 375));
+    bombFuseAnimationRects.push_back(sf::IntRect(450, 0, 450, 375));
+    bombFuseAnimationRects.push_back(sf::IntRect(0, 375, 450, 375));
+    bombFuseAnimationRects.push_back(sf::IntRect(450, 375, 450, 375));
 
-    bombSprite.setTexture(bombFuseAnimation.at(bombFuseAnimationIterator));
+    bombExplosionAnimationIterator = 0;
+    bombExplosionAnimationRects.push_back(sf::IntRect(0, 750, 450, 375));
+    bombExplosionAnimationRects.push_back(sf::IntRect(450, 750, 450, 375));
+    bombExplosionAnimationRects.push_back(sf::IntRect(0, 1125, 450, 375));
+    bombExplosionAnimationRects.push_back(sf::IntRect(450, 1125, 450, 375));
+
+    bombSprite.setTexture(data->assetManager.getTexture("bomb spritesheet"));
+    bombSprite.setTextureRect(bombFuseAnimationRects.at(bombFuseAnimationIterator));
     bombSprite.setScale(
-        tileSize / data->assetManager.getTexture("bomb fuse frame 1").getSize().x, 
-        tileSize / data->assetManager.getTexture("bomb fuse frame 1").getSize().y
+        tileSize / data->assetManager.getTexture("bomb spritesheet").getSize().x*2, 
+        tileSize / data->assetManager.getTexture("bomb spritesheet").getSize().y*4
     );
     bombSprite.setOrigin(
-        data->assetManager.getTexture("bomb fuse frame 1").getSize().x / 2, 
-        data->assetManager.getTexture("bomb fuse frame 1").getSize().y / 2
+        data->assetManager.getTexture("bomb spritesheet").getSize().x / 4, 
+        data->assetManager.getTexture("bomb spritesheet").getSize().y / 8
     );
     setPos(pos);
 }
@@ -160,25 +161,25 @@ bool Bomb::bombColliding(const sf::Sprite& target){
 }
     
 void Bomb::animateFuse(){
-    if (clock.getElapsedTime().asSeconds() > 0.5f/bombFuseAnimation.size()){
-        if(bombFuseAnimationIterator < bombFuseAnimation.size()-1){
+        if (clock.getElapsedTime().asSeconds() > 0.5f/bombFuseAnimationRects.size()){
+        if(bombFuseAnimationIterator < bombFuseAnimationRects.size()-1){
             bombFuseAnimationIterator++;
         }else{
             bombFuseAnimationIterator = 0;
         }
-        bombSprite.setTexture(bombFuseAnimation.at(bombFuseAnimationIterator));
+        bombSprite.setTextureRect(bombFuseAnimationRects.at(bombFuseAnimationIterator));
         clock.restart();
     }
 }
 
 void Bomb::animateExplosion(){
-    if (clock.getElapsedTime().asSeconds() > 0.5f/bombExplosionAnimation.size()){
-        if(bombExplosionAnimationIterator < bombExplosionAnimation.size()-1){
+    if (clock.getElapsedTime().asSeconds() > 0.5f/bombExplosionAnimationRects.size()){
+        if(bombExplosionAnimationIterator < bombExplosionAnimationRects.size()-1){
             bombExplosionAnimationIterator++;
         }else{
             bombExplosionAnimationIterator = 0;
         }
-        bombSprite.setTexture(bombExplosionAnimation.at(bombExplosionAnimationIterator));
+        bombSprite.setTextureRect(bombExplosionAnimationRects.at(bombExplosionAnimationIterator));
         clock.restart();
     }
 }

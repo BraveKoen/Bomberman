@@ -6,12 +6,31 @@ Player::Player(gameDataRef data, std::shared_ptr<BombHandler> bombHandler, bool 
     arrowKeys{arrowKeys},
     playerPosition{spawnPosition}
 {
-    playerSprite.setTexture(data->assetManager.getTexture("player"));
+    playerUpAnimationIterator = 0;
+    playerUpAnimation.push_back(data->assetManager.getTexture("player up 1"));
+    playerUpAnimation.push_back(data->assetManager.getTexture("player up 2"));
+    playerUpAnimation.push_back(data->assetManager.getTexture("player up 3"));
+    
+    playerDownAnimationIterator = 0;
+    playerDownAnimation.push_back(data->assetManager.getTexture("player down 1"));
+    playerDownAnimation.push_back(data->assetManager.getTexture("player down 2"));
+    playerDownAnimation.push_back(data->assetManager.getTexture("player down 3"));
+
+    playerLeftAnimationIterator = 0;
+    playerLeftAnimation.push_back(data->assetManager.getTexture("player left 1"));
+    playerLeftAnimation.push_back(data->assetManager.getTexture("player left 2"));
+    playerLeftAnimation.push_back(data->assetManager.getTexture("player left 3"));
+    
+    playerRightAnimationIterator = 0;
+    playerRightAnimation.push_back(data->assetManager.getTexture("player right 1"));
+    playerRightAnimation.push_back(data->assetManager.getTexture("player right 2"));
+    playerRightAnimation.push_back(data->assetManager.getTexture("player right 3"));
+
+    playerSprite.setTexture(playerDownAnimation.at(playerDownAnimationIterator));
     auto tileSize = data->tileMap.getTileMapSize().x / data->tileMap.getMapSize().x;
     playerSprite.setScale(tileSize / data->assetManager.getTexture("player").getSize().x / 2, tileSize / data->assetManager.getTexture("player").getSize().y / 2);
     playerSprite.setOrigin(data->assetManager.getTexture("player").getSize().x / 2, data->assetManager.getTexture("player").getSize().y / 2);
     playerSprite.setPosition(playerPosition);
-    std::cout << tileSize << std::endl;
     movementSpeed = tileSize / 36 + 1;
 }
 

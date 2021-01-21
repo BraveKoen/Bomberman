@@ -51,9 +51,9 @@ private:
     bool explodeAnimation = false;
     bool primed = false;
 
-    std::vector<sf::Texture> bombFuseAnimation;
+    std::vector<sf::IntRect> bombFuseAnimationRects;
     unsigned int bombFuseAnimationIterator;
-    std::vector<sf::Texture> bombExplosionAnimation;
+    std::vector<sf::IntRect> bombExplosionAnimationRects;
     unsigned int bombExplosionAnimationIterator;
     sf::Clock clock;    
 };

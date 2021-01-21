@@ -9,14 +9,19 @@ void InGameState::init(){
     gameData->assetManager.loadTexture("player", Resource::play1);
     gameData->assetManager.loadTexture("opponent", Resource::play2);
     gameData->assetManager.loadTexture("biem", Resource::biem);
-    gameData->assetManager.loadTexture("bomb fuse frame 1", Resource::bombFuseSprite1);
-    gameData->assetManager.loadTexture("bomb fuse frame 2", Resource::bombFuseSprite2);
-    gameData->assetManager.loadTexture("bomb fuse frame 3", Resource::bombFuseSprite3);
-    gameData->assetManager.loadTexture("bomb fuse frame 4", Resource::bombFuseSprite4);
-    gameData->assetManager.loadTexture("bomb explosion frame 1", Resource::bombExplosionSprite1);
-    gameData->assetManager.loadTexture("bomb explosion frame 2", Resource::bombExplosionSprite2);
-    gameData->assetManager.loadTexture("bomb explosion frame 3", Resource::bombExplosionSprite3);
-    gameData->assetManager.loadTexture("bomb explosion frame 4", Resource::bombExplosionSprite4);
+    gameData->assetManager.loadTexture("bomb spritesheet", Resource::bombSpritesheet);
+    gameData->assetManager.loadTexture("player up 1", Resource::playerUp1);
+    gameData->assetManager.loadTexture("player up 2", Resource::playerUp2);
+    gameData->assetManager.loadTexture("player up 3", Resource::playerUp3);
+    gameData->assetManager.loadTexture("player down 1", Resource::playerDown1);
+    gameData->assetManager.loadTexture("player down 2", Resource::playerDown2);
+    gameData->assetManager.loadTexture("player down 3", Resource::playerDown3);
+    gameData->assetManager.loadTexture("player left 1", Resource::playerLeft1);
+    gameData->assetManager.loadTexture("player left 2", Resource::playerLeft2);
+    gameData->assetManager.loadTexture("player left 3", Resource::playerLeft3);
+    gameData->assetManager.loadTexture("player right 1", Resource::playerRight1);
+    gameData->assetManager.loadTexture("player right 2", Resource::playerRight2);
+    gameData->assetManager.loadTexture("player right 3", Resource::playerRight3);
     
     bHandler = std::make_shared<BombHandler>(gameData);
 
