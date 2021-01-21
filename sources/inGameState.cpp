@@ -36,6 +36,7 @@ void InGameState::init() {
     gameData->tileMap.setTileMapPosition({hudFrame.x, 0});
     gameData->tileMap.setTileMapSize({Resource::screenHeight, Resource::screenHeight});
 
+<<<<<<< 6d6e5ed09cf6438ae9982e7d127de3dde4d12e0b
 <<<<<<< e8c4922490fa241efcc277eade25e65eda027da7
 <<<<<<< 401207f156896d1aa73d3ddc95e41f1a73dd93f4
     std::vector<ControlScheme> controlSchemes;
@@ -43,6 +44,9 @@ void InGameState::init() {
 =======
 >>>>>>> thread fixed
     gameData->server.runThread();
+=======
+    mThread = std::thread(&InGameState::updateOpponentLocation, this);
+>>>>>>> connection to server
 
     //needs to be fixed! 
     bool useArrowKeys = 0;
@@ -157,6 +161,14 @@ void InGameState::update(float delta) {
                 return;
             }
         }
+    }
+}
+
+void InGameState::updateOpponentLocation(){
+    PlayerInfo opponentInfo;
+    while(true){
+        opponentInfo = gameData->server.receiveData();
+        std::cout << "ontvangen bericht!" << std::endl;
     }
 }
 
