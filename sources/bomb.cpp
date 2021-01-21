@@ -159,6 +159,7 @@ bool Bomb::bombColliding(const sf::Sprite& target){
         }
     }
     return false;
+}
     
 void Bomb::animateFuse(){
     if (clock.getElapsedTime().asSeconds() > 0.5f/bombFuseAnimation.size()){
