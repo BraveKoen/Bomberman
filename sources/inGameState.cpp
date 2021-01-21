@@ -13,7 +13,7 @@ void InGameState::init(){
     //gameData->assetManager.loadTexture("opponent", Resource::play2); //More opponent stuff, this is all for the yet-to-be-implemented online multiplayer
     gameData->assetManager.loadTexture("dynamite", Resource::dynamite);
     gameData->assetManager.loadTexture("biem", Resource::biem);
-    gameData->assetManager.loadTexture("bomb", Resource::bombSprite);
+    gameData->assetManager.loadTexture("bomb spritesheet", Resource::bombSpritesheet);
 
     background.setTexture(gameData->assetManager.getTexture("default background"));
     background.setScale(
