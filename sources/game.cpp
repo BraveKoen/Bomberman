@@ -10,7 +10,7 @@ Game::Game(int width, int height, std::string title):
     gameData->assetManager.loadFont("default font", Resource::globalFont);
     gameData->assetManager.loadTexture("default background", Resource::defaultBackground);
     gameData->assetManager.loadTexture("default button", Resource::defaultButton);
-    gameData->playerCount=4;
+    gameData->playerCount=1;
     run();
 }
 
