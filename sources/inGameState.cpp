@@ -66,7 +66,7 @@ void InGameState::update(float delta) {
 void InGameState::draw(float delta) {
     (void)delta;
     gameData->window.clear();
-    gameData->window.draw(background); //idk of dit handig is
+    gameData->window.draw(background);
     gameData->tileMap.draw();
 
     bHandler->update();
