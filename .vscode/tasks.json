@@ -1,0 +1,169 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "debug",
+            "type": "shell",
+            "command": "",
+            "args": ["g++","-g", "${relativeFile}", "-o","a.exe"]
+        },
+        {
+            "label": "Compile and run",
+            "type": "shell",
+            "command": "",
+            "args": [
+                "g++","-g", "${relativeFile}", "-o","${fileBasenameNoExtension}.exe", "&&", "clear" , "&&" , "./${fileBasenameNoExtension}.exe"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true  
+            },
+            "problemMatcher": {
+                "owner": "cpp",
+                "fileLocation": ["relative", "${workspaceRoot}"],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            }
+        },{
+            "label": "Compile and run SFML",
+            "type": "shell",
+            "command": "",
+            "args": [
+                "g++","-std=c++17","-g", "${fileWorkspaceFolder}\\sources\\**.cpp", "-o","BomberMan.exe","-DSFML_STATIC",
+                "-IC:\\hu\\SFML-2.5.1-32\\include",
+                "-LC:\\hu\\SFML-2.5.1-32\\lib",
+                "-lsfml-main",
+                "-lsfml-graphics-s",
+                "-lsfml-window-s",
+                "-lsfml-system-s",
+                "-lsfml-network-s",
+                "-lsfml-audio-s",
+                "-static-libgcc",                
+                "-static-libstdc++",
+                "-static",
+                "-lws2_32",
+                "-lfreetype",
+                "-lwinpthread",
+                "-lopengl32",
+                "-lwinmm",
+                "-pthread",
+                "-lgdi32",
+                "-lstdc++fs", "&&", "clear" , "&&" , "./BomberMan.exe"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true  
+            },
+            "problemMatcher": {
+                "owner": "cpp",
+                "fileLocation": ["relative", "${workspaceRoot}"],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            }
+        },{
+            "label": "Object files and run SFML",
+            "type": "shell",
+            "command": "",
+            "args": [
+                "g++","-c", 
+                "${fileDirname}\\**.cpp",
+                "-DSFML_STATIC",
+                "-IC:\\SFML-2.5.1\\include",
+
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true  
+            },
+            "problemMatcher": {
+                "owner": "cpp",
+                "fileLocation": ["relative", "${workspaceRoot}"],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            }
+        },
+        {
+            "label": "Clean",
+            "type": "shell",
+            "command": "",
+            "args": [
+                "rm",
+                  "**.o"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true  
+            },
+            "problemMatcher": {
+                "owner": "cpp",
+                "fileLocation": ["relative", "${workspaceRoot}"],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            }
+        },{
+            "label": "Compile and run SFML TEST",
+            "type": "shell",
+            "command": "",
+            "args": [
+                "g++", "${fileDirname}\\..\\**.o" , "-o","${relativeFileDirname}.exe","-DSFML_STATIC",
+                "-IC:\\SFML-2.5.1\\include",
+                "-LC:\\SFML-2.5.1\\lib",
+                "-L",
+                "-lsfml-main",
+                "-lsfml-graphics-s",
+                "-lsfml-window-s",
+                "-lsfml-system-s",
+                "-lsfml-network-s",
+                "-lsfml-audio-s",
+                "-lws2_32",
+                "-lfreetype",
+                "-lwinpthread",
+                "-lopengl32",
+                "-lgdi32",
+                "-lwinmm",
+                "-lgdi32", "&&", "clear" , "&&" , "./${relativeFileDirname}.exe"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true  
+            },
+            "problemMatcher": {
+                "owner": "cpp",
+                "fileLocation": ["relative", "${workspaceRoot}"],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            }
+        }
+
+    ]
+}

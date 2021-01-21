@@ -7,9 +7,6 @@
 #include "../headers/utilities.hpp"
 #include "../headers/game.hpp"
 
-
-
-
 InGameState::InGameState(gameDataRef gameData):
     gameData{gameData},
     gameHud{gameData},
@@ -36,21 +33,9 @@ void InGameState::init() {
     gameData->tileMap.setTileMapPosition({hudFrame.x, 0});
     gameData->tileMap.setTileMapSize({Resource::screenHeight, Resource::screenHeight});
 
-<<<<<<< 6d6e5ed09cf6438ae9982e7d127de3dde4d12e0b
-<<<<<<< e8c4922490fa241efcc277eade25e65eda027da7
-<<<<<<< 401207f156896d1aa73d3ddc95e41f1a73dd93f4
     std::vector<ControlScheme> controlSchemes;
-=======
-=======
->>>>>>> thread fixed
-    gameData->server.runThread();
-=======
-    mThread = std::thread(&InGameState::updateOpponentLocation, this);
->>>>>>> connection to server
 
-    //needs to be fixed! 
-    bool useArrowKeys = 0;
->>>>>>> thread fixed
+    mThread = std::thread(&InGameState::updateOpponentLocation, this);
 
     controlSchemes.emplace_back(sf::Keyboard::Key::W, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::D, sf::Keyboard::Key::Space);
     controlSchemes.emplace_back(sf::Keyboard::Key::Up, sf::Keyboard::Key::Left, sf::Keyboard::Key::Down, sf::Keyboard::Key::Right, sf::Keyboard::Key::RControl);
