@@ -161,7 +161,7 @@ bool Bomb::bombColliding(const sf::Sprite& target){
 }
     
 void Bomb::animateFuse(){
-        if (clock.getElapsedTime().asSeconds() > 0.5f/bombFuseAnimationRects.size()){
+    if (clock.getElapsedTime().asSeconds() > 0.5f/bombFuseAnimationRects.size()){
         if(bombFuseAnimationIterator < bombFuseAnimationRects.size()-1){
             bombFuseAnimationIterator++;
         }else{

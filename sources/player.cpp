@@ -11,10 +11,45 @@ Player::Player(gameDataRef gameData, std::shared_ptr<BombHandler> bombHandler, C
     prevMovementDirection{sf::Vector2i(0,0)},
     placeBomb{true}
 {
-    playerSprite.setTexture(gameData->assetManager.getTexture(textureName));
-    auto tileSize = gameData->tileMap.getTileMapSize().x / gameData->tileMap.getMapSize().x;
-    playerSprite.setScale(tileSize / gameData->assetManager.getTexture(textureName).getSize().x / 2, tileSize / gameData->assetManager.getTexture(textureName).getSize().y / 2);
-    playerSprite.setOrigin(gameData->assetManager.getTexture(textureName).getSize().x / 2, gameData->assetManager.getTexture(textureName).getSize().y / 2);
+    // playerSprite.setTexture(gameData->assetManager.getTexture(textureName));
+    // auto tileSize = gameData->tileMap.getTileMapSize().x / gameData->tileMap.getMapSize().x;
+    // playerSprite.setScale(tileSize / gameData->assetManager.getTexture(textureName).getSize().x / 2, tileSize / gameData->assetManager.getTexture(textureName).getSize().y / 2);
+    // playerSprite.setOrigin(gameData->assetManager.getTexture(textureName).getSize().x / 2, gameData->assetManager.getTexture(textureName).getSize().y / 2);
+    playerUpAnimationIterator = 0;
+    playerUpAnimationRects.push_back(sf::IntRect(32, 96, 32, 32));
+    playerUpAnimationRects.push_back(sf::IntRect(64, 96, 32, 32));
+    playerUpAnimationRects.push_back(sf::IntRect(32, 96, 32, 32));
+    playerUpAnimationRects.push_back(sf::IntRect(0, 96, 32, 32));
+    
+    playerDownAnimationIterator = 0;
+    playerDownAnimationRects.push_back(sf::IntRect(32, 0, 32, 32));
+    playerDownAnimationRects.push_back(sf::IntRect(64, 0, 32, 32));
+    playerDownAnimationRects.push_back(sf::IntRect(32, 0, 32, 32));
+    playerDownAnimationRects.push_back(sf::IntRect(0, 0, 32, 32));
+
+    playerLeftAnimationIterator = 0;
+    playerLeftAnimationRects.push_back(sf::IntRect(32, 32, 32, 32));
+    playerLeftAnimationRects.push_back(sf::IntRect(64, 32, 32, 32));
+    playerLeftAnimationRects.push_back(sf::IntRect(32, 32, 32, 32));
+    playerLeftAnimationRects.push_back(sf::IntRect(0, 32, 32, 32));
+    
+    playerRightAnimationIterator = 0;
+    playerRightAnimationRects.push_back(sf::IntRect(32, 64, 32, 32));
+    playerRightAnimationRects.push_back(sf::IntRect(64, 64, 32, 32));
+    playerRightAnimationRects.push_back(sf::IntRect(32, 64, 32, 32));
+    playerRightAnimationRects.push_back(sf::IntRect(0, 64, 32, 32));
+
+    playerSprite.setTexture(data->assetManager.getTexture("player spritesheet"));
+    playerSprite.setTextureRect(playerDownAnimationRects.at(playerDownAnimationIterator));
+    auto tileSize = data->tileMap.getTileMapSize().x / data->tileMap.getMapSize().x;
+    playerSprite.setScale(
+        tileSize / data->assetManager.getTexture("player spritesheet").getSize().x *3/2, 
+        tileSize / data->assetManager.getTexture("player spritesheet").getSize().y *4/2
+    );
+    playerSprite.setOrigin(
+        data->assetManager.getTexture("player spritesheet").getSize().x / 6, 
+        data->assetManager.getTexture("player spritesheet").getSize().y / 8
+    );
     playerSprite.setPosition(playerPosition);
 }
 
@@ -112,4 +147,28 @@ void Player::revertMove(const char & axis) {
         playerPosition = prevPosition;
     }
     animatedSprite.setPosition(playerPosition);
+}
+
+void Player::animateMovementDirection(){
+    if(movementDirection.x == 1){
+        animateMovement(playerRightAnimationRects, playerRightAnimationIterator);
+    }else if(movementDirection.x == -1){
+        animateMovement(playerLeftAnimationRects, playerLeftAnimationIterator);
+    }else if(movementDirection.y == -1){
+        animateMovement(playerUpAnimationRects, playerUpAnimationIterator);
+    }else if(movementDirection.y == 1){
+        animateMovement(playerDownAnimationRects, playerDownAnimationIterator);
+    }
+}
+
+void Player::animateMovement(std::vector<sf::IntRect> & animationRect, unsigned int & iterator){
+    if (playerAnimationClock.getElapsedTime().asSeconds() > 0.5f/animationRect.size()){
+        if(iterator < animationRect.size()-1){
+            iterator++;
+        }else{
+            iterator = 0;
+        }
+        playerSprite.setTextureRect(animationRect.at(iterator));
+        playerAnimationClock.restart();
+    }    
 }

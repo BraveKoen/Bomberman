@@ -14,6 +14,7 @@ void InGameState::init(){
     gameData->assetManager.loadTexture("dynamite", Resource::dynamite);
     gameData->assetManager.loadTexture("biem", Resource::biem);
     gameData->assetManager.loadTexture("bomb spritesheet", Resource::bombSpritesheet);
+    gameData->assetManager.loadTexture("player spritesheet", Resource::playerSpriteheet);
 
     background.setTexture(gameData->assetManager.getTexture("default background"));
     background.setScale(
