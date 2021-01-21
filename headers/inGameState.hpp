@@ -9,6 +9,7 @@
 #include "player.hpp"
 #include "opponent.hpp"
 #include "utilities.hpp"
+#include "definitions.hpp"
 #include "bombHandler.hpp"
 #include "definitions.hpp"
 #include "collision.hpp"

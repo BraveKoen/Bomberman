@@ -1,6 +1,14 @@
 #include "../headers/bomb.hpp"
 
-Bomb::Bomb(gameDataRef data, int playerId, int lenghtX, int lenghtY, float explodeTime, float timeCreated, sf::Vector2f pos):
+Bomb::Bomb(
+    gameDataRef data, 
+    int playerId, 
+    int lenghtX, 
+    int lenghtY, 
+    float explodeTime, 
+    float timeCreated, 
+    sf::Vector2f pos
+):
     data(data),
     id(playerId),
     lengthX(lenghtX),
@@ -10,16 +18,34 @@ Bomb::Bomb(gameDataRef data, int playerId, int lenghtX, int lenghtY, float explo
     bombPosition(pos)
 {
     auto tileSize = data->tileMap.getTileMapSize().x / data->tileMap.getMapSize().x;
-    bombSprite.setTexture(data->assetManager.getTexture("dynamite"));
-    bombSprite.setScale(tileSize / data->assetManager.getTexture("dynamite").getSize().x, tileSize / data->assetManager.getTexture("dynamite").getSize().y);
-    bombSprite.setOrigin(data->assetManager.getTexture("dynamite").getSize().x / 2, data->assetManager.getTexture("dynamite").getSize().y / 2);
+    
+    bombFuseAnimationIterator = 0;
+    bombFuseAnimationRects.emplace_back(0, 0, 450, 375);//these dimentions are here to cut out the sprites form the spritesheet
+    bombFuseAnimationRects.emplace_back(450, 0, 450, 375);
+    bombFuseAnimationRects.emplace_back(0, 375, 450, 375);
+    bombFuseAnimationRects.emplace_back(450, 375, 450, 375);
+
+    bombExplosionAnimationIterator = 0;
+    bombExplosionAnimationRects.emplace_back(0, 750, 450, 375);//these dimentions are here to cut out the sprites form the spritesheet
+    bombExplosionAnimationRects.emplace_back(450, 750, 450, 375);
+    bombExplosionAnimationRects.emplace_back(0, 1125, 450, 375);
+    bombExplosionAnimationRects.emplace_back(450, 1125, 450, 375);
+
+    bombSprite.setTexture(data->assetManager.getTexture("bomb spritesheet"));
+    bombSprite.setTextureRect(bombFuseAnimationRects.at(bombFuseAnimationIterator));
+    bombSprite.setScale(
+        tileSize / data->assetManager.getTexture("bomb spritesheet").getSize().x*2,// *2 because the spritesheet is 2 sprites wide 
+        tileSize / data->assetManager.getTexture("bomb spritesheet").getSize().y*4 // *4 because the spritesheet is 4 sprites long 
+    );
+    bombSprite.setOrigin(
+        data->assetManager.getTexture("bomb spritesheet").getSize().x / 4, // /4 becuase the sprietheet is 2 sprited wide and another /2 to get the centre of the sprite
+        data->assetManager.getTexture("bomb spritesheet").getSize().y / 8  // /8 becuase the sprietheet is 4 sprited long and another /2 to get the centre of the sprite
+    );
     setPos(pos);
 }
 
 void Bomb::draw(){
-    if(!isDone){
-        data->window.draw(bombSprite);
-    }
+    data->window.draw(bombSprite);
 }
 
 void Bomb::setPos(sf::Vector2f pos){
@@ -98,12 +124,12 @@ void Bomb::explode() {
 }
 
 bool Bomb::isExploded(float currentTime){
-    if((timeCreated + explodeTime < currentTime) && !isDone){
+    if((timeCreated + explodeTime < currentTime) && !primed){
         explode();
-        isDone = true;
+        primed = true;
         return false;
     }
-    if((timeCreated + explodeTime + 2 < currentTime) && isDone){
+    if((timeCreated + explodeTime + 2 < currentTime) && primed){
         clearBomb();
         return true;
     }
@@ -132,4 +158,32 @@ bool Bomb::bombColliding(const sf::Sprite& target){
         }
     }
     return false;
+}
+    
+void Bomb::animateFuse(){
+    if (clock.getElapsedTime().asSeconds() > 0.5f/bombFuseAnimationRects.size()){
+        if(bombFuseAnimationIterator < bombFuseAnimationRects.size()-1){
+            bombFuseAnimationIterator++;
+        }else{
+            bombFuseAnimationIterator = 0;
+        }
+        bombSprite.setTextureRect(bombFuseAnimationRects.at(bombFuseAnimationIterator));
+        clock.restart();
+    }
+}
+
+void Bomb::animateExplosion(){
+    if (clock.getElapsedTime().asSeconds() > 0.5f/bombExplosionAnimationRects.size()){
+        if(bombExplosionAnimationIterator < bombExplosionAnimationRects.size()-1){
+            bombExplosionAnimationIterator++;
+        }else{
+            bombExplosionAnimationIterator = 0;
+        }
+        bombSprite.setTextureRect(bombExplosionAnimationRects.at(bombExplosionAnimationIterator));
+        clock.restart();
+    }
+}
+
+bool Bomb::getPrimed(){
+    return primed;
 }

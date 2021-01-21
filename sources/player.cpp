@@ -1,6 +1,14 @@
 #include "../headers/player.hpp"
 
-Player::Player(gameDataRef gameData, std::shared_ptr<BombHandler> bombHandler, ControlScheme controls, const sf::Vector2f& spawnPosition, std::string textureName, float movementSpeed, uint8_t playerHealth):
+Player::Player(
+    gameDataRef gameData, 
+    std::shared_ptr<BombHandler> bombHandler, 
+    ControlScheme controls, 
+    const sf::Vector2f& spawnPosition, 
+    std::string textureName, 
+    float movementSpeed, 
+    uint8_t playerHealth
+):
     gameData{gameData},
     bombHandler{bombHandler},
     controls{controls},
@@ -11,11 +19,43 @@ Player::Player(gameDataRef gameData, std::shared_ptr<BombHandler> bombHandler, C
     prevMovementDirection{sf::Vector2i(0,0)},
     placeBomb{true}
 {
+    playerUpAnimationIterator = 0;
+    playerUpAnimationRects.emplace_back(32, 96, 32, 32);//these dimentions are here to cut out the sprites form the spritesheet
+    playerUpAnimationRects.emplace_back(64, 96, 32, 32);
+    playerUpAnimationRects.emplace_back(32, 96, 32, 32);
+    playerUpAnimationRects.emplace_back(0, 96, 32, 32);
+    
+    playerDownAnimationIterator = 0;
+    playerDownAnimationRects.emplace_back(32, 0, 32, 32);//these dimentions are here to cut out the sprites form the spritesheet
+    playerDownAnimationRects.emplace_back(64, 0, 32, 32);
+    playerDownAnimationRects.emplace_back(32, 0, 32, 32);
+    playerDownAnimationRects.emplace_back(0, 0, 32, 32);
+
+    playerLeftAnimationIterator = 0;
+    playerLeftAnimationRects.emplace_back(32, 32, 32, 32);//these dimentions are here to cut out the sprites form the spritesheet
+    playerLeftAnimationRects.emplace_back(64, 32, 32, 32);
+    playerLeftAnimationRects.emplace_back(32, 32, 32, 32);
+    playerLeftAnimationRects.emplace_back(0, 32, 32, 32);
+    
+    playerRightAnimationIterator = 0;
+    playerRightAnimationRects.emplace_back(32, 64, 32, 32);//these dimentions are here to cut out the sprites form the spritesheet
+    playerRightAnimationRects.emplace_back(64, 64, 32, 32);
+    playerRightAnimationRects.emplace_back(32, 64, 32, 32);
+    playerRightAnimationRects.emplace_back(0, 64, 32, 32);
+
     playerSprite.setTexture(gameData->assetManager.getTexture(textureName));
+    playerSprite.setTextureRect(playerDownAnimationRects.at(playerDownAnimationIterator));
     auto tileSize = gameData->tileMap.getTileMapSize().x / gameData->tileMap.getMapSize().x;
-    playerSprite.setScale(tileSize / gameData->assetManager.getTexture(textureName).getSize().x / 2, tileSize / gameData->assetManager.getTexture(textureName).getSize().y / 2);
-    playerSprite.setOrigin(gameData->assetManager.getTexture(textureName).getSize().x / 2, gameData->assetManager.getTexture(textureName).getSize().y / 2);
+    playerSprite.setScale(
+        tileSize / gameData->assetManager.getTexture(textureName).getSize().x *1.5,
+        tileSize / gameData->assetManager.getTexture(textureName).getSize().y *2    
+    );
+    playerSprite.setOrigin(
+        gameData->assetManager.getTexture(textureName).getSize().x / 6, 
+        gameData->assetManager.getTexture(textureName).getSize().y / 8
+    );
     playerSprite.setPosition(playerPosition);
+    movementSpeed = tileSize / 36 + 1;
 }
 
 void Player::draw() {
@@ -45,6 +85,7 @@ void Player::update(const float & delta){
             bombCooldown = false;
         }
     }
+    animateMovementDirection();
     if(playerMove(delta) and collision.isSpriteColliding(playerSprite, gameData->tileMap.getSurroundings(playerPosition, {"empty", "biem", "spawn"}))){ //Might be possible to optimize further -- seems kind of inefficient rn
         playerSprite.setPosition(sf::Vector2f(playerPosition.x, prevPosition.y));
         if(collision.isSpriteColliding(playerSprite, gameData->tileMap.getSurroundings(playerPosition, {"empty", "biem", "spawn"}))){
@@ -112,4 +153,28 @@ void Player::revertMove(const char & axis) {
         playerPosition = prevPosition;
     }
     playerSprite.setPosition(playerPosition);
+}
+
+void Player::animateMovementDirection(){
+    if(movementDirection.x == 1){
+        animateMovement(playerRightAnimationRects, playerRightAnimationIterator);
+    }else if(movementDirection.x == -1){
+        animateMovement(playerLeftAnimationRects, playerLeftAnimationIterator);
+    }else if(movementDirection.y == -1){
+        animateMovement(playerUpAnimationRects, playerUpAnimationIterator);
+    }else if(movementDirection.y == 1){
+        animateMovement(playerDownAnimationRects, playerDownAnimationIterator);
+    }
+}
+
+void Player::animateMovement(std::vector<sf::IntRect> & animationRect, unsigned int & iterator){
+    if (playerAnimationClock.getElapsedTime().asSeconds() > 0.5f/animationRect.size()){
+        if(iterator < animationRect.size()-1){
+            iterator++;
+        }else{
+            iterator = 0;
+        }
+        playerSprite.setTextureRect(animationRect.at(iterator));
+        playerAnimationClock.restart();
+    }    
 }
