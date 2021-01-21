@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <string>
+#include <thread>
 
 #include "player.hpp"
 #include "opponent.hpp"
@@ -15,6 +16,7 @@
 #include "collision.hpp"
 #include "menuButton.hpp"
 #include "gameHud.hpp"
+
 
 class InGameState : public State {
 public:

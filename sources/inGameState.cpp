@@ -7,6 +7,7 @@
 #include "../headers/utilities.hpp"
 #include "../headers/game.hpp"
 
+
 InGameState::InGameState(gameDataRef gameData):
     gameData{gameData},
     gameHud{gameData},

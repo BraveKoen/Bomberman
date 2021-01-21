@@ -3,6 +3,7 @@
 
 #include <SFML/Network.hpp>
 #include <iostream>
+#include <thread>
 
 #include "serverInfo.hpp"
 
@@ -16,16 +17,25 @@ private:
     sf::UdpSocket socket;
     sf::Packet sendPacket;
     bool connection = false;
+    LobbyInfo lobby;
+    std::thread mThread;
 
 public:
-    Server(int playerNumber, sf::IpAddress ip, unsigned short port);
+    Server(sf::IpAddress ip, unsigned short port);
 
     void testConnection(int playerNumber, sf::IpAddress ip, unsigned short port);
+    
     void run();
+
+    void runThread(){mThread = std::thread(&Server::run, this);};
 
     void sendData(PlayerInfo &playerInfo);
 
     void sendData(LobbyInfo &lobbyInfo);
+
+    int getPlayerId(int playerId);
+
+    void playerDisconnect();
     PlayerInfo receiveData();
 };
 
