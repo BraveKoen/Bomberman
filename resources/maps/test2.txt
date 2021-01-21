@@ -1,5 +1,5 @@
 solid solid solid solid solid solid solid solid solid solid solid solid solid solid solid
-solid play1 empty empty empty empty empty empty empty empty empty empty empty play1 solid
+solid spawn empty empty empty empty empty empty empty empty empty empty empty spawn solid
 solid empty solid break solid empty solid empty solid empty solid empty solid empty solid
 solid empty empty empty empty empty empty empty empty empty empty empty empty empty solid
 solid empty solid empty solid empty solid empty solid empty solid empty solid empty solid
@@ -11,5 +11,5 @@ solid break empty empty empty empty empty empty empty empty empty empty empty br
 solid break solid empty solid break solid break solid break solid empty solid break solid
 solid break empty empty empty empty empty break empty empty empty empty empty empty solid
 solid break solid empty solid empty solid break solid break solid empty solid empty solid
-solid play1 empty empty empty empty empty empty empty empty empty empty empty play1 solid
+solid spawn empty empty empty empty empty empty empty empty empty empty empty spawn solid
 solid solid solid solid solid solid solid solid solid solid solid solid solid solid solid

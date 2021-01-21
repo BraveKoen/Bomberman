@@ -32,7 +32,7 @@ public:
         const sf::Sprite& sprite1,
         const sf::Sprite& sprite2
     ) const;
-        bool isBoundsColliding(
+    bool isBoundsColliding(
         const sf::FloatRect& bounds1,
         const sf::FloatRect& bounds2
     ) const;   

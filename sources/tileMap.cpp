@@ -177,7 +177,7 @@ void TileMap::draw(bool drawPlayerSpawns){
     for(unsigned int i=0; i<map.size(); i++){
         for(unsigned int j=0; j<map[i].size(); j++){
             if(map[i][j].getType() != "empty"){
-                if((map[i][j].getType() != "play1" && map[i][j].getType() != "play2" && map[i][j].getType() != "play3" && map[i][j].getType() != "play4") || drawPlayerSpawns){
+                if(map[i][j].getType() != "spawn" || drawPlayerSpawns){
                     map[i][j].setPosition(sf::Vector2f(position.x+((size.x/mapSize.x)*i), position.y+((size.y/mapSize.y)*j)));
                     map[i][j].setScale(sf::Vector2f((size.x/mapSize.x)/map[i][j].getTexture()->getSize().x, (size.y/mapSize.y)/map[i][j].getTexture()->getSize().y));
                     map[i][j].draw(gameData->window);
