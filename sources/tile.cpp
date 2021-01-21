@@ -1,5 +1,4 @@
 #include "../headers/tile.hpp"
-
 Tile::Tile(std::string type, sf::Sprite sprite):
     type(type),
     sprite(sprite)

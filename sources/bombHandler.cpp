@@ -27,3 +27,12 @@ void BombHandler::update(){
         } 
     }
 }
+
+bool BombHandler::checkBombCollision(const sf::Sprite& target){
+    for(auto &bomb : bombs){
+        if(bomb->bombColliding(target)){
+            return true;
+        }
+    }
+    return false;
+}

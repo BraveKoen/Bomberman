@@ -7,6 +7,7 @@ InGameState::InGameState(gameDataRef gameData):
 
 void InGameState::init(){
     gameData->assetManager.loadTexture("player", Resource::play1);
+    gameData->assetManager.loadTexture("opponent", Resource::play2);
     gameData->assetManager.loadTexture("dynamite", Resource::dynamite);
     gameData->assetManager.loadTexture("biem", Resource::biem);
     
@@ -19,17 +20,18 @@ void InGameState::init(){
     bool useArrowKeys = 0;
 
     auto posTileMap = gameData->tileMap.searchForType("play1");
-    auto spawnLoc = sf::Vector2f{0, 0};
+    auto spawnLocPlayer = sf::Vector2f{0, 0};
+    auto spawnLocOpponent = sf::Vector2f{200, 0};
     if(posTileMap.size() > 0){
-        spawnLoc = gameData->tileMap.tilePosToScreenPos(posTileMap[0]);
+
+        spawnLocPlayer = gameData->tileMap.tilePosToScreenPos(posTileMap[0]);
+        spawnLocOpponent = gameData->tileMap.tilePosToScreenPos(posTileMap[1]);
+        
     }
 
-    for(int i = 0; i <= gameData->playerCount; i++){
-        players.push_back(std::make_unique<Player>(gameData, bHandler, useArrowKeys, spawnLoc));
-        useArrowKeys = true;
-    }
+    players.push_back(std::make_unique<Player>(gameData, bHandler, false, spawnLocPlayer));
+    opponents.push_back(std::make_unique<Opponent>(gameData, bHandler, spawnLocOpponent));
 
-    //needs to be fixed! 
     background.setTexture(gameData->assetManager.getTexture("default background"));
     sf::Vector2f mapSelectorStateBackgroundSize = sf::Vector2f( 
 		static_cast< float >( gameData->assetManager.getTexture("default background").getSize().x ), 
@@ -54,10 +56,7 @@ void InGameState::handleInput(){
 void InGameState::update(float delta) {
     (void)delta;
     for (const auto& player : players) {
-        if (player->playerMove()
-        and collision.isSpriteColliding(player->getSprite(),
-            gameData->tileMap.getSurroundings(player->getPosition()))
-        ) {
+        if (player->playerMove() and collision.isSpriteColliding(player->getSprite(), gameData->tileMap.getSurroundings(player->getPosition(), {"biem", "empty", "play1"}))){
             player->revertMove();
         }
         player->update();
@@ -75,6 +74,10 @@ void InGameState::draw(float delta) {
 
     for (const auto &player : players) {
         player->draw();
+    }
+
+    for (const auto &opponent : opponents) {
+        opponent->draw();
     }
     gameData->window.display();
 }
