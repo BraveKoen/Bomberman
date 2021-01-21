@@ -44,7 +44,7 @@ Bomb::Bomb(
 }
 
 void Bomb::draw(){
-        data->window.draw(bombSprite);
+    data->window.draw(bombSprite);
 }
 
 void Bomb::setPos(sf::Vector2f pos){
