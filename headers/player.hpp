@@ -29,6 +29,9 @@ public:
     bool playerMove();
     void revertMove();
 
+    void animateMovementDirection();
+    void animateMovement();
+
 private:
     gameDataRef data;
     std::shared_ptr<BombHandler> bombHandler;
@@ -46,14 +49,15 @@ private:
     bool playerHit = false;
     float timePlayerHit;
 
-    std::vector<sf::Texture> playerUpAnimation;
+    std::vector<sf::IntRect> playerUpAnimationRects;
     unsigned int playerUpAnimationIterator;
-    std::vector<sf::Texture> playerDownAnimation;
+    std::vector<sf::IntRect> playerDownAnimationRects;
     unsigned int playerDownAnimationIterator;
-    std::vector<sf::Texture> playerLeftAnimation;
+    std::vector<sf::IntRect> playerLeftAnimationRects;
     unsigned int playerLeftAnimationIterator;
-    std::vector<sf::Texture> playerRightAnimation;
+    std::vector<sf::IntRect> playerRightAnimationRects;
     unsigned int playerRightAnimationIterator;
+    sf::Clock playerAnimationClock; 
 };
 
 #endif // __PLAYER_HPP__

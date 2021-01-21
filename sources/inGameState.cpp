@@ -10,18 +10,19 @@ void InGameState::init(){
     gameData->assetManager.loadTexture("opponent", Resource::play2);
     gameData->assetManager.loadTexture("biem", Resource::biem);
     gameData->assetManager.loadTexture("bomb spritesheet", Resource::bombSpritesheet);
-    gameData->assetManager.loadTexture("player up 1", Resource::playerUp1);
-    gameData->assetManager.loadTexture("player up 2", Resource::playerUp2);
-    gameData->assetManager.loadTexture("player up 3", Resource::playerUp3);
-    gameData->assetManager.loadTexture("player down 1", Resource::playerDown1);
-    gameData->assetManager.loadTexture("player down 2", Resource::playerDown2);
-    gameData->assetManager.loadTexture("player down 3", Resource::playerDown3);
-    gameData->assetManager.loadTexture("player left 1", Resource::playerLeft1);
-    gameData->assetManager.loadTexture("player left 2", Resource::playerLeft2);
-    gameData->assetManager.loadTexture("player left 3", Resource::playerLeft3);
-    gameData->assetManager.loadTexture("player right 1", Resource::playerRight1);
-    gameData->assetManager.loadTexture("player right 2", Resource::playerRight2);
-    gameData->assetManager.loadTexture("player right 3", Resource::playerRight3);
+    gameData->assetManager.loadTexture("player spritesheet", Resource::playerSpriteheet);
+    // gameData->assetManager.loadTexture("player up 1", Resource::playerUp1);
+    // gameData->assetManager.loadTexture("player up 2", Resource::playerUp2);
+    // gameData->assetManager.loadTexture("player up 3", Resource::playerUp3);
+    // gameData->assetManager.loadTexture("player down 1", Resource::playerDown1);
+    // gameData->assetManager.loadTexture("player down 2", Resource::playerDown2);
+    // gameData->assetManager.loadTexture("player down 3", Resource::playerDown3);
+    // gameData->assetManager.loadTexture("player left 1", Resource::playerLeft1);
+    // gameData->assetManager.loadTexture("player left 2", Resource::playerLeft2);
+    // gameData->assetManager.loadTexture("player left 3", Resource::playerLeft3);
+    // gameData->assetManager.loadTexture("player right 1", Resource::playerRight1);
+    // gameData->assetManager.loadTexture("player right 2", Resource::playerRight2);
+    // gameData->assetManager.loadTexture("player right 3", Resource::playerRight3);
     
     bHandler = std::make_shared<BombHandler>(gameData);
 

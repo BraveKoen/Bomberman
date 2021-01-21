@@ -26,26 +26,26 @@ namespace Resource {
     constexpr auto defaultBackground = "resources/defaultBackground.png";
     constexpr auto defaultButton = "resources/defaultButton.png";
 
-    constexpr auto playerSprite = "resources/playerSprite.png";
+    constexpr auto playerSpriteheet = "resources/playerSpritesheet.png";
 
     constexpr auto bombSpritesheet = "resources/bombFuse.png";
 
 
-    constexpr auto playerUp1 = "resources/playerAnimation/playerBack1.png";
-    constexpr auto playerUp2 = "resources/playerAnimation/playerBack2.png";
-    constexpr auto playerUp3 = "resources/playerAnimation/playerBack3.png";
+    // constexpr auto playerUp1 = "resources/playerAnimation/playerBack1.png";
+    // constexpr auto playerUp2 = "resources/playerAnimation/playerBack2.png";
+    // constexpr auto playerUp3 = "resources/playerAnimation/playerBack3.png";
 
-    constexpr auto playerDown1 = "resources/playerAnimation/playerFront1.png";
-    constexpr auto playerDown2 = "resources/playerAnimation/playerFront2.png";
-    constexpr auto playerDown3 = "resources/playerAnimation/playerFront3.png";
+    // constexpr auto playerDown1 = "resources/playerAnimation/playerFront1.png";
+    // constexpr auto playerDown2 = "resources/playerAnimation/playerFront2.png";
+    // constexpr auto playerDown3 = "resources/playerAnimation/playerFront3.png";
 
-    constexpr auto playerLeft1 = "resources/playerAnimation/playerLeft1.png";
-    constexpr auto playerLeft2 = "resources/playerAnimation/playerLeft2.png";
-    constexpr auto playerLeft3 = "resources/playerAnimation/playerLeft3.png";
+    // constexpr auto playerLeft1 = "resources/playerAnimation/playerLeft1.png";
+    // constexpr auto playerLeft2 = "resources/playerAnimation/playerLeft2.png";
+    // constexpr auto playerLeft3 = "resources/playerAnimation/playerLeft3.png";
 
-    constexpr auto playerRight1 = "resources/playerAnimation/playerRight1.png";
-    constexpr auto playerRight2 = "resources/playerAnimation/playerRight2.png";
-    constexpr auto playerRight3 = "resources/playerAnimation/playerRight3.png";
+    // constexpr auto playerRight1 = "resources/playerAnimation/playerRight1.png";
+    // constexpr auto playerRight2 = "resources/playerAnimation/playerRight2.png";
+    // constexpr auto playerRight3 = "resources/playerAnimation/playerRight3.png";
 }
 
 #endif // __DEFINITIONS_HPP__
