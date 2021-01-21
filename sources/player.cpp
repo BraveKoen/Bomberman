@@ -150,6 +150,7 @@ void Player::revertMove(const char & axis) {
 }
 
 void Player::animateMovementDirection(){
+    sf::Vector2i movementDirection = {1, 0};
     if(movementDirection.x == 1){
         animateMovement(playerRightAnimationRects, playerRightAnimationIterator);
     }else if(movementDirection.x == -1){

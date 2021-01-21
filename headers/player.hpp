@@ -38,7 +38,7 @@ public:
     void revertMove(const char & axis=' ');
 
     void animateMovementDirection();
-    void animateMovement();
+    void animateMovement(std::vector<sf::IntRect> & animationRect, unsigned int & iterator);
 
 private:
     gameDataRef gameData;
