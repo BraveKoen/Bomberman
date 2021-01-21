@@ -22,7 +22,8 @@ void BombHandler::update(){
         if(bomb->isExploded(clock.getElapsedTime().asSeconds())){
             bombs.erase(bombs.begin() + count);
             break;
-        }else if(bomb->getPrimed()){
+        }
+        if(bomb->getPrimed()){
             bomb->animateExplosion();
             count++;
         }else{
