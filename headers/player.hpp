@@ -59,6 +59,7 @@ private:
     bool placeBomb;
     
     Collision collision;
+    sf::Sprite playerSprite;
 
     int playerId = -1;
 

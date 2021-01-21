@@ -65,7 +65,6 @@ namespace Resource {
     }
 
     constexpr auto serverIp = "192.168.2.14";
-
 }
 
 #endif // __DEFINITIONS_HPP__

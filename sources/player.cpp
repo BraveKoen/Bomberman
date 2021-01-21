@@ -58,6 +58,7 @@ Player::Player(
         gameData->assetManager.getTexture(textureName).getSize().y / 8
     );
     playerSprite.setPosition(playerPosition);
+
     movementSpeed = tileSize / 36 + 1;
 
 }
@@ -169,6 +170,20 @@ bool Player::playerMove(const float & delta){
         prevMovementDirection = movementDirection;
         movementDirection = {0,0};
         return true;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M)){
+            if(playerId == -1){
+                playerId = data->server.getPlayerId(playerId);
+            }  
+        }else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::F)){
+            playerId = -1;
+            data->server.playerDisconnect();
+ 
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) && !bombCooldown){
+            bombHandler->createBomb(playerId, 3, 3, 2, playerPosition);   
+            bombCooldown = true;
+            timeBombPlaced = clock.getElapsedTime().asSeconds();
+        }
     }
 }
 
