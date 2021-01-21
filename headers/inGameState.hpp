@@ -21,6 +21,7 @@
 
 
 
+#include "serverInfo.hpp"
 
 
 class InGameState : public State {

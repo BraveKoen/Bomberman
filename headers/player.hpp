@@ -12,7 +12,6 @@
 #include "utilities.hpp"
 #include "serverInfo.hpp"
 
-
 class Player : public Character {
 public:
     Player(gameDataRef gameData, std::shared_ptr<BombHandler> bombHandler, ControlScheme controls, const sf::Vector2f& spawnPosition, unsigned int playerId, std::string textureName, float movementSpeed=Resource::defaultPlayerMoveSpeed, uint8_t playerHealth=Resource::defaultPlayerLives);

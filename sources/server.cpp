@@ -75,7 +75,7 @@ PlayerInfo Server::receiveData(){
         sf::Packet packetOntvanger;
         sf::IpAddress ipOntvanger;
         uint16_t portOntvanger;
-        if(socket.receive(packetOntvanger, ipOntvanger, portOntvanger) != sf::Socket::Done){
+        if(socket.receive(packetOntvanger, ipOntvanger, portOntvanger) == sf::Socket::Done){
             packetOntvanger >> lobbyInfo;
             playerNumber = lobbyInfo.playerId;
             return playerInfo;
