@@ -51,6 +51,7 @@ Player::Player(gameDataRef gameData, std::shared_ptr<BombHandler> bombHandler, C
         data->assetManager.getTexture("player spritesheet").getSize().y / 8
     );
     playerSprite.setPosition(playerPosition);
+    movementSpeed = tileSize / 36 + 1;
 }
 
 void Player::draw() {

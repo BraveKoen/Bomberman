@@ -40,6 +40,9 @@ public:
     void animateMovementDirection();
     void animateMovement(std::vector<sf::IntRect> & animationRect, unsigned int & iterator);
 
+    void animateMovementDirection();
+    void animateMovement(std::vector<sf::IntRect> & animationRect, unsigned int & iterator);
+
 private:
     gameDataRef gameData;
     std::shared_ptr<BombHandler> bombHandler;
