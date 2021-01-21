@@ -92,8 +92,6 @@ void MapSelectorState::init(){
     gameData->assetManager.loadTexture("solid", Resource::solid);
     gameData->assetManager.loadTexture("break", Resource::breakable);
     gameData->assetManager.loadTexture("spawn", Resource::spawn);
-    gameData->assetManager.loadTexture("play1", Resource::play1);
-    gameData->assetManager.loadTexture("play2", Resource::play2);
     gameData->assetManager.loadTexture("background", Resource::mapBackground);
     gameData->assetManager.loadTexture("empty", Resource::solid);
 

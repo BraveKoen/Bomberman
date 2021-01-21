@@ -1,6 +1,14 @@
 #include "../headers/player.hpp"
 
-Player::Player(gameDataRef gameData, std::shared_ptr<BombHandler> bombHandler, ControlScheme controls, const sf::Vector2f& spawnPosition, std::string textureName, float movementSpeed, uint8_t playerHealth):
+Player::Player(
+    gameDataRef gameData, 
+    std::shared_ptr<BombHandler> bombHandler, 
+    ControlScheme controls, 
+    const sf::Vector2f& spawnPosition, 
+    std::string textureName, 
+    float movementSpeed, 
+    uint8_t playerHealth
+):
     gameData{gameData},
     bombHandler{bombHandler},
     controls{controls},
@@ -11,44 +19,40 @@ Player::Player(gameDataRef gameData, std::shared_ptr<BombHandler> bombHandler, C
     prevMovementDirection{sf::Vector2i(0,0)},
     placeBomb{true}
 {
-    // playerSprite.setTexture(gameData->assetManager.getTexture(textureName));
-    // auto tileSize = gameData->tileMap.getTileMapSize().x / gameData->tileMap.getMapSize().x;
-    // playerSprite.setScale(tileSize / gameData->assetManager.getTexture(textureName).getSize().x / 2, tileSize / gameData->assetManager.getTexture(textureName).getSize().y / 2);
-    // playerSprite.setOrigin(gameData->assetManager.getTexture(textureName).getSize().x / 2, gameData->assetManager.getTexture(textureName).getSize().y / 2);
     playerUpAnimationIterator = 0;
-    playerUpAnimationRects.push_back(sf::IntRect(32, 96, 32, 32));
+    playerUpAnimationRects.push_back(sf::IntRect(32, 96, 32, 32));//these dimentions are here to cut out the sprites form the spritesheet
     playerUpAnimationRects.push_back(sf::IntRect(64, 96, 32, 32));
     playerUpAnimationRects.push_back(sf::IntRect(32, 96, 32, 32));
     playerUpAnimationRects.push_back(sf::IntRect(0, 96, 32, 32));
     
     playerDownAnimationIterator = 0;
-    playerDownAnimationRects.push_back(sf::IntRect(32, 0, 32, 32));
+    playerDownAnimationRects.push_back(sf::IntRect(32, 0, 32, 32));//these dimentions are here to cut out the sprites form the spritesheet
     playerDownAnimationRects.push_back(sf::IntRect(64, 0, 32, 32));
     playerDownAnimationRects.push_back(sf::IntRect(32, 0, 32, 32));
     playerDownAnimationRects.push_back(sf::IntRect(0, 0, 32, 32));
 
     playerLeftAnimationIterator = 0;
-    playerLeftAnimationRects.push_back(sf::IntRect(32, 32, 32, 32));
+    playerLeftAnimationRects.push_back(sf::IntRect(32, 32, 32, 32));//these dimentions are here to cut out the sprites form the spritesheet
     playerLeftAnimationRects.push_back(sf::IntRect(64, 32, 32, 32));
     playerLeftAnimationRects.push_back(sf::IntRect(32, 32, 32, 32));
     playerLeftAnimationRects.push_back(sf::IntRect(0, 32, 32, 32));
     
     playerRightAnimationIterator = 0;
-    playerRightAnimationRects.push_back(sf::IntRect(32, 64, 32, 32));
+    playerRightAnimationRects.push_back(sf::IntRect(32, 64, 32, 32));//these dimentions are here to cut out the sprites form the spritesheet
     playerRightAnimationRects.push_back(sf::IntRect(64, 64, 32, 32));
     playerRightAnimationRects.push_back(sf::IntRect(32, 64, 32, 32));
     playerRightAnimationRects.push_back(sf::IntRect(0, 64, 32, 32));
 
-    playerSprite.setTexture(data->assetManager.getTexture("player spritesheet"));
+    playerSprite.setTexture(gameData->assetManager.getTexture(textureName));
     playerSprite.setTextureRect(playerDownAnimationRects.at(playerDownAnimationIterator));
-    auto tileSize = data->tileMap.getTileMapSize().x / data->tileMap.getMapSize().x;
+    auto tileSize = gameData->tileMap.getTileMapSize().x / gameData->tileMap.getMapSize().x;
     playerSprite.setScale(
-        tileSize / data->assetManager.getTexture("player spritesheet").getSize().x *3/2, 
-        tileSize / data->assetManager.getTexture("player spritesheet").getSize().y *4/2
+        tileSize / gameData->assetManager.getTexture(textureName).getSize().x *1.5, //these dimentions 
+        tileSize / gameData->assetManager.getTexture(textureName).getSize().y *2    //
     );
     playerSprite.setOrigin(
-        data->assetManager.getTexture("player spritesheet").getSize().x / 6, 
-        data->assetManager.getTexture("player spritesheet").getSize().y / 8
+        gameData->assetManager.getTexture(textureName).getSize().x / 6, 
+        gameData->assetManager.getTexture(textureName).getSize().y / 8
     );
     playerSprite.setPosition(playerPosition);
     movementSpeed = tileSize / 36 + 1;
@@ -81,6 +85,7 @@ void Player::update(const float & delta){
             bombCooldown = false;
         }
     }
+    animateMovementDirection();
     if(playerMove(delta) and collision.isSpriteColliding(playerSprite, gameData->tileMap.getSurroundings(playerPosition, {"empty", "biem", "spawn"}))){ //Might be possible to optimize further -- seems kind of inefficient rn
         playerSprite.setPosition(sf::Vector2f(playerPosition.x, prevPosition.y));
         if(collision.isSpriteColliding(playerSprite, gameData->tileMap.getSurroundings(playerPosition, {"empty", "biem", "spawn"}))){
@@ -147,11 +152,10 @@ void Player::revertMove(const char & axis) {
     }else{
         playerPosition = prevPosition;
     }
-    animatedSprite.setPosition(playerPosition);
+    playerSprite.setPosition(playerPosition);
 }
 
 void Player::animateMovementDirection(){
-    sf::Vector2i movementDirection = {1, 0};
     if(movementDirection.x == 1){
         animateMovement(playerRightAnimationRects, playerRightAnimationIterator);
     }else if(movementDirection.x == -1){

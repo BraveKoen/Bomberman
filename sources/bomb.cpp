@@ -20,13 +20,13 @@ Bomb::Bomb(
     auto tileSize = data->tileMap.getTileMapSize().x / data->tileMap.getMapSize().x;
     
     bombFuseAnimationIterator = 0;
-    bombFuseAnimationRects.push_back(sf::IntRect(0, 0, 450, 375));
+    bombFuseAnimationRects.push_back(sf::IntRect(0, 0, 450, 375));//these dimentions are here to cut out the sprites form the spritesheet
     bombFuseAnimationRects.push_back(sf::IntRect(450, 0, 450, 375));
     bombFuseAnimationRects.push_back(sf::IntRect(0, 375, 450, 375));
     bombFuseAnimationRects.push_back(sf::IntRect(450, 375, 450, 375));
 
     bombExplosionAnimationIterator = 0;
-    bombExplosionAnimationRects.push_back(sf::IntRect(0, 750, 450, 375));
+    bombExplosionAnimationRects.push_back(sf::IntRect(0, 750, 450, 375));//these dimentions are here to cut out the sprites form the spritesheet
     bombExplosionAnimationRects.push_back(sf::IntRect(450, 750, 450, 375));
     bombExplosionAnimationRects.push_back(sf::IntRect(0, 1125, 450, 375));
     bombExplosionAnimationRects.push_back(sf::IntRect(450, 1125, 450, 375));
@@ -34,12 +34,12 @@ Bomb::Bomb(
     bombSprite.setTexture(data->assetManager.getTexture("bomb spritesheet"));
     bombSprite.setTextureRect(bombFuseAnimationRects.at(bombFuseAnimationIterator));
     bombSprite.setScale(
-        tileSize / data->assetManager.getTexture("bomb spritesheet").getSize().x*2, 
-        tileSize / data->assetManager.getTexture("bomb spritesheet").getSize().y*4
+        tileSize / data->assetManager.getTexture("bomb spritesheet").getSize().x*2,// *2 because the spritesheet is 2 sprites wide 
+        tileSize / data->assetManager.getTexture("bomb spritesheet").getSize().y*4 // *4 because the spritesheet is 4 sprites long 
     );
     bombSprite.setOrigin(
-        data->assetManager.getTexture("bomb spritesheet").getSize().x / 4, 
-        data->assetManager.getTexture("bomb spritesheet").getSize().y / 8
+        data->assetManager.getTexture("bomb spritesheet").getSize().x / 4, // /4 becuase the sprietheet is 2 sprited wide and another /2 to get the centre of the sprite
+        data->assetManager.getTexture("bomb spritesheet").getSize().y / 8  // /8 becuase the sprietheet is 4 sprited long and another /2 to get the centre of the sprite
     );
     setPos(pos);
 }
