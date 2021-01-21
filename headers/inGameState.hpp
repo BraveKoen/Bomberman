@@ -19,6 +19,7 @@
 #include "serverInfo.hpp"
 
 
+
 class InGameState : public State {
 public:
     InGameState(gameDataRef gameData);

@@ -51,6 +51,7 @@ private:
     ControlScheme controls;
     sf::Vector2f playerPosition;
     sf::Vector2f prevPosition;
+
     float movementSpeed;
     uint8_t playerHealth;
     sf::Vector2i movementDirection;
@@ -58,8 +59,9 @@ private:
     bool placeBomb;
     
     Collision collision;
-    sf::Sprite playerSprite;
+
     int playerId = -1;
+
     sf::Clock clock;
     float timeBombPlaced;
     bool bombCooldown = false;

@@ -27,11 +27,14 @@ public:
     
     void run();
 
+    void runThread(){mThread = std::thread(&Server::run, this);};
+
     void sendData(PlayerInfo &playerInfo);
 
     void sendData(LobbyInfo &lobbyInfo);
 
     void serverGetPlayerId(int playerId);
+    int getPlayerId(int playerId);
 
     void playerDisconnect();
     PlayerInfo receiveData();

@@ -9,6 +9,7 @@
 
 
 
+
 InGameState::InGameState(gameDataRef gameData):
     gameData{gameData},
     gameHud{gameData},
@@ -35,7 +36,14 @@ void InGameState::init() {
     gameData->tileMap.setTileMapPosition({hudFrame.x, 0});
     gameData->tileMap.setTileMapSize({Resource::screenHeight, Resource::screenHeight});
 
+<<<<<<< 401207f156896d1aa73d3ddc95e41f1a73dd93f4
     std::vector<ControlScheme> controlSchemes;
+=======
+    gameData->server.runThread();
+
+    //needs to be fixed! 
+    bool useArrowKeys = 0;
+>>>>>>> thread fixed
 
     controlSchemes.emplace_back(sf::Keyboard::Key::W, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::D, sf::Keyboard::Key::Space);
     controlSchemes.emplace_back(sf::Keyboard::Key::Up, sf::Keyboard::Key::Left, sf::Keyboard::Key::Down, sf::Keyboard::Key::Right, sf::Keyboard::Key::RControl);
