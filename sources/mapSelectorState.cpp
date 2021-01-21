@@ -17,10 +17,7 @@ bool MapSelectorState::isValidFile(std::string fileName){
                 word != "solid" &&
                 word != "break" &&
                 word != "empty" &&
-                word != "play1" &&
-                word != "play2" &&
-                word != "play3" &&
-                word != "play4"
+                word != "spawn"
             ){
                 valid = false;
                 break;
@@ -94,6 +91,7 @@ void MapSelectorState::init(){
 
     gameData->assetManager.loadTexture("solid", Resource::solid);
     gameData->assetManager.loadTexture("break", Resource::breakable);
+    gameData->assetManager.loadTexture("spawn", Resource::spawn);
     gameData->assetManager.loadTexture("play1", Resource::play1);
     gameData->assetManager.loadTexture("play2", Resource::play2);
     gameData->assetManager.loadTexture("background", Resource::mapBackground);

@@ -16,7 +16,7 @@ struct GameData{
     AssetManager assetManager;
     InputManager inputManager;
     TileMap tileMap;
-    int playerCount = 1;
+    int playerCount;
 };
 
 class Game{

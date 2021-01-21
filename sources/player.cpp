@@ -1,6 +1,6 @@
 #include "../headers/player.hpp"
 
-Player::Player(gameDataRef gameData, std::shared_ptr<BombHandler> bombHandler, ControlScheme controls, const sf::Vector2f& spawnPosition, uint16_t movementSpeed, uint8_t playerHealth):
+Player::Player(gameDataRef gameData, std::shared_ptr<BombHandler> bombHandler, ControlScheme controls, const sf::Vector2f& spawnPosition, std::string textureName, float movementSpeed, uint8_t playerHealth):
     gameData{gameData},
     bombHandler{bombHandler},
     controls{controls},
@@ -11,54 +11,50 @@ Player::Player(gameDataRef gameData, std::shared_ptr<BombHandler> bombHandler, C
     prevMovementDirection{sf::Vector2i(0,0)},
     placeBomb{true}
 {
-    playerSprite.setTexture(gameData->assetManager.getTexture("player"));
+    playerSprite.setTexture(gameData->assetManager.getTexture(textureName));
     auto tileSize = gameData->tileMap.getTileMapSize().x / gameData->tileMap.getMapSize().x;
-    playerSprite.setScale(tileSize / gameData->assetManager.getTexture("player").getSize().x / 2, tileSize / gameData->assetManager.getTexture("player").getSize().y / 2);
-    playerSprite.setOrigin(gameData->assetManager.getTexture("player").getSize().x / 2, gameData->assetManager.getTexture("player").getSize().y / 2);
+    playerSprite.setScale(tileSize / gameData->assetManager.getTexture(textureName).getSize().x / 2, tileSize / gameData->assetManager.getTexture(textureName).getSize().y / 2);
+    playerSprite.setOrigin(gameData->assetManager.getTexture(textureName).getSize().x / 2, gameData->assetManager.getTexture(textureName).getSize().y / 2);
     playerSprite.setPosition(playerPosition);
-    std::cout << tileSize << std::endl;
-    movementSpeed = tileSize / 36 + 1;
 }
 
 void Player::draw() {
     gameData->window.draw(playerSprite);
 }
 
-void Player::update(){
-    if(bombHandler->checkBombCollision(playerSprite) && !playerHit){
-        timePlayerHit = clock.getElapsedTime().asSeconds();
-        playerHit = true;
-    }else{
-        if((timePlayerHit + 2.5) <= clock.getElapsedTime().asSeconds()){        //More scuffed merge stuff needs fixin
-            playerHit = false;
-        }
-    }
-
 void Player::handleInput(){
     movementDirection = controls.getDirection();
-}
-
-void Player::update(const float & delta){
-    if(bombCooldown){
-        if((timeBombPlaced + 5) <= clock.getElapsedTime().asSeconds()){
-            bombCooldown = false;
-        }
-    }
-    if(playerMove(delta) and collision.isSpriteColliding(playerSprite, gameData->tileMap.getSurroundings(playerPosition))){ //Might be possible to optimize further -- seems kind of inefficient rn
-        playerSprite.setPosition(sf::Vector2f(playerPosition.x, prevPosition.y));
-        if(collision.isSpriteColliding(playerSprite, gameData->tileMap.getSurroundings(playerPosition))){
-            revertMove('X');
-        }
-        playerSprite.setPosition(sf::Vector2f(prevPosition.x, playerPosition.y));
-        if(collision.isSpriteColliding(playerSprite, gameData->tileMap.getSurroundings(playerPosition))){
-            revertMove('Y');
-        }
-    }                                                                                                                       //^^
     if(controls.getBombKeyPressed() && !bombCooldown){
         bombHandler->createBomb(playerId, 4, 4, 2, playerPosition); 
         bombCooldown = true;
         timeBombPlaced = clock.getElapsedTime().asSeconds();
     }
+}
+
+void Player::update(const float & delta){
+    if(bombHandler->checkBombCollision(playerSprite) && !playerHit){
+        timePlayerHit = clock.getElapsedTime().asSeconds();
+        playerHit = true;
+    }else{
+        if((timePlayerHit + 2.5) <= clock.getElapsedTime().asSeconds()){
+            playerHit = false;
+        }
+    }
+    if(bombCooldown){
+        if((timeBombPlaced + 5) <= clock.getElapsedTime().asSeconds()){
+            bombCooldown = false;
+        }
+    }
+    if(playerMove(delta) and collision.isSpriteColliding(playerSprite, gameData->tileMap.getSurroundings(playerPosition, {"empty", "biem", "spawn"}))){ //Might be possible to optimize further -- seems kind of inefficient rn
+        playerSprite.setPosition(sf::Vector2f(playerPosition.x, prevPosition.y));
+        if(collision.isSpriteColliding(playerSprite, gameData->tileMap.getSurroundings(playerPosition, {"empty", "biem", "spawn"}))){
+            revertMove('X');
+        }
+        playerSprite.setPosition(sf::Vector2f(prevPosition.x, playerPosition.y));
+        if(collision.isSpriteColliding(playerSprite, gameData->tileMap.getSurroundings(playerPosition, {"empty", "biem", "spawn"}))){
+            revertMove('Y');
+        }
+    }                                                                                                                       //^^
 }
 
 void Player::setHealth(uint8_t health){
@@ -83,6 +79,10 @@ void Player::setMovementSpeed(uint8_t speed) {
 
 int Player::getMovementSpeed() const {
     return movementSpeed;
+}
+
+void Player::setTexture(const sf::Texture & newTexture){
+    playerSprite.setTexture(newTexture, true);
 }
 
 sf::Sprite& Player::getSprite(){

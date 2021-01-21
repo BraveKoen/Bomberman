@@ -17,8 +17,11 @@ namespace Resource {
 
     constexpr auto solid = "resources/solid.png";
     constexpr auto breakable = "resources/break.png";
+    constexpr auto spawn = "resources/spawn.png";
     constexpr auto play1 = "resources/play1.png";
     constexpr auto play2 = "resources/play2.png";
+    constexpr auto play3 = "resources/play3.png";
+    constexpr auto play4 = "resources/play4.png";
     constexpr auto dynamite = "resources/dynamite.png";
     constexpr auto biem = "resources/biem.png";
     constexpr auto mapBackground = "resources/mapBackground.png";
@@ -26,8 +29,8 @@ namespace Resource {
     constexpr auto defaultBackground = "resources/defaultBackground.png";
     constexpr auto defaultButton = "resources/defaultButton.png";
 
-    constexpr auto defaultPlayerMoveSpeed = 150;
-    constexpr auto defaultPlayerLives = 5;
+    constexpr float defaultPlayerMoveSpeed = 2.5;
+    constexpr unsigned int defaultPlayerLives = 5;
 }
 
 #endif // __DEFINITIONS_HPP__

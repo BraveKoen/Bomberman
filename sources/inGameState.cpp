@@ -6,8 +6,11 @@ InGameState::InGameState(gameDataRef gameData):
 {}
 
 void InGameState::init(){
-    gameData->assetManager.loadTexture("player", Resource::play1);
-    gameData->assetManager.loadTexture("opponent", Resource::play2);
+    gameData->assetManager.loadTexture("player1", Resource::play1);
+    gameData->assetManager.loadTexture("player2", Resource::play2);
+    gameData->assetManager.loadTexture("player3", Resource::play3);
+    gameData->assetManager.loadTexture("player4", Resource::play4);
+    //gameData->assetManager.loadTexture("opponent", Resource::play2); //More opponent stuff, this is all for the yet-to-be-implemented online multiplayer
     gameData->assetManager.loadTexture("dynamite", Resource::dynamite);
     gameData->assetManager.loadTexture("biem", Resource::biem);
 
@@ -29,34 +32,25 @@ void InGameState::init(){
     controlSchemes.push_back(ControlScheme(sf::Keyboard::Key::I, sf::Keyboard::Key::J, sf::Keyboard::Key::K, sf::Keyboard::Key::L, sf::Keyboard::Key::RAlt));
     controlSchemes.push_back(ControlScheme(sf::Keyboard::Key::Numpad8, sf::Keyboard::Key::Numpad4, sf::Keyboard::Key::Numpad5, sf::Keyboard::Key::Numpad6, sf::Keyboard::Key::Enter));
 
-    auto posTileMap = gameData->tileMap.searchForType("play1");
-    auto spawnLocPlayer = sf::Vector2f{0, 0};
-    auto spawnLocOpponent = sf::Vector2f{200, 0};
-    if(posTileMap.size() > 0){
+    std::vector<sf::Vector2u> spawnLocations = gameData->tileMap.searchForType("spawn");
+    sf::Vector2f spawnLocation = sf::Vector2f{0, 0};
+    //sf::Vector2f spawnLocOpponent = sf::Vector2f{200, 0};   //Not really sure how opponents are going to work, will treat mostly like normal player for now
 
-        spawnLocPlayer = gameData->tileMap.tilePosToScreenPos(posTileMap[0]);
-        spawnLocOpponent = gameData->tileMap.tilePosToScreenPos(posTileMap[1]);
-        
-    }
+    //opponents.push_back(std::make_unique<Opponent>(gameData, bHandler, spawnLocOpponent)); //Presumably only a thing in multiplayer mode
 
-    players.push_back(std::make_unique<Player>(gameData, bHandler, false, spawnLocPlayer));             //Some scuffed merge stuff here needs fix
-    opponents.push_back(std::make_unique<Opponent>(gameData, bHandler, spawnLocOpponent));
-
-    background.setTexture(gameData->assetManager.getTexture("default background"));
-    sf::Vector2f mapSelectorStateBackgroundSize = sf::Vector2f( 
-		static_cast< float >( gameData->assetManager.getTexture("default background").getSize().x ), 
-		static_cast< float >( gameData->assetManager.getTexture("default background").getSize().y )
-	);
-    background.setScale(
-        gameData->window.getSize().x/mapSelectorStateBackgroundSize.x, 
-        gameData->window.getSize().y/mapSelectorStateBackgroundSize.y
-    );
-    for(int i = 0; i <= gameData->playerCount; i++){
+    for(int i = 0; i < gameData->playerCount; i++){
         if(i>3){
             std::cout<<"Max 4 players supported!"<<std::endl;
             break;
         }
-        players.push_back(std::make_unique<Player>(gameData, bHandler, controlSchemes[i], spawnLoc));
+        if(spawnLocations.size() > 0){
+            spawnLocation = gameData->tileMap.tilePosToScreenPos(spawnLocations[0]);
+            spawnLocations.erase(spawnLocations.begin());
+            //spawnLocOpponent = gameData->tileMap.tilePosToScreenPos(spawnLocations[1]); Kind of just ignoring opponents for now
+        }
+        std::string textureName = "player";
+        textureName.append(std::to_string(i+1));
+        players.push_back(std::make_unique<Player>(gameData, bHandler, controlSchemes[i], spawnLocation, textureName, Resource::defaultPlayerMoveSpeed * (gameData->tileMap.getTileMapSize().x / gameData->tileMap.getMapSize().x)));
     }
 }
 

@@ -14,7 +14,7 @@
 
 class Player : public Character {
 public:
-    Player(gameDataRef gameData, std::shared_ptr<BombHandler> bombHandler, ControlScheme controls, const sf::Vector2f& spawnPosition, uint16_t movementSpeed=Resource::defaultPlayerMoveSpeed, uint8_t playerHealth=Resource::defaultPlayerLives);
+    Player(gameDataRef gameData, std::shared_ptr<BombHandler> bombHandler, ControlScheme controls, const sf::Vector2f& spawnPosition, std::string textureName, float movementSpeed=Resource::defaultPlayerMoveSpeed, uint8_t playerHealth=Resource::defaultPlayerLives);
     // ~Player(){std::cout << "PlayerDespt" << std::endl;}
 
     void draw() override;
@@ -30,6 +30,8 @@ public:
     void setMovementSpeed(uint8_t speed) override;
     int getMovementSpeed() const override;
 
+    void setTexture(const sf::Texture & newTexture);
+
     sf::Sprite& getSprite();
 
     bool playerMove(const float & delta);
@@ -41,12 +43,13 @@ private:
     ControlScheme controls;
     sf::Vector2f playerPosition;
     sf::Vector2f prevPosition;
-    uint16_t movementSpeed;
+    float movementSpeed;
     uint8_t playerHealth;
     sf::Vector2i movementDirection;
     sf::Vector2i prevMovementDirection;
     bool placeBomb;
     
+    Collision collision;
     sf::Sprite playerSprite;
     int playerId = 69; //???
     sf::Clock clock;
