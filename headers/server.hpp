@@ -4,7 +4,7 @@
 #include <SFML/Network.hpp>
 #include <iostream>
 
-#include "../sources/struct.cpp"
+#include "serverInfo.hpp"
 
 
 

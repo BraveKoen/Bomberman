@@ -1,5 +1,5 @@
-#ifndef __STRUCT_CPP__
-#define __STRUCT_CPP__
+#ifndef __SEVERINFO_HPP__
+#define __SEVERINFO_HPP__
 #include <SFML\Graphics.hpp>
 
 struct PlayerInfo{
@@ -16,4 +16,4 @@ struct LobbyInfo{
     int newPlayer;
 };
 
-#endif // __STRUCT_CPP__
+#endif // __SEVERINFO_HPP__

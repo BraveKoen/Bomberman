@@ -20,7 +20,7 @@ void Player::draw() {
 }
 
 void Player::update(){
-    if(bombHandler->checkBombCollition(playerSprite) && !playerHit){
+    if(bombHandler->checkBombCollision(playerSprite) && !playerHit){
         timePlayerHit = clock.getElapsedTime().asSeconds();
         playerHit = true;
     }else{

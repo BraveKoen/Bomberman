@@ -4,7 +4,6 @@
 #include "../headers/game.hpp"
 #include "../headers/definitions.hpp"
 #include "../headers/server.hpp"
-#include "struct.cpp"
 
 void receve(){
     std::cout << "Hello" << std::endl;

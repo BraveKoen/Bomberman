@@ -19,7 +19,7 @@ public:
 
     void update();
 
-    bool checkBombCollition(const sf::Sprite& target);
+    bool checkBombCollision(const sf::Sprite& target);
 
 private:
 
