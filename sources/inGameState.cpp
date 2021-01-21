@@ -36,9 +36,12 @@ void InGameState::init() {
     gameData->tileMap.setTileMapPosition({hudFrame.x, 0});
     gameData->tileMap.setTileMapSize({Resource::screenHeight, Resource::screenHeight});
 
+<<<<<<< e8c4922490fa241efcc277eade25e65eda027da7
 <<<<<<< 401207f156896d1aa73d3ddc95e41f1a73dd93f4
     std::vector<ControlScheme> controlSchemes;
 =======
+=======
+>>>>>>> thread fixed
     gameData->server.runThread();
 
     //needs to be fixed! 

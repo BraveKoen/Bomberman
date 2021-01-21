@@ -58,7 +58,6 @@ Player::Player(
         gameData->assetManager.getTexture(textureName).getSize().y / 8
     );
     playerSprite.setPosition(playerPosition);
-
     movementSpeed = tileSize / 36 + 1;
 
 }
