@@ -4,9 +4,9 @@
 #include <SFML/Network.hpp>
 #include <iostream>
 #include <thread>
+#include <vector>
 
 #include "serverInfo.hpp"
-
 
 
 class Server{
@@ -27,16 +27,19 @@ public:
     
     void run();
 
-    void runThread(){mThread = std::thread(&Server::run, this);};
-
     void sendData(PlayerInfo &playerInfo);
 
     void sendData(LobbyInfo &lobbyInfo);
 
-    int getPlayerId(int playerId);
+    void serverGetPlayerId(int playerId);
 
     void playerDisconnect();
     PlayerInfo receiveData();
+
+    int getPlayerId();
+
+    void playerReady();
+
 };
 
 #endif // __CONNECT_HPP__

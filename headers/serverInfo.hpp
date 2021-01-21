@@ -6,14 +6,14 @@ struct PlayerInfo{
     int      playerId;
     sf::Vector2f pos;
     bool disconnected;
-    sf::Vector2f aimDir;
-    bool spawnedBullet;
+    bool spawnedBomb;
 };
 
 struct LobbyInfo{
-    int      playerId;
-    bool disconnected;
+    int      playerId = -1;
+    bool disconnected = false;
     int newPlayer;
+    bool ready = false;
 };
 
 #endif // __SEVERINFO_HPP__

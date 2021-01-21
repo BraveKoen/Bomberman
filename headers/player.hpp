@@ -10,6 +10,7 @@
 #include "controlScheme.hpp"
 #include "collision.hpp"
 #include "utilities.hpp"
+#include "serverInfo.hpp"
 
 class Player : public Character {
 public:
@@ -63,6 +64,8 @@ private:
     float timeBombPlaced;
     bool bombCooldown = false;
 
+    bool isReady = false;
+
     bool playerHit = false;
     float timePlayerHit;
 
@@ -77,6 +80,7 @@ private:
     std::vector<sf::IntRect> playerRightAnimationRects;
     unsigned int playerRightAnimationIterator;
     sf::Clock playerAnimationClock; 
+    PlayerInfo playerInfo;
 };
 
 #endif // __PLAYER_HPP__

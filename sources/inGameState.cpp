@@ -60,6 +60,14 @@ void InGameState::init() {
         textureName.append(std::to_string(i+1));
         players.push_back(std::make_unique<Player>(gameData, bombHandler, controlSchemes[i], spawnLocation, i + 1, textureName, Resource::defaultPlayerMoveSpeed * (gameData->tileMap.getTileMapSize().x / gameData->tileMap.getMapSize().x)));
     }
+    
+    bHandler = std::make_shared<BombHandler>(gameData);
+
+    gameData->tileMap.setTileMapPosition(sf::Vector2f(0, 0));
+    gameData->tileMap.setTileMapSize(sf::Vector2f(Resource::screenHeight, Resource::screenHeight));
+
+    mThread = std::thread(&InGameState::updateOpponentLocation, this);
+
     //needs to be fixed! 
     const auto& bgTexture = gameData->assetManager.getTexture("default background");
     background.setTexture(bgTexture);
@@ -95,7 +103,8 @@ void InGameState::handleInput(){
     sf::Event event;
 
     while (gameData->window.pollEvent(event)) {
-        if (sf::Event::Closed == event.type) {
+        if (sf::Event::Closed == event.type){
+            gameData->server.playerDisconnect();
             gameData->window.close();
         }
         for (auto const& button : menuButtons) {
@@ -140,7 +149,16 @@ void InGameState::update(float delta) {
     }
 }
 
-void InGameState::draw(float) {
+void InGameState::updateOpponentLocation(){
+    PlayerInfo opponentInfo;
+    while(true){
+        opponentInfo = gameData->server.receiveData();
+        std::cout << "ontvangen bericht!" << std::endl;
+    }
+}
+
+void InGameState::draw(float delta) {
+    (void)delta;
     gameData->window.clear();
     gameData->window.draw(background);
     gameData->tileMap.draw();

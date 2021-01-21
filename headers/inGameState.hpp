@@ -16,7 +16,7 @@
 #include "collision.hpp"
 #include "menuButton.hpp"
 #include "gameHud.hpp"
-
+#include "serverInfo.hpp"
 
 
 class InGameState : public State {
@@ -27,6 +27,8 @@ public:
     void handleInput() override;
     void update(float delta) override;
     void draw(float delta) override;
+    void updateOpponentLocation();
+
 private:
     enum class GameState {
         Running,
@@ -47,6 +49,7 @@ private:
     sf::Sprite hudMenu;
 
     void initMenuButtons(const sf::Vector2f& offset);
+    std::thread mThread;
 };
 
 #endif // __INGAMESTATE_HPP__
