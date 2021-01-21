@@ -59,8 +59,6 @@ Player::Player(
     );
     playerSprite.setPosition(playerPosition);
 
-    movementSpeed = tileSize / 36 + 1;
-
 }
 
 void Player::draw() {
@@ -178,11 +176,6 @@ bool Player::playerMove(const float & delta){
             playerId = -1;
             data->server.playerDisconnect();
  
-        }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) && !bombCooldown){
-            bombHandler->createBomb(playerId, 3, 3, 2, playerPosition);   
-            bombCooldown = true;
-            timeBombPlaced = clock.getElapsedTime().asSeconds();
         }
     }
 }
