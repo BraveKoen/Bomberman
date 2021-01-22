@@ -23,7 +23,7 @@ void ModeSelectState::init() {
         buttonData{"4 Players", [](gameDataRef gameData){gameData->playerCount=4; gameData->stateMachine.addState(std::make_unique<MapSelectorState>(gameData));}}
     };
     menuButtons = makeButtons(menuButtonsData);
-    playerNumberButtons = makeButtons(playerNumberButtonsData, {menuButtons[0].getSprite().getGlobalBounds().width*1.1, 0});
+    playerNumberButtons = makeButtons(playerNumberButtonsData, sf::Vector2f(menuButtons[0].getSprite().getGlobalBounds().width*1.1, 0));
     const auto& bgTexture = gameData->assetManager.getTexture("default background");
     background.setTexture(bgTexture);
     background.setScale(windowSize / bgTexture.getSize());
