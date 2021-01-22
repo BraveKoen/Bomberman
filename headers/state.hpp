@@ -1,6 +1,8 @@
 #ifndef __STATE_HPP__
 #define __STATE_HPP__
 
+#include <map>
+
 class State {
     private:
     public:
@@ -11,6 +13,8 @@ class State {
 
         virtual void pause(){}
         virtual void resume(){}
+
+        virtual std::map<std::string, bool>& getStateDataRef(){}
 };
 
 #endif // __STATE_HPP__

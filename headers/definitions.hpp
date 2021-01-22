@@ -40,6 +40,7 @@ namespace Resource {
     constexpr auto menuButton = "resources/menuButton.png";
 
     constexpr auto bombSpritesheet = "resources/bombFuse.png";
+    constexpr auto title = "resources/title.png";
 
     constexpr float defaultPlayerMoveSpeed = 2.5;
     constexpr unsigned int defaultPlayerLives = 5;

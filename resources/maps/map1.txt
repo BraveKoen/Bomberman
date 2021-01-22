@@ -1,0 +1,15 @@
+solid solid solid solid solid solid solid solid solid solid solid solid solid solid solid
+solid spawn empty break break break break break break break break break empty spawn solid
+solid empty solid break solid break solid break solid break solid break solid empty solid
+solid break break break break break break break break break break break break break solid
+solid break solid break solid break solid break solid break solid break solid break solid
+solid break break break break break break break break break break break break break solid
+solid break solid break solid break solid empty solid break solid break solid break solid
+solid break break break break break empty empty empty break break break break break solid
+solid break solid break solid break solid empty solid break solid break solid break solid
+solid break break break break break break break break break break break break break solid
+solid break solid break solid break solid break solid break solid break solid break solid
+solid break break break break break break break break break break break break break solid
+solid empty solid break solid break solid break solid break solid break solid empty solid
+solid spawn empty break break break break break break break break break empty spawn solid
+solid solid solid solid solid solid solid solid solid solid solid solid solid solid solid

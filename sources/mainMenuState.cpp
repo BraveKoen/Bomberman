@@ -1,5 +1,5 @@
 #include "../headers/mainMenuState.hpp"
-#include "../headers/mapSelectorState.hpp"
+#include "../headers/modeSelectState.hpp"
 #include "../headers/inputManager.hpp"
 #include "../headers/assetManager.hpp"
 #include "../headers/menuButton.hpp"
@@ -13,7 +13,7 @@ MainMenuState::MainMenuState(gameDataRef gameData):
 void MainMenuState::init() {
     const auto& windowSize = gameData->window.getSize();
     constexpr std::array buttons{
-        buttonData{"Play", Util::switchState<MapSelectorState>},
+        buttonData{"Play", Util::switchState<ModeSelectState>},
         buttonData{"Highscores", [](gameDataRef){}},
         buttonData{"Exit", [](gameDataRef gameData){gameData->window.close();}}
     };
@@ -35,6 +35,17 @@ void MainMenuState::init() {
     const auto& bgTexture = gameData->assetManager.getTexture("default background");
     background.setTexture(bgTexture);
     background.setScale(windowSize / bgTexture.getSize());
+    gameData->assetManager.loadTexture("title", Resource::title);
+    title.setTexture(gameData->assetManager.getTexture("title"));
+    title.setScale(
+        (gameData->window.getSize().x/gameData->assetManager.getTexture("title").getSize().x)/2, 
+        (gameData->window.getSize().y/gameData->assetManager.getTexture("title").getSize().y)/4
+    );
+    title.setOrigin(
+        gameData->assetManager.getTexture("title").getSize().x/2,
+        gameData->assetManager.getTexture("title").getSize().y/2    
+    );
+    title.setPosition(gameData->window.getSize().x/2, gameData->window.getSize().y/5);
 }
 
 void MainMenuState::handleInput() {
@@ -61,6 +72,7 @@ void MainMenuState::update(float) {}
 void MainMenuState::draw(float) {
     gameData->window.clear(sf::Color::Red);
     gameData->window.draw(background);
+    gameData->window.draw(title);
 
     for (const auto& button : menuButtons) {
         button.draw(gameData->window);
