@@ -44,7 +44,7 @@ void InGameState::init() {
 
     std::vector<sf::Vector2u> spawnLocations = gameData->tileMap.searchForType("spawn");
     sf::Vector2f spawnLocation = sf::Vector2f{0, 0};
-    //sf::Vector2f spawnLocOpponent = sf::Vector2f{200, 0};   //Not really sure how opponents are going to work, will treat mostly like normal player for now
+    sf::Vector2f spawnLocOpponent = sf::Vector2f{200, 0};   //Not really sure how opponents are going to work, will treat mostly like normal player for now
 
     for(auto i = 0u; i < gameData->playerCount; ++i){
         if(i>3){
@@ -95,6 +95,7 @@ void InGameState::initMenuButtons(const sf::Vector2f& offset) {
         menuButtons.emplace_back(std::move(sprite), std::move(text), buttons[index].action);
     }
 }
+
 
 void InGameState::handleInput(){
     if (gameState not_eq GameState::Running) {
@@ -166,10 +167,26 @@ void InGameState::updateOpponentLocation(){
 }
 
 void InGameState::updateOpponentLocation(){
+    //opponents.push_back(std::make_unique<Opponent>(gameData, bHandler, spawnLocOpponent));
     PlayerInfo opponentInfo;
+    LobbyInfo lobbyInfo;
     while(true){
-        opponentInfo = gameData->server.receiveData();
-        std::cout << "ontvangen bericht!" << std::endl;
+        if(gameData->isReady){
+            std::cout << "test1" << std::endl;
+            opponentInfo = gameData->server.receiveDataInGame();
+            std::cout << "test3" << std::endl;
+            if(mapOfEnemies.find(opponentInfo.playerId) == mapOfEnemies.end()){
+                std::cout << "test4" << std::endl;
+                mapOfEnemies[opponentInfo.playerId] = std::make_shared<Opponent>(gameData, bHandler, opponentInfo.pos);
+                std::cout << "test5" << std::endl;
+            }else{
+                std::cout << "test6" << std::endl;
+                mapOfEnemies[opponentInfo.playerId]->setPosition(opponentInfo.pos);
+            }
+        }else{
+            std::cout << "test2" << std::endl;
+            lobbyInfo = gameData->server.receiveDataLobby();
+        }  
     }
 }
 
@@ -189,9 +206,8 @@ void InGameState::draw(float delta) {
     for (const auto &player : players) {
         player->draw();
     }
-
-    for (const auto &opponent : opponents) {
-        opponent->draw();
+    for(const auto &opponent : mapOfEnemies){
+        opponent.second->draw();
     }
     gameData->window.display();
 }

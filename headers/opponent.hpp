@@ -7,7 +7,7 @@
 
 class Opponent : public Character{
 public:
-    Opponent(gameDataRef data, std::shared_ptr<BombHandler> bombHandler, const sf::Vector2f& spawnPosition);
+    Opponent(gameDataRef data, std::shared_ptr<BombHandler> bombHandler, sf::Vector2f spawnPosition);
     // ~Opponent();
 
     void draw() override;

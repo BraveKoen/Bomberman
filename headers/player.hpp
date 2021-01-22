@@ -69,8 +69,6 @@ private:
     float timeBombPlaced;
     bool bombCooldown = false;
 
-    bool isReady = false;
-
     bool playerHit = false;
     float timePlayerHit;
 

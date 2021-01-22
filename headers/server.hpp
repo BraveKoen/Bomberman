@@ -35,7 +35,8 @@ public:
     int getPlayerId(int playerId);
 
     void playerDisconnect();
-    PlayerInfo receiveData();
+    PlayerInfo receiveDataInGame();
+    LobbyInfo receiveDataLobby();
 
     int getPlayerId();
 

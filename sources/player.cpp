@@ -161,7 +161,6 @@ bool Player::playerMove(const float & delta){
     if(movementDirection.x==0 && movementDirection.y==0){
         return false;
     }else{
-
         prevPosition = playerPosition;
         playerPosition.x += movementDirection.x * movementSpeed * delta;
         playerPosition.y += movementDirection.y * movementSpeed * delta;
@@ -170,6 +169,12 @@ bool Player::playerMove(const float & delta){
         movementDirection = {0,0};
         return true;
     }
+    //test voor server
+
+
+
+
+    //---------
 }
 
 void Player::revertMove(const char & axis) {

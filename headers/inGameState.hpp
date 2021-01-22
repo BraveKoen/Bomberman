@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <thread>
+#include <map>
 
 #include "player.hpp"
 #include "opponent.hpp"
@@ -18,13 +19,6 @@
 #include "gameHud.hpp"
 #include "serverInfo.hpp"
 
-
-
-
-#include "serverInfo.hpp"
-
-
-
 class InGameState : public State {
 public:
     InGameState(gameDataRef gameData);
@@ -34,6 +28,7 @@ public:
     void update(float delta) override;
     void draw(float delta) override;
     void updateOpponentLocation();
+    void createOpponent();
 
 private:
     enum class GameState {
@@ -47,10 +42,11 @@ private:
     GameState gameState;
     std::shared_ptr<BombHandler> bombHandler;
     std::vector<std::unique_ptr<Player>> players;
-    std::vector<std::unique_ptr<Opponent>> opponents;
+
     std::vector<MenuButton> menuButtons;
     Collision collision;
     sf::Clock gameOverDelay;
+    std::map<int, std::shared_ptr<Opponent>> mapOfEnemies;
     sf::Sprite background;
     sf::Sprite hudMenu;
 

@@ -1,14 +1,14 @@
 #include "../headers/opponent.hpp"
 
-Opponent::Opponent(gameDataRef data, std::shared_ptr<BombHandler> bombHandler, const sf::Vector2f& spawnPosition):
+Opponent::Opponent(gameDataRef data, std::shared_ptr<BombHandler> bombHandler, sf::Vector2f spawnPosition):
     data(data),
     bombHandler(bombHandler),
     opponentPosition(spawnPosition)
 {
-    opponentSprite.setTexture(data->assetManager.getTexture("opponent"));
+    opponentSprite.setTexture(data->assetManager.getTexture("koen"));
     auto tileSize = data->tileMap.getTileMapSize().x / data->tileMap.getMapSize().x;
-    opponentSprite.setScale(tileSize / data->assetManager.getTexture("opponent").getSize().x / 2, tileSize / data->assetManager.getTexture("opponent").getSize().y / 2);
-    opponentSprite.setOrigin(data->assetManager.getTexture("opponent").getSize().x / 2, data->assetManager.getTexture("player").getSize().y / 2); 
+    opponentSprite.setScale(tileSize / data->assetManager.getTexture("koen").getSize().x / 2, tileSize / data->assetManager.getTexture("koen").getSize().y / 2);
+    opponentSprite.setOrigin(data->assetManager.getTexture("koen").getSize().x / 2, data->assetManager.getTexture("koen").getSize().y / 2); 
     opponentSprite.setPosition(sf::Vector2f{150,150});
     opponentSprite.setPosition(spawnPosition);
 }
@@ -27,6 +27,7 @@ int Opponent::getHealth() const {
 
 void Opponent::setPosition(const sf::Vector2f& pos){
     opponentPosition = pos;
+    opponentSprite.setPosition(pos);
 }
 
 const sf::Vector2f& Opponent::getPosition() const {

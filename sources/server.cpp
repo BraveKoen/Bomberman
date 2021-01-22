@@ -68,17 +68,28 @@ void Server::sendData(LobbyInfo &lobbyInfo){
 }
 
 
-PlayerInfo Server::receiveData(){ 
+PlayerInfo Server::receiveDataInGame(){ 
+    PlayerInfo playerInfo;
+    while(true){
+        sf::Packet packetOntvanger;
+        sf::IpAddress ipOntvanger;
+        uint16_t portOntvanger;
+        if(socket.receive(packetOntvanger, ipOntvanger, portOntvanger) == sf::Socket::Done){
+            packetOntvanger >> playerInfo;
+            return playerInfo;
+        }
+    }
+}
+LobbyInfo Server::receiveDataLobby(){ 
     LobbyInfo lobbyInfo;
     while(true){
-        PlayerInfo playerInfo;
         sf::Packet packetOntvanger;
         sf::IpAddress ipOntvanger;
         uint16_t portOntvanger;
         if(socket.receive(packetOntvanger, ipOntvanger, portOntvanger) == sf::Socket::Done){
             packetOntvanger >> lobbyInfo;
             playerNumber = lobbyInfo.playerId;
-            return playerInfo;
+            return lobbyInfo;
         }
     }
 }
@@ -107,8 +118,8 @@ void Server::playerDisconnect(){
     sendPacket << lobby;
     socket.send(sendPacket, server, port);
     sendPacket.clear();
-    sendPacket << playerInfo;
-    socket.send(sendPacket, server, port);
+    //sendPacket << playerInfo;
+   // socket.send(sendPacket, server, port);
 }
 
 int Server::getPlayerId(){
