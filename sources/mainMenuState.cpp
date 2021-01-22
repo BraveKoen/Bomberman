@@ -1,5 +1,5 @@
 #include "../headers/mainMenuState.hpp"
-#include "../headers/mapSelectorState.hpp"
+#include "../headers/modeSelectState.hpp"
 #include "../headers/inputManager.hpp"
 #include "../headers/assetManager.hpp"
 #include "../headers/menuButton.hpp"
@@ -13,7 +13,7 @@ MainMenuState::MainMenuState(gameDataRef gameData):
 void MainMenuState::init() {
     const auto& windowSize = gameData->window.getSize();
     constexpr std::array buttons{
-        buttonData{"Play", Util::switchState<MapSelectorState>},
+        buttonData{"Play", Util::switchState<ModeSelectState>},
         buttonData{"Highscores", [](gameDataRef){}},
         buttonData{"Exit", [](gameDataRef gameData){gameData->window.close();}}
     };

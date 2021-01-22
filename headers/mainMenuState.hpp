@@ -8,14 +8,6 @@
 #include "state.hpp"
 #include "definitions.hpp"
 #include "menuButton.hpp"
-// #include "../headers/game.hpp"
-// #include "../headers/state.hpp"
-// #include "../headers/utilities.hpp"
-// #include "../headers/definitions.hpp"
-// #include "../headers/inputManager.hpp"
-// #include "../headers/assetManager.hpp"
-// #include "../headers/menuButton.hpp"
-// #include "../headers/modeSelectState.hpp"
 
 class MainMenuState: public State {
 private:

@@ -15,7 +15,7 @@ void ModeSelectState::init() {
     const std::vector menuButtonsData{
         buttonData{"Local", [](gameDataRef gameData){gameData->stateMachine.getActiveState()->getStateDataRef()["showPlayerNumberButtons"]=true;}},
         buttonData{"Online", [](gameDataRef gameData){std::cout << "Online Multiplayer WIP" << std::endl; gameData->stateMachine.getActiveState()->getStateDataRef()["showPlayerNumberButtons"]=false;}},
-        buttonData{"Back", [](gameDataRef gameData){gameData->stateMachine.removeState();}}
+        buttonData{"Back", [](gameDataRef gameData){sf::Time transitionTime = sf::seconds(0.1f); sf::sleep(transitionTime); gameData->stateMachine.removeState();}}
     };
     const std::vector playerNumberButtonsData{
         buttonData{"2 Players", [](gameDataRef gameData){gameData->playerCount=2; gameData->stateMachine.addState(std::make_unique<MapSelectorState>(gameData));}},
@@ -23,7 +23,7 @@ void ModeSelectState::init() {
         buttonData{"4 Players", [](gameDataRef gameData){gameData->playerCount=4; gameData->stateMachine.addState(std::make_unique<MapSelectorState>(gameData));}}
     };
     menuButtons = makeButtons(menuButtonsData);
-    playerNumberButtons = makeButtons(playerNumberButtonsData, {menuButtons[0].getSprite().getGlobalBounds().width, 0});
+    playerNumberButtons = makeButtons(playerNumberButtonsData, {menuButtons[0].getSprite().getGlobalBounds().width*1.1, 0});
     const auto& bgTexture = gameData->assetManager.getTexture("default background");
     background.setTexture(bgTexture);
     background.setScale(windowSize / bgTexture.getSize());
@@ -88,7 +88,7 @@ std::vector<MenuButton> ModeSelectState::makeButtons(std::vector<std::pair<const
         sf::Sprite sprite{texture};
         sprite.setScale(windowSize / texture.getSize() / sf::Vector2f{5, 10});
         const auto& spriteBounds = sprite.getGlobalBounds();
-        sprite.setPosition(Util::centerRect(windowSize, spriteBounds, index, buttonData.size()));
+        sprite.setPosition(Util::centerRectMargin(windowSize, spriteBounds, index, buttonData.size()));
         sprite.move(offset);
 
         static const auto& font = gameData->assetManager.getFont("default font");
