@@ -64,7 +64,7 @@ void InGameState::init(){
         }
         std::string textureName = "player";
         textureName.append(std::to_string(i+1));
-        players.push_back(std::make_unique<Player>(gameData, bHandler, controlSchemes[i], spawnLocation, textureName, Resource::defaultPlayerMoveSpeed * (gameData->tileMap.getTileMapSize().x / gameData->tileMap.getMapSize().x)));
+        players.push_back(std::make_unique<Player>(gameData, bHandler, controlSchemes[i], spawnLocation, i + 1, textureName, Resource::defaultPlayerMoveSpeed * (gameData->tileMap.getTileMapSize().x / gameData->tileMap.getMapSize().x)));
     }
 
     //needs to be fixed! 
@@ -136,6 +136,9 @@ void InGameState::handleInput(){
 void InGameState::update(float delta) {
     for (const auto& player : players) {
         player->update(delta);
+
+        // note: change this so health bar is updated only when necessary
+        gameHud->setHealthBar(gameData, player->getPlayerId() - 1, player->getHealth());
     }
 }
 

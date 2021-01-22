@@ -3,9 +3,10 @@
 Player::Player(
     gameDataRef gameData, 
     std::shared_ptr<BombHandler> bombHandler, 
-    ControlScheme controls, 
+    ControlScheme controls,
     const sf::Vector2f& spawnPosition, 
-    std::string textureName, 
+    unsigned int playerId,
+    std::string textureName,
     float movementSpeed, 
     uint8_t playerHealth
 ):
@@ -13,6 +14,7 @@ Player::Player(
     bombHandler{bombHandler},
     controls{controls},
     playerPosition{spawnPosition},
+    playerId{playerId},
     movementSpeed{movementSpeed},
     playerHealth{playerHealth},
     movementDirection{sf::Vector2i(0,0)},
@@ -59,22 +61,34 @@ Player::Player(
 }
 
 void Player::draw() {
-    gameData->window.draw(playerSprite);
+    if (isAlive) {
+        gameData->window.draw(playerSprite);
+    }
 }
 
 void Player::handleInput(){
-    movementDirection = controls.getDirection();
-    if(controls.getBombKeyPressed() && !bombCooldown){
-        bombHandler->createBomb(playerId, 4, 4, 2, playerPosition); 
-        bombCooldown = true;
-        timeBombPlaced = clock.getElapsedTime().asSeconds();
+    if (isAlive) {
+        movementDirection = controls.getDirection();
+        if(controls.getBombKeyPressed() && !bombCooldown){
+            bombHandler->createBomb(playerId, 4, 4, 2, playerPosition); 
+            bombCooldown = true;
+            timeBombPlaced = clock.getElapsedTime().asSeconds();
+        }
     }
 }
 
 void Player::update(const float & delta){
+    if (not isAlive) {
+        return;
+    }
     if(bombHandler->checkBombCollision(playerSprite) && !playerHit){
         timePlayerHit = clock.getElapsedTime().asSeconds();
         playerHit = true;
+        playerHealth--;
+
+        if (playerHealth < 1) {
+            isAlive = false;
+        }
     }else{
         if((timePlayerHit + 2.5) <= clock.getElapsedTime().asSeconds()){
             playerHit = false;
@@ -96,6 +110,14 @@ void Player::update(const float & delta){
             revertMove('Y');
         }
     }                                                                                                                       //^^
+}
+
+void Player::setPlayerId(unsigned int id) {
+    playerId = id;
+}
+
+unsigned int Player::getPlayerId() const {
+    return playerId;
 }
 
 void Player::setHealth(uint8_t health){

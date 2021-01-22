@@ -13,12 +13,15 @@
 
 class Player : public Character {
 public:
-    Player(gameDataRef gameData, std::shared_ptr<BombHandler> bombHandler, ControlScheme controls, const sf::Vector2f& spawnPosition, std::string textureName, float movementSpeed=Resource::defaultPlayerMoveSpeed, uint8_t playerHealth=Resource::defaultPlayerLives);
+    Player(gameDataRef gameData, std::shared_ptr<BombHandler> bombHandler, ControlScheme controls, const sf::Vector2f& spawnPosition, unsigned int playerId, std::string textureName, float movementSpeed=Resource::defaultPlayerMoveSpeed, uint8_t playerHealth=Resource::defaultPlayerLives);
     // ~Player(){std::cout << "PlayerDespt" << std::endl;}
 
     void draw() override;
     void handleInput();
     void update(const float & delta);
+
+    void setPlayerId(unsigned int id);
+    unsigned int getPlayerId() const;
 
     void setHealth(uint8_t health) override;
     int getHealth() const override;
@@ -45,6 +48,7 @@ private:
     ControlScheme controls;
     sf::Vector2f playerPosition;
     sf::Vector2f prevPosition;
+    unsigned int playerId;
     float movementSpeed;
     uint8_t playerHealth;
     sf::Vector2i movementDirection;
@@ -53,13 +57,14 @@ private:
     
     Collision collision;
     sf::Sprite playerSprite;
-    int playerId = 69; //???
     sf::Clock clock;
     float timeBombPlaced;
     bool bombCooldown = false;
 
     bool playerHit = false;
     float timePlayerHit;
+
+    bool isAlive = true;
 
     std::vector<sf::IntRect> playerUpAnimationRects;
     unsigned int playerUpAnimationIterator;
