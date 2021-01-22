@@ -29,7 +29,6 @@ void InGameState::init(){
     //gameData->assetManager.loadTexture("opponent", Resource::play2); //More opponent stuff, this is all for the yet-to-be-implemented online multiplayer
     gameData->assetManager.loadTexture("biem", Resource::biem);
     gameData->assetManager.loadTexture("bomb spritesheet", Resource::bombSpritesheet);
-    gameData->assetManager.loadTexture("dynamite", Resource::dynamite);
 
     gameHud = std::make_unique<GameHUD>(gameData);
     hudMenu.setTexture(gameData->assetManager.loadTexture("menu frame", Resource::menuFrame));
@@ -53,7 +52,7 @@ void InGameState::init(){
     sf::Vector2f spawnLocation = sf::Vector2f{0, 0};
     //sf::Vector2f spawnLocOpponent = sf::Vector2f{200, 0};   //Not really sure how opponents are going to work, will treat mostly like normal player for now
 
-    for(int i = 0; i < gameData->playerCount; i++){
+    for(auto i = 0u; i < gameData->playerCount; ++i){
         if(i>3){
             std::cout<<"Max 4 players supported!"<<std::endl;
             break;
@@ -134,15 +133,9 @@ void InGameState::handleInput(){
     }
 }
 
-void InGameState::update(float) {
+void InGameState::update(float delta) {
     for (const auto& player : players) {
-        if (player->playerMove()
-        and collision.isSpriteColliding(player->getSprite(),
-            gameData->tileMap.getSurroundings(player->getPosition()))
-        ) {
-            player->revertMove();
-        }
-        player->update();
+        player->update(delta);
     }
 }
 

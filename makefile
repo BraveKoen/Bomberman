@@ -7,7 +7,7 @@ SFML_STL := -lsfml-main -lsfml-graphics-s -lsfml-window-s -lsfml-system-s
 WIN_STL := -lgdi32 -lopengl32 -lwinmm -lfreetype -lstdc++fs
 
 FLAGS := -std=c++17 -pedantic -Wall -Werror -Wextra -D SFML_STATIC
-OBJECTS := bomberman.o game.o state.o input.o asset.o menu.o button.o menubutton.o bomb.o bombhdlr.o player.o opponent.o tile.o tilemap.o gamestate.o mapselect.o collision.o hud.o gamehud.o playerhud.o
+OBJECTS := bomberman.o game.o state.o input.o asset.o menu.o button.o menubutton.o bomb.o bombhdlr.o player.o opponent.o tile.o tilemap.o gamestate.o mapselect.o collision.o hud.o gamehud.o playerhud.o ctrlscheme.o
 
 SRC := sources/
 HDR := headers/
@@ -80,6 +80,9 @@ gamehud.o: $(SRC)gameHud.cpp $(HDR)gameHud.hpp $(HDR)hud.hpp $(HDR)playerHud.hpp
 
 playerhud.o: $(SRC)playerHud.cpp $(HDR)playerHud.hpp $(HDR)hud.hpp $(HDR)definitions.hpp $(HDR)game.hpp $(HDR)utilities.hpp
 	g++ $(FLAGS) -c $(SRC)playerHud.cpp -I $(SFML_INC) -o playerhud.o
+
+ctrlscheme.o: $(SRC)controlScheme.cpp $(HDR)controlScheme.hpp
+	g++ $(FLAGS) -c $(SRC)controlScheme.cpp -I $(SFML_INC) -o ctrlscheme.o
 
 .PHONY: build clean
 
