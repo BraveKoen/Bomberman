@@ -111,22 +111,6 @@ void InGameState::handleInput(){
                 button.invokeAction(gameData);
             }
         }
-        // NOTE: for demo purposes only -- remove this
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
-            static auto lives = 5;
-            static auto id = 0;
-            static auto t = true;
-            t = not t;
-            if (t) {
-                continue;
-            }
-            gameHud->setHealthBar(gameData, id, lives);
-            if (lives-- == 0) {
-                lives = 5;
-                id = !id;
-            }
-        }
-        // -------------------------------------------
     }
     for (const auto& player : players) {
         player->handleInput();
