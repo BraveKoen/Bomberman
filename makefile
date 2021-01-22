@@ -7,7 +7,7 @@ SFML_STL := -lsfml-main -lsfml-graphics-s -lsfml-window-s -lsfml-system-s
 WIN_STL := -lgdi32 -lopengl32 -lwinmm -lfreetype -lstdc++fs
 
 FLAGS := -std=c++17 -pedantic -Wall -Werror -Wextra -D SFML_STATIC
-OBJECTS := bomberman.o game.o state.o input.o asset.o menu.o button.o menubutton.o bomb.o bombhdlr.o player.o opponent.o tile.o tilemap.o gamestate.o mapselect.o collision.o
+OBJECTS := bomberman.o game.o state.o input.o asset.o menu.o button.o menubutton.o bomb.o bombhdlr.o player.o opponent.o tile.o tilemap.o gamestate.o mapselect.o collision.o hud.o gamehud.o playerhud.o ctrlscheme.o
 
 SRC := sources/
 HDR := headers/
@@ -24,7 +24,7 @@ bomberman: $(OBJECTS)
 bomberman.o: $(SRC)bomberman.cpp $(HDR)game.hpp $(HDR)definitions.hpp
 	g++ $(FLAGS) -c $(SRC)bomberman.cpp -I $(SFML_INC) -o bomberman.o
 
-game.o: $(SRC)game.cpp $(HDR)game.hpp $(HDR)stateMachine.hpp $(HDR)assetManager.hpp $(HDR)inputManager.hpp $(HDR)mainMenuState.hpp
+game.o: $(SRC)game.cpp $(HDR)game.hpp $(HDR)stateMachine.hpp $(HDR)assetManager.hpp $(HDR)inputManager.hpp $(HDR)tileMap.hpp $(HDR)mainMenuState.hpp $(HDR)definitions.hpp
 	g++ $(FLAGS) -c $(SRC)game.cpp -I $(SFML_INC) -o game.o
 
 state.o: $(SRC)stateMachine.cpp $(HDR)stateMachine.hpp $(HDR)state.hpp 
@@ -39,10 +39,10 @@ asset.o: $(SRC)assetManager.cpp $(HDR)assetManager.hpp
 menu.o: $(SRC)mainMenuState.cpp $(HDR)mainMenuState.hpp $(HDR)inputManager.hpp $(HDR)assetManager.hpp $(HDR)menuButton.hpp $(HDR)game.hpp $(HDR)state.hpp $(HDR)definitions.hpp $(HDR)utilities.hpp $(HDR)mapSelectorState.hpp
 	g++ $(FLAGS) -c $(SRC)mainMenuState.cpp -I $(SFML_INC) -o menu.o
 
-button.o: $(SRC)button.cpp $(HDR)button.hpp $(HDR)game.hpp
+button.o: $(SRC)button.cpp $(HDR)button.hpp $(HDR)definitions.hpp
 	g++ $(FLAGS) -c $(SRC)button.cpp -I $(SFML_INC) -o button.o
 
-menubutton.o: $(SRC)menuButton.cpp $(HDR)menuButton.hpp $(HDR)button.hpp $(HDR)game.hpp
+menubutton.o: $(SRC)menuButton.cpp $(HDR)menuButton.hpp $(HDR)button.hpp $(HDR)game.hpp $(HDR)definitions.hpp
 	g++ $(FLAGS) -c $(SRC)menuButton.cpp -I $(SFML_INC) -o menubutton.o
 
 bomb.o: $(SRC)bomb.cpp $(HDR)bomb.hpp $(HDR)game.hpp $(HDR)tile.hpp $(HDR)tileMap.hpp
@@ -63,7 +63,7 @@ tile.o: $(SRC)tile.cpp $(HDR)tile.hpp
 tilemap.o: $(SRC)tileMap.cpp $(HDR)tileMap.hpp $(HDR)tile.hpp $(HDR)game.hpp $(HDR)definitions.hpp
 	g++ $(FLAGS) -c $(SRC)tileMap.cpp -I $(SFML_INC) -o tilemap.o
 
-gamestate.o: $(SRC)inGameState.cpp $(HDR)inGameState.hpp $(HDR)game.hpp $(HDR)player.hpp $(HDR)utilities.hpp $(HDR)bombHandler.hpp $(HDR)tileMap.hpp
+gamestate.o: $(SRC)inGameState.cpp $(HDR)inGameState.hpp $(HDR)player.hpp $(HDR)game.hpp $(HDR)utilities.hpp $(HDR)bombHandler.hpp $(HDR)definitions.hpp $(HDR)collision.hpp $(HDR)tileMap.hpp $(HDR)gameHud.hpp
 	g++ $(FLAGS) -c $(SRC)inGameState.cpp -I $(SFML_INC) -o gamestate.o
 
 mapselect.o: $(SRC)mapSelectorState.cpp $(HDR)mapSelectorState.hpp $(HDR)tileMap.hpp $(HDR)definitions.hpp $(HDR)game.hpp $(HDR)state.hpp
@@ -71,6 +71,18 @@ mapselect.o: $(SRC)mapSelectorState.cpp $(HDR)mapSelectorState.hpp $(HDR)tileMap
 
 collision.o: $(SRC)collision.cpp $(HDR)collision.hpp
 	g++ $(FLAGS) -c $(SRC)collision.cpp -I $(SFML_INC) -o collision.o
+
+hud.o: $(SRC)hud.cpp $(HDR)hud.hpp
+	g++ $(FLAGS) -c $(SRC)hud.cpp -I $(SFML_INC) -o hud.o
+
+gamehud.o: $(SRC)gameHud.cpp $(HDR)gameHud.hpp $(HDR)hud.hpp $(HDR)playerHud.hpp $(HDR)mainMenuState.hpp $(HDR)definitions.hpp $(HDR)utilities.hpp $(HDR)game.hpp
+	g++ $(FLAGS) -c $(SRC)gameHud.cpp -I $(SFML_INC) -o gamehud.o
+
+playerhud.o: $(SRC)playerHud.cpp $(HDR)playerHud.hpp $(HDR)hud.hpp $(HDR)definitions.hpp $(HDR)game.hpp $(HDR)utilities.hpp
+	g++ $(FLAGS) -c $(SRC)playerHud.cpp -I $(SFML_INC) -o playerhud.o
+
+ctrlscheme.o: $(SRC)controlScheme.cpp $(HDR)controlScheme.hpp
+	g++ $(FLAGS) -c $(SRC)controlScheme.cpp -I $(SFML_INC) -o ctrlscheme.o
 
 .PHONY: build clean
 

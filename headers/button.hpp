@@ -2,7 +2,7 @@
 #define __BUTTON_HPP__
 
 #include <SFML/Graphics.hpp>
-#include "../headers/game.hpp"
+#include "definitions.hpp"
 
 class Button {
 private:
