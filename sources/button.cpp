@@ -1,8 +1,8 @@
 #include "../headers/button.hpp"
 
 Button::Button(const sf::Sprite& sprite, const sf::Text& text):
-    sprite{sprite},
-    text{text}
+    sprite{std::move(sprite)},
+    text{std::move(text)}
 {}
 
 void Button::draw(sf::RenderWindow& window) const {

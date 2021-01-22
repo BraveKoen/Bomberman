@@ -2,6 +2,7 @@
 #define __ASSETMANAGER_HPP__
 
 #include <map>
+#include <string>
 #include <SFML/Graphics.hpp>
 
 class AssetManager{
@@ -12,6 +13,7 @@ public:
     const sf::Texture& loadTexture(std::string name, std::string fileName);
     const sf::Font& loadFont(std::string name, std::string fileName);
 
+    const sf::Texture& getTexture(std::string name, int id) const;
     const sf::Texture& getTexture(std::string name) const;
     const sf::Font& getFont(std::string name) const;
 };

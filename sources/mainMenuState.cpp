@@ -1,4 +1,10 @@
 #include "../headers/mainMenuState.hpp"
+#include "../headers/mapSelectorState.hpp"
+#include "../headers/inputManager.hpp"
+#include "../headers/assetManager.hpp"
+#include "../headers/menuButton.hpp"
+#include "../headers/utilities.hpp"
+#include "../headers/game.hpp"
 
 MainMenuState::MainMenuState(gameDataRef gameData):
     gameData{gameData}
@@ -6,26 +12,25 @@ MainMenuState::MainMenuState(gameDataRef gameData):
 
 void MainMenuState::init() {
     const auto& windowSize = gameData->window.getSize();
-    using buttonData = std::pair<const char*, buttonFunc>;
     constexpr std::array buttons{
         buttonData{"Play", Util::switchState<MapSelectorState>},
-        buttonData{"Highscores", Util::switchState<MainMenuState>},
+        buttonData{"Highscores", [](gameDataRef){}},
         buttonData{"Exit", [](gameDataRef gameData){gameData->window.close();}}
     };
     for (std::size_t index = 0; index < buttons.size(); ++index) {
         static const auto& texture = gameData->assetManager.getTexture("default button");
-        sf::Sprite sprite{texture};
+        auto&& sprite = sf::Sprite{texture};
         sprite.setScale(windowSize / texture.getSize() / sf::Vector2f{5, 10});
         const auto& spriteBounds = sprite.getGlobalBounds();
-        sprite.setPosition(Util::centerRect(windowSize, spriteBounds, index, buttons.size()));
+        sprite.setPosition(Util::centerRectMargin(windowSize, spriteBounds, index, buttons.size()));
 
         static const auto& font = gameData->assetManager.getFont("default font");
-        sf::Text text{buttons[index].first, font};
+        auto&& text = sf::Text{buttons[index].title, font};
         text.setFillColor(sf::Color::Cyan);
         text.setOrigin(Util::scaleRect(text.getGlobalBounds(), {2, 2}));
         text.setPosition(Util::centerVector(sprite.getPosition(), spriteBounds, {2, 2.5}));
 
-        menuButtons.emplace_back(std::move(sprite), std::move(text), buttons[index].second);
+        menuButtons.emplace_back(std::move(sprite), std::move(text), buttons[index].action);
     }
     const auto& bgTexture = gameData->assetManager.getTexture("default background");
     background.setTexture(bgTexture);
@@ -51,12 +56,9 @@ void MainMenuState::handleInput() {
     }
 }
 
-void MainMenuState::update(float delta) {
-    (void)delta;
-}
+void MainMenuState::update(float) {}
 
-void MainMenuState::draw(float delta) {
-    (void)delta;
+void MainMenuState::draw(float) {
     gameData->window.clear(sf::Color::Red);
     gameData->window.draw(background);
 

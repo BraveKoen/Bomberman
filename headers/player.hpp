@@ -1,10 +1,9 @@
 #ifndef __PLAYER_HPP__
 #define __PLAYER_HPP__
 
-#include <SFML/Graphics.hpp>
 #include <iostream>
-#include <memory> 
-
+#include <memory>
+#include <SFML/Graphics.hpp>
 #include "bombHandler.hpp"
 #include "character.hpp"
 #include "definitions.hpp"

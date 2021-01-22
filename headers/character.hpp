@@ -2,7 +2,7 @@
 #define __CHARACTER_HPP__
 
 #include <SFML/Graphics.hpp>
-#include "game.hpp"
+#include "definitions.hpp"
 #include "bombHandler.hpp"
 
 class Character {

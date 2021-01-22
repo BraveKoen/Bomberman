@@ -3,7 +3,6 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
-
 #include "character.hpp"
 
 class Opponent : public Character{

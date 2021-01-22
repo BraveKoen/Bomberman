@@ -12,6 +12,10 @@ const sf::Font& AssetManager::loadFont(std::string name, std::string fileName) {
     return fonts[name] = font;
 }
 
+const sf::Texture& AssetManager::getTexture(std::string name, int id) const {
+    return getTexture(name + std::to_string(id));
+}
+
 const sf::Texture& AssetManager::getTexture(std::string name) const {
     return textures.at(name);
 }

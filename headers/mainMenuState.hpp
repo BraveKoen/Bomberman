@@ -5,14 +5,9 @@
 #include <array>
 #include <string>
 #include <SFML/Graphics.hpp>
-#include "../headers/game.hpp"
-#include "../headers/state.hpp"
-#include "../headers/utilities.hpp"
-#include "../headers/definitions.hpp"
-#include "../headers/inputManager.hpp"
-#include "../headers/assetManager.hpp"
-#include "../headers/menuButton.hpp"
-#include "../headers/mapSelectorState.hpp"
+#include "state.hpp"
+#include "definitions.hpp"
+#include "menuButton.hpp"
 
 class MainMenuState: public State {
 private:
