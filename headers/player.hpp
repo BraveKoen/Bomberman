@@ -10,9 +10,7 @@
 #include "controlScheme.hpp"
 #include "collision.hpp"
 #include "utilities.hpp"
-
 #include "serverInfo.hpp"
-
 
 class Player : public Character {
 public:
@@ -53,18 +51,16 @@ private:
     ControlScheme controls;
     sf::Vector2f playerPosition;
     sf::Vector2f prevPosition;
-
+    unsigned int playerId;
     float movementSpeed;
     uint8_t playerHealth;
     sf::Vector2i movementDirection;
     sf::Vector2i prevMovementDirection;
     bool placeBomb;
+    PlayerInfo playerInfo;
     
     Collision collision;
     sf::Sprite playerSprite;
-
-    int playerId = -1;
-
     sf::Clock clock;
     float timeBombPlaced;
     bool bombCooldown = false;
@@ -83,7 +79,6 @@ private:
     std::vector<sf::IntRect> playerRightAnimationRects;
     unsigned int playerRightAnimationIterator;
     sf::Clock playerAnimationClock; 
-    PlayerInfo playerInfo;
 };
 
 #endif // __PLAYER_HPP__

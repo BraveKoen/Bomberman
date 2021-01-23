@@ -1,6 +1,8 @@
 #ifndef __SEVERINFO_HPP__
 #define __SEVERINFO_HPP__
 #include <SFML\Graphics.hpp>
+#include <iostream>
+#include "tileMap.hpp"
 
 struct PlayerInfo{
     int      playerId;
@@ -10,10 +12,11 @@ struct PlayerInfo{
 };
 
 struct LobbyInfo{
-    int      playerId = -1;
+    int playerId = -1;
+    int opponentsCount = 0;
     bool disconnected = false;
-    int newPlayer;
     bool ready = false;
+    std::string map;
 };
 
 #endif // __SEVERINFO_HPP__

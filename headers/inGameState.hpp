@@ -14,8 +14,8 @@
 #include "bombHandler.hpp"
 #include "controlScheme.hpp"
 #include "definitions.hpp"
-#include "collision.hpp"
 #include "menuButton.hpp"
+#include "collision.hpp"
 #include "gameHud.hpp"
 #include "serverInfo.hpp"
 

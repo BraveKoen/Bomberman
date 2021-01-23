@@ -14,11 +14,21 @@ InGameState::InGameState(gameDataRef gameData):
     bombHandler{std::make_shared<BombHandler>(gameData)}
 {}
 
-void InGameState::init() {
+void InGameState::init(){
+    gameData->assetManager.loadTexture("HUD frame", Resource::frame);
+    gameData->assetManager.loadTexture("HUD small frame", Resource::smallFrame);
+    gameData->assetManager.loadTexture("HUD banner", Resource::banner);
+    gameData->assetManager.loadTexture("HUD profile0", Resource::profile4);
+    gameData->assetManager.loadTexture("HUD profile1", Resource::profile1);
+    gameData->assetManager.loadTexture("HUD profile2", Resource::profile2);
+    gameData->assetManager.loadTexture("HUD profile3", Resource::profile3);
+    gameData->assetManager.loadTexture("HUD live full", Resource::liveFull);
+    gameData->assetManager.loadTexture("HUD live empty", Resource::liveEmpty);
+
     gameData->assetManager.loadTexture("player1", Resource::player1);
     gameData->assetManager.loadTexture("player2", Resource::player2);
     gameData->assetManager.loadTexture("player3", Resource::player3);
-    gameData->assetManager.loadTexture("player4", Resource::player4);
+    
     //gameData->assetManager.loadTexture("opponent", Resource::play2); //More opponent stuff, this is all for the yet-to-be-implemented online multiplayer
     gameData->assetManager.loadTexture("biem", Resource::biem);
     gameData->assetManager.loadTexture("bomb spritesheet", Resource::bombSpritesheet);
@@ -35,8 +45,6 @@ void InGameState::init() {
 
     std::vector<ControlScheme> controlSchemes;
 
-    mThread = std::thread(&InGameState::updateOpponentLocation, this);
-
     controlSchemes.emplace_back(sf::Keyboard::Key::W, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::D, sf::Keyboard::Key::Space);
     controlSchemes.emplace_back(sf::Keyboard::Key::Up, sf::Keyboard::Key::Left, sf::Keyboard::Key::Down, sf::Keyboard::Key::Right, sf::Keyboard::Key::RControl);
     controlSchemes.emplace_back(sf::Keyboard::Key::I, sf::Keyboard::Key::J, sf::Keyboard::Key::K, sf::Keyboard::Key::L, sf::Keyboard::Key::RAlt);
@@ -44,7 +52,7 @@ void InGameState::init() {
 
     std::vector<sf::Vector2u> spawnLocations = gameData->tileMap.searchForType("spawn");
     sf::Vector2f spawnLocation = sf::Vector2f{0, 0};
-    sf::Vector2f spawnLocOpponent = sf::Vector2f{200, 0};   //Not really sure how opponents are going to work, will treat mostly like normal player for now
+    //sf::Vector2f spawnLocOpponent = sf::Vector2f{200, 0};   //Not really sure how opponents are going to work, will treat mostly like normal player for now
 
     for(auto i = 0u; i < gameData->playerCount; ++i){
         if(i>3){
@@ -56,6 +64,7 @@ void InGameState::init() {
             spawnLocations.erase(spawnLocations.begin());
             //spawnLocOpponent = gameData->tileMap.tilePosToScreenPos(spawnLocations[1]); Kind of just ignoring opponents for now
         }
+        spawnLocation = gameData->tileMap.tilePosToScreenPos(spawnLocations[gameData->server.getPlayerId() -1]);
         std::string textureName = "player";
         textureName.append(std::to_string(i+1));
         players.push_back(std::make_unique<Player>(gameData, bombHandler, controlSchemes[i], spawnLocation, i + 1, textureName, Resource::defaultPlayerMoveSpeed * (gameData->tileMap.getTileMapSize().x / gameData->tileMap.getMapSize().x)));
@@ -66,12 +75,14 @@ void InGameState::init() {
     gameData->tileMap.setTileMapPosition(sf::Vector2f(0, 0));
     gameData->tileMap.setTileMapSize(sf::Vector2f(Resource::screenHeight, Resource::screenHeight));
 
-    mThread = std::thread(&InGameState::updateOpponentLocation, this);
-
     //needs to be fixed! 
     const auto& bgTexture = gameData->assetManager.getTexture("default background");
     background.setTexture(bgTexture);
     background.setScale(gameData->window.getSize() / bgTexture.getSize());
+
+    mThread = std::thread(&InGameState::updateOpponentLocation, this);
+    
+    
 }
 
 void InGameState::initMenuButtons(const sf::Vector2f& offset) {
@@ -158,35 +169,19 @@ void InGameState::updateOpponentLocation(){
     }
 }
 
-void InGameState::updateOpponentLocation(){
-    PlayerInfo opponentInfo;
-    while(true){
-        opponentInfo = gameData->server.receiveData();
-        std::cout << "ontvangen bericht!" << std::endl;
-    }
-}
 
 void InGameState::updateOpponentLocation(){
-    //opponents.push_back(std::make_unique<Opponent>(gameData, bHandler, spawnLocOpponent));
     PlayerInfo opponentInfo;
-    LobbyInfo lobbyInfo;
     while(true){
-        if(gameData->isReady){
-            std::cout << "test1" << std::endl;
-            opponentInfo = gameData->server.receiveDataInGame();
-            std::cout << "test3" << std::endl;
-            if(mapOfEnemies.find(opponentInfo.playerId) == mapOfEnemies.end()){
-                std::cout << "test4" << std::endl;
-                mapOfEnemies[opponentInfo.playerId] = std::make_shared<Opponent>(gameData, bHandler, opponentInfo.pos);
-                std::cout << "test5" << std::endl;
-            }else{
-                std::cout << "test6" << std::endl;
-                mapOfEnemies[opponentInfo.playerId]->setPosition(opponentInfo.pos);
-            }
+        opponentInfo = gameData->server.receiveDataInGame();
+        if(mapOfEnemies.find(opponentInfo.playerId) == mapOfEnemies.end()){
+            mapOfEnemies[opponentInfo.playerId] = std::make_shared<Opponent>(gameData, bHandler, opponentInfo.pos);
+        }else if(opponentInfo.spawnedBomb){
+            mapOfEnemies[opponentInfo.playerId]->spawnBomb(opponentInfo.playerId);
+            mapOfEnemies[opponentInfo.playerId]->setPosition(opponentInfo.pos);
         }else{
-            std::cout << "test2" << std::endl;
-            lobbyInfo = gameData->server.receiveDataLobby();
-        }  
+            mapOfEnemies[opponentInfo.playerId]->setPosition(opponentInfo.pos);
+        } 
     }
 }
 
@@ -209,5 +204,6 @@ void InGameState::draw(float delta) {
     for(const auto &opponent : mapOfEnemies){
         opponent.second->draw();
     }
+    
     gameData->window.display();
 }

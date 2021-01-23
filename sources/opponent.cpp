@@ -5,10 +5,10 @@ Opponent::Opponent(gameDataRef data, std::shared_ptr<BombHandler> bombHandler, s
     bombHandler(bombHandler),
     opponentPosition(spawnPosition)
 {
-    opponentSprite.setTexture(data->assetManager.getTexture("koen"));
+    opponentSprite.setTexture(data->assetManager.getTexture("player4"));
     auto tileSize = data->tileMap.getTileMapSize().x / data->tileMap.getMapSize().x;
-    opponentSprite.setScale(tileSize / data->assetManager.getTexture("koen").getSize().x / 2, tileSize / data->assetManager.getTexture("koen").getSize().y / 2);
-    opponentSprite.setOrigin(data->assetManager.getTexture("koen").getSize().x / 2, data->assetManager.getTexture("koen").getSize().y / 2); 
+    opponentSprite.setScale(tileSize / data->assetManager.getTexture("player4").getSize().x / 2, tileSize / data->assetManager.getTexture("player4").getSize().y / 2);
+    opponentSprite.setOrigin(data->assetManager.getTexture("player4").getSize().x / 2, data->assetManager.getTexture("player4").getSize().y / 2); 
     opponentSprite.setPosition(sf::Vector2f{150,150});
     opponentSprite.setPosition(spawnPosition);
 }
@@ -40,4 +40,8 @@ void Opponent::setMovementSpeed(uint8_t speed){
 
 int Opponent::getMovementSpeed() const {
     return movementSpeed;
+}
+
+void Opponent::spawnBomb(int playerId){
+    bombHandler->createBomb(playerId, 4, 4, 2, opponentPosition);
 }

@@ -64,7 +64,7 @@ namespace Resource {
         constexpr auto maxLives = 5u;
     }
 
-    constexpr auto serverIp = "192.168.2.14";
+    constexpr auto serverIp = "77.161.253.51";
 
 }
 

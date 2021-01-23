@@ -19,6 +19,7 @@ private:
     std::vector<std::vector<Tile>> map;
     sf::Vector2u mapSize;
     sf::Sprite background;
+    std::vector<std::vector<std::string>> mapInString;
     void expandTileMap();
     void processSizeAndPositionChanges();
 public:
@@ -87,6 +88,8 @@ public:
         unsigned int range = 1
     );
     void draw(bool drawPlayerSpawns=false);
+
+    std::vector<std::vector<std::string>> getMapInString();
 };
 
 #endif // __TILEMAP_HPP__

@@ -7,9 +7,18 @@ ModeSelectState::ModeSelectState(gameDataRef gameData):
 
 void ModeSelectState::init() {
     sf::Time transitionTime = sf::milliseconds(100);
+    gameData->assetManager.loadTexture("solid", Resource::solid);
+    gameData->assetManager.loadTexture("break", Resource::breakable);
+    gameData->assetManager.loadTexture("spawn", Resource::spawn);
+    gameData->assetManager.loadTexture("background", Resource::mapBackground);
+    gameData->assetManager.loadTexture("empty", Resource::solid);
+    gameData->assetManager.loadTexture("player4", Resource::player4);
     sf::sleep(transitionTime);
+    mThread = std::thread(&ModeSelectState::lobbyQueue, this);
 
     const auto& windowSize = gameData->window.getSize();
+    stateData["showPlayerNumberButtons"]=false;
+    stateData["showReadyButton"]=false;
 
     const std::vector menuButtonsData{
         buttonDataExt{"Local", [&showButtons = showPlayerNumberButtons](gameDataRef){showButtons=true;}},
@@ -21,8 +30,13 @@ void ModeSelectState::init() {
         buttonDataExt{"3 Players", [](gameDataRef gameData){gameData->playerCount=3; gameData->stateMachine.addState(std::make_unique<MapSelectorState>(gameData));}},  //Maybe highlight button and show a "map select" button instead or smth
         buttonDataExt{"4 Players", [](gameDataRef gameData){gameData->playerCount=4; gameData->stateMachine.addState(std::make_unique<MapSelectorState>(gameData));}}
     };
+
+    const std::vector readyButtonData{
+        buttonData{"Ready", [](gameDataRef gameData){gameData->server.playerReady();}}
+    };
     menuButtons = makeButtons(menuButtonsData);
     playerNumberButtons = makeButtons(playerNumberButtonsData, sf::Vector2f(menuButtons[0].getSprite().getGlobalBounds().width*1.1, 0));
+    readyButton = makeButtons(readyButtonData, sf::Vector2f(menuButtons[0].getSprite().getGlobalBounds().width*1.1, 0));
     const auto& bgTexture = gameData->assetManager.getTexture("default background");
     background.setTexture(bgTexture);
     background.setScale(windowSize / bgTexture.getSize());
@@ -53,10 +67,36 @@ void ModeSelectState::handleInput() {
                 }
             }
         }
+        if(stateData.at("showReadyButton")){
+            for (auto const& button : readyButton) {
+                if (gameData->inputManager.isSpriteClicked(
+                    button.getSprite(), sf::Mouse::Left, gameData->window)
+                ) {
+                    button.invokeAction(gameData);
+                }
+            }
+        }
+        
     }
 }
 
 void ModeSelectState::update(float) {
+        if(startMul){
+            for(auto i : gameData->server.getMap()){
+                std::cout << std::endl;
+                for(auto j : i){
+                    std::cout << j;
+                }
+            }
+
+            mThread.join();
+            TileMap TileMap(sf::Vector2f(Resource::screenWidth/7*3, Resource::screenHeight/5), sf::Vector2f(Resource::screenHeight/5*3, Resource::screenHeight/5*3), 
+            gameData, 
+            gameData->server.getMap(),
+            sf::Vector2u(15, 15));
+            gameData->tileMap = TileMap;
+            gameData->stateMachine.addState(std::make_unique<InGameState>(gameData));
+    }
 
 }
 
@@ -69,6 +109,11 @@ void ModeSelectState::draw(float) {
     }
     if(showPlayerNumberButtons){
         for (auto const& button : playerNumberButtons) {
+            button.draw(gameData->window);
+        }
+    }
+    if(stateData.at("showReadyButton")){
+        for (auto const& button : readyButton) {
             button.draw(gameData->window);
         }
     }
@@ -95,4 +140,14 @@ std::vector<MenuButtonExt> ModeSelectState::makeButtons(std::vector<buttonDataEx
         buttons.emplace_back(std::move(sprite), std::move(text), buttonData[index].action);
     }
     return buttons;
+}
+
+void ModeSelectState::lobbyQueue(){
+    gameData->server.receiveDataLobby();
+    std::cout << "gameStarted!" << std::endl;
+    if(gameData->server.getPlayerId() == 1){
+        gameData->stateMachine.addState(std::make_unique<MapSelectorState>(gameData));
+    }else{
+        startMul = true;
+    }  
 }

@@ -34,6 +34,8 @@ private:
     sf::Text playButtonText;
     sf::Sprite returnButton;
     sf::Text returnButtonText;
+    sf::Sprite playButtonMultiplayer;
+    sf::Text playButtonMultiplayerText;
     std::vector<sf::Sprite> menuOptions;
     std::vector<mapData> mapStore;
     bool tileMapPreviewAvailable;

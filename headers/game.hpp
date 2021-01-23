@@ -19,6 +19,7 @@ struct GameData{
     InputManager inputManager;
     TileMap tileMap;
     int playerCount;
+    int opponentCount;
     Server server{Resource::serverIp, 1999};
     bool isReady = false;
 };

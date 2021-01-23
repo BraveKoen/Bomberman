@@ -21,6 +21,8 @@ public:
     void setMovementSpeed(uint8_t speed) override;
     int getMovementSpeed() const override;
 
+    void spawnBomb(int playerId);
+
 private:
     gameDataRef data; //the data
     std::shared_ptr<BombHandler> bombHandler;

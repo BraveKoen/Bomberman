@@ -11,7 +11,7 @@
 
 class Server{
 private:
-    int playerNumber = -1;
+    int playerNumber;;
     sf::IpAddress server;
     unsigned short port;
     sf::UdpSocket socket;
@@ -19,6 +19,10 @@ private:
     bool connection = false;
     LobbyInfo lobby;
     std::thread mThread;
+    std::vector<std::vector<std::string>> map;
+    
+    std::string mapEncoder(std::vector<std::vector<std::string>> map);
+    std::vector<std::vector<std::string>> mapDecoder(std::string str);
 
 public:
     Server(sf::IpAddress ip, unsigned short port);
@@ -36,11 +40,18 @@ public:
 
     void playerDisconnect();
     PlayerInfo receiveDataInGame();
-    LobbyInfo receiveDataLobby();
+    bool receiveDataLobby();
 
     int getPlayerId();
 
     void playerReady();
+
+    void hostReady(std::vector<std::vector<std::string>> map);
+
+    std::vector<std::vector<std::string>> getMap(){
+        return map;}
+
+    
 
 };
 
