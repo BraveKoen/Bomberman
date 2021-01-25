@@ -13,8 +13,6 @@ class State {
 
         virtual void pause(){}
         virtual void resume(){}
-
-        virtual std::map<std::string, bool>& getStateDataRef(){}
 };
 
 #endif // __STATE_HPP__
