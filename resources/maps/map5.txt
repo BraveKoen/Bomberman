@@ -1,15 +1,6 @@
-solid solid solid solid solid solid solid solid solid solid solid solid solid solid solid
-solid break spawn solid solid solid solid solid solid solid solid solid solid solid solid
-solid empty break solid solid solid solid solid solid solid solid solid solid solid solid
-solid solid solid solid solid solid solid solid solid solid solid solid solid solid solid
-solid solid solid solid solid solid solid solid solid solid solid solid solid solid solid
-solid solid solid solid solid solid solid solid solid solid solid solid solid solid solid
-solid solid solid solid solid solid solid solid solid solid solid solid solid solid solid
-solid solid solid solid solid solid solid solid solid solid solid solid solid solid solid
-solid solid solid solid solid solid solid solid solid solid solid solid solid solid solid
-solid solid solid solid solid solid solid solid solid solid solid solid solid solid solid
-solid solid solid solid solid solid solid solid solid solid solid solid solid solid solid
-solid solid solid solid solid solid solid solid solid solid solid solid solid solid solid
-solid solid solid solid solid solid solid solid solid solid solid solid solid solid solid
-solid solid solid solid solid solid solid solid solid solid solid solid solid solid solid
-solid solid solid solid solid solid solid solid solid solid solid solid solid solid solid
+solid solid solid solid solid solid
+solid spawn empty empty break solid
+solid empty break empty break solid
+solid empty empty empty break solid
+solid break break break break solid
+solid solid solid solid solid solid
