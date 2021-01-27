@@ -39,6 +39,9 @@ private:
     std::vector<sf::Sprite> menuOptions;
     std::vector<mapData> mapStore;
     bool tileMapPreviewAvailable;
+    std::vector<std::string> mapNames;
+    std::vector<TileMap> tileMapVector;  
+    std::thread mThread;
 
     void spawnMapButtons();
 };

@@ -11,7 +11,8 @@
 
 class Server{
 private:
-    int playerNumber;;
+    int playerNumber;
+    int opponentCount = 0;
     sf::IpAddress server;
     unsigned short port;
     sf::UdpSocket socket;
@@ -44,12 +45,13 @@ public:
 
     int getPlayerId();
 
+    int getOpponentCount();
+
     void playerReady();
 
     void hostReady(std::vector<std::vector<std::string>> map);
 
-    std::vector<std::vector<std::string>> getMap(){
-        return map;}
+    std::vector<std::vector<std::string>> getMap(){return map;}
 
     
 

@@ -4,11 +4,11 @@
 
 sf::Packet& operator <<(sf::Packet& packet, const PlayerInfo& m){
 
-    return packet << m.playerId << m.pos.x << m.pos.y << m.disconnected << m.spawnedBomb;
+    return packet << m.playerId << m.pos.x << m.pos.y << m.disconnected << m.spawnedBomb << m.playerHealth;
 }
 sf::Packet& operator >>(sf::Packet& packet, PlayerInfo& m){
 
-    return packet >> m.playerId >> m.pos.x >> m.pos.y >> m.disconnected >> m.spawnedBomb;
+    return packet >> m.playerId >> m.pos.x >> m.pos.y >> m.disconnected >> m.spawnedBomb >> m.playerHealth;
 }
 
 sf::Packet& operator <<(sf::Packet& packet, const LobbyInfo& m){
@@ -89,12 +89,17 @@ bool Server::receiveDataLobby(){
         uint16_t portOntvanger;
         if(socket.receive(packetOntvanger, ipOntvanger, portOntvanger) == sf::Socket::Done){
             packetOntvanger >> lobbyInfo;
-            std::cout << "playerId ontvangen: " << lobbyInfo.playerId << std::endl;
-            playerNumber = lobbyInfo.playerId;
-            if(playerNumber == 1){
-                playerReady();
-                std::cout << "player 1 gaat naar lobby" << std::endl;
-                return true;
+            std::cout << "ready: " << lobbyInfo.ready << std::endl;
+            std::cout << "playerId: " << lobbyInfo.playerId << std::endl;
+            opponentCount = lobbyInfo.opponentsCount;
+            if(playerNumber == -1){
+                playerNumber = lobbyInfo.playerId;
+                std::cout << "playerId ontvangen: " << lobbyInfo.playerId << std::endl;
+                serverGetPlayerId(lobbyInfo.playerId);
+                if(playerNumber == 1){
+                    std::cout << "player 1 gaat naar lobby" << std::endl;
+                    return true;
+                }            
             }
             if(lobbyInfo.ready){
                 map = mapDecoder(lobbyInfo.map);
@@ -122,19 +127,24 @@ void Server::run(){
 }
 
 void Server::playerDisconnect(){
+    std::cout << "send disconnect" << std::endl;
     PlayerInfo playerInfo;
-    lobby.disconnected = true;
+    playerInfo.playerId = playerNumber;
     playerInfo.disconnected = true;
     sendPacket.clear();
-    sendPacket << lobby;
+    sendPacket << playerInfo;
     socket.send(sendPacket, server, port);
-    sendPacket.clear();
+
     //sendPacket << playerInfo;
    // socket.send(sendPacket, server, port);
 }
 
 int Server::getPlayerId(){
     return playerNumber;
+}
+
+int Server::getOpponentCount(){
+    return opponentCount;
 }
 
 void Server::playerReady(){
@@ -149,7 +159,10 @@ void Server::playerReady(){
 }
 
 void Server::hostReady(std::vector<std::vector<std::string>> map){
-    std::cout << "send size: " << map.size() << " size[0]: " << map[0].size() << std::endl;
+    sf::Packet packetOntvanger;
+    sf::IpAddress ipOntvanger;
+    uint16_t portOntvanger;
+    lobby.disconnected = false;
     lobby.ready = true;
     lobby.disconnected = true;
     playerInfo.disconnected = true;
@@ -172,8 +185,11 @@ void Server::playerReady(){
     sendPacket.clear();
     sendPacket << lobby;
     socket.send(sendPacket, server, port);
-    sf::Time transitionTime = sf::seconds(0.5f);
-    sf::sleep(transitionTime);
+    if(socket.receive(packetOntvanger, ipOntvanger, portOntvanger) == sf::Socket::Done){
+        packetOntvanger >> lobby;
+        opponentCount = lobby.opponentsCount;
+        std::cout << "players: " << opponentCount << std::endl;
+    }
     
 }
 

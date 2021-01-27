@@ -52,22 +52,41 @@ void InGameState::init(){
 
     std::vector<sf::Vector2u> spawnLocations = gameData->tileMap.searchForType("spawn");
     sf::Vector2f spawnLocation = sf::Vector2f{0, 0};
-    //sf::Vector2f spawnLocOpponent = sf::Vector2f{200, 0};   //Not really sure how opponents are going to work, will treat mostly like normal player for now
-
-    for(auto i = 0u; i < gameData->playerCount; ++i){
-        if(i>3){
-            std::cout<<"Max 4 players supported!"<<std::endl;
-            break;
+    sf::Vector2f spawnLocOpponent = sf::Vector2f{200, 0};   //Not really sure how opponents are going to work, will treat mostly like normal player for now
+    std::string textureName = "player";
+    if(gameData->multiplayer){
+        mThread = std::thread(&InGameState::updateOpponentLocation, this);
+        textureName.append(std::to_string(gameData->server.getPlayerId()));
+        spawnLocation = gameData->tileMap.tilePosToScreenPos(spawnLocations[0]);
+        spawnLocations.erase(spawnLocations.begin());
+        players.push_back(std::make_unique<Player>(gameData, bHandler, controlSchemes[0], spawnLocation, gameData->server.getPlayerId(), textureName, Resource::defaultPlayerMoveSpeed * (gameData->tileMap.getTileMapSize().x / gameData->tileMap.getMapSize().x)));
+        for(int i = 1u; i <= gameData->server.getOpponentCount() + 1; i++){
+            std::cout << "own playerId: " << gameData->server.getPlayerId() << std::endl;
+            if(i == gameData->server.getPlayerId()){
+                continue;
+            }else{
+                std::cout << "multiplayer create opponent with playerId: " << i << std::endl;
+                spawnLocOpponent = gameData->tileMap.tilePosToScreenPos(spawnLocations[0]);
+                spawnLocations.erase(spawnLocations.begin());
+                mapOfEnemies[i] = std::make_shared<Opponent>(gameData, bHandler, spawnLocOpponent);
+            }
         }
-        if(spawnLocations.size() > 0){
-            spawnLocation = gameData->tileMap.tilePosToScreenPos(spawnLocations[0]);
-            spawnLocations.erase(spawnLocations.begin());
-            //spawnLocOpponent = gameData->tileMap.tilePosToScreenPos(spawnLocations[1]); Kind of just ignoring opponents for now
+    }else{
+        for(auto i = 0u; i < gameData->playerCount; ++i){
+            if(i>3){
+                std::cout<<"Max 4 players supported!"<<std::endl;
+                break;
+            }
+            if(spawnLocations.size() > 0){
+                spawnLocation = gameData->tileMap.tilePosToScreenPos(spawnLocations[0]);
+                spawnLocations.erase(spawnLocations.begin());
+                //spawnLocOpponent = gameData->tileMap.tilePosToScreenPos(spawnLocations[1]); Kind of just ignoring opponents for now
+            }
+            std::string textureName = "player";
+            textureName.append(std::to_string(i+1));
+            std::cout << "player spawn Location: x:" << spawnLocation.x << " y: " << spawnLocation.y << std::endl;
+            players.push_back(std::make_unique<Player>(gameData, bHandler, controlSchemes[i], spawnLocation, i + 1, textureName, Resource::defaultPlayerMoveSpeed * (gameData->tileMap.getTileMapSize().x / gameData->tileMap.getMapSize().x)));
         }
-        spawnLocation = gameData->tileMap.tilePosToScreenPos(spawnLocations[gameData->server.getPlayerId() -1]);
-        std::string textureName = "player";
-        textureName.append(std::to_string(i+1));
-        players.push_back(std::make_unique<Player>(gameData, bombHandler, controlSchemes[i], spawnLocation, i + 1, textureName, Resource::defaultPlayerMoveSpeed * (gameData->tileMap.getTileMapSize().x / gameData->tileMap.getMapSize().x)));
     }
     
     bHandler = std::make_shared<BombHandler>(gameData);
@@ -79,9 +98,6 @@ void InGameState::init(){
     const auto& bgTexture = gameData->assetManager.getTexture("default background");
     background.setTexture(bgTexture);
     background.setScale(gameData->window.getSize() / bgTexture.getSize());
-
-    mThread = std::thread(&InGameState::updateOpponentLocation, this);
-    
     
 }
 
@@ -174,14 +190,20 @@ void InGameState::updateOpponentLocation(){
     PlayerInfo opponentInfo;
     while(true){
         opponentInfo = gameData->server.receiveDataInGame();
-        if(mapOfEnemies.find(opponentInfo.playerId) == mapOfEnemies.end()){
-            mapOfEnemies[opponentInfo.playerId] = std::make_shared<Opponent>(gameData, bHandler, opponentInfo.pos);
-        }else if(opponentInfo.spawnedBomb){
-            mapOfEnemies[opponentInfo.playerId]->spawnBomb(opponentInfo.playerId);
-            mapOfEnemies[opponentInfo.playerId]->setPosition(opponentInfo.pos);
+        std::cout << opponentInfo.playerId << " playeId binnengekomen" << std::endl;
+        if(mapOfEnemies.find(opponentInfo.playerId) != mapOfEnemies.end()){
+            if(opponentInfo.spawnedBomb){
+                mapOfEnemies[opponentInfo.playerId]->spawnBomb(opponentInfo.playerId);
+                mapOfEnemies[opponentInfo.playerId]->setPosition(opponentInfo.pos);
+            }else{
+                mapOfEnemies[opponentInfo.playerId]->setPosition(opponentInfo.pos);
+                gameHud->setHealthBar(gameData, opponentInfo.playerId, opponentInfo.playerHealth);
+            } 
         }else{
-            mapOfEnemies[opponentInfo.playerId]->setPosition(opponentInfo.pos);
-        } 
+            if(opponentInfo.playerId != gameData->server.getPlayerId()){
+                mapOfEnemies[opponentInfo.playerId] = std::make_shared<Opponent>(gameData, bHandler, opponentInfo.pos);
+            }   
+        }
     }
 }
 

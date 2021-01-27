@@ -24,6 +24,7 @@ private:
     std::map<std::string, bool> stateData;
     std::thread mThread;
     bool startMul = false;
+    bool oneTimePress = true;
 public:
     ModeSelectState(gameDataRef gameData);
     virtual void init() override;

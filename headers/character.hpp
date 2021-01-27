@@ -9,7 +9,6 @@ class Character {
 public:
     Character() = default;
 
-private:
     virtual void draw() = 0;
 
     virtual void setHealth(uint8_t health) = 0;

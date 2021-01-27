@@ -59,7 +59,11 @@ Player::Player(
     );
     playerSprite.setPosition(playerPosition);
     movementSpeed = tileSize / 36 + 1;
-    playerInfo.playerId = playerId;
+    playerInfo.playerId = gameData->server.getPlayerId();
+    playerInfo.disconnected = false;
+    playerInfo.spawnedBomb = false;
+    playerInfo.pos = spawnPosition;
+    playerInfo.playerHealth = playerHealth;
 }
 
 void Player::draw() {
@@ -74,7 +78,9 @@ void Player::handleInput(){
         if(controls.getBombKeyPressed() && !bombCooldown){
             bombHandler->createBomb(playerId, 4, 4, 2, playerPosition); 
             playerInfo.spawnedBomb = true;
+            playerInfo.disconnected = false;
             gameData->server.sendData(playerInfo);
+            playerInfo.spawnedBomb = false;
             
             std::cout << "bomb plaast" << std::endl;
             bombCooldown = true;
@@ -91,6 +97,7 @@ void Player::update(const float & delta){
         timePlayerHit = clock.getElapsedTime().asSeconds();
         playerHit = true;
         playerHealth--;
+        playerInfo.playerHealth = playerHealth;
 
         if (playerHealth < 1) {
             isAlive = false;
@@ -101,7 +108,6 @@ void Player::update(const float & delta){
         }
     }
     if(bombCooldown){
-        playerInfo.spawnedBomb = false;
         if((timeBombPlaced + 5) <= clock.getElapsedTime().asSeconds()){
             bombCooldown = false;
         }

@@ -14,8 +14,7 @@ void ModeSelectState::init() {
     gameData->assetManager.loadTexture("empty", Resource::solid);
     gameData->assetManager.loadTexture("player4", Resource::player4);
     sf::sleep(transitionTime);
-    mThread = std::thread(&ModeSelectState::lobbyQueue, this);
-
+    
     const auto& windowSize = gameData->window.getSize();
     stateData["showPlayerNumberButtons"]=false;
     stateData["showReadyButton"]=false;
@@ -32,7 +31,7 @@ void ModeSelectState::init() {
     };
 
     const std::vector readyButtonData{
-        buttonData{"Ready", [](gameDataRef gameData){gameData->server.playerReady();}}
+        buttonData{"Ready", [](gameDataRef gameData){gameData->multiplayer = true;gameData->server.playerReady();}}
     };
     menuButtons = makeButtons(menuButtonsData);
     playerNumberButtons = makeButtons(playerNumberButtonsData, sf::Vector2f(menuButtons[0].getSprite().getGlobalBounds().width*1.1, 0));
@@ -80,22 +79,22 @@ void ModeSelectState::handleInput() {
     }
 }
 
-void ModeSelectState::update(float) {
-        if(startMul){
-            for(auto i : gameData->server.getMap()){
-                std::cout << std::endl;
-                for(auto j : i){
-                    std::cout << j;
-                }
-            }
+void ModeSelectState::update(float){
+    if(gameData->multiplayer && oneTimePress){
+        oneTimePress = false;
+        std::cout << "start thread" << std::endl;
+        mThread = std::thread(&ModeSelectState::lobbyQueue, this);
+    }
 
-            mThread.join();
-            TileMap TileMap(sf::Vector2f(Resource::screenWidth/7*3, Resource::screenHeight/5), sf::Vector2f(Resource::screenHeight/5*3, Resource::screenHeight/5*3), 
-            gameData, 
-            gameData->server.getMap(),
-            sf::Vector2u(15, 15));
-            gameData->tileMap = TileMap;
-            gameData->stateMachine.addState(std::make_unique<InGameState>(gameData));
+
+    if(startMul){
+        mThread.join();
+        TileMap TileMap(sf::Vector2f(Resource::screenWidth/7*3, Resource::screenHeight/5), sf::Vector2f(Resource::screenHeight/5*3, Resource::screenHeight/5*3), 
+        gameData, 
+        gameData->server.getMap(),
+         sf::Vector2u(gameData->server.getMap().size(), gameData->server.getMap()[0].size()));
+        gameData->tileMap = TileMap;
+        gameData->stateMachine.addState(std::make_unique<InGameState>(gameData));
     }
 
 }
@@ -144,10 +143,10 @@ std::vector<MenuButtonExt> ModeSelectState::makeButtons(std::vector<buttonDataEx
 
 void ModeSelectState::lobbyQueue(){
     gameData->server.receiveDataLobby();
-    std::cout << "gameStarted!" << std::endl;
     if(gameData->server.getPlayerId() == 1){
         gameData->stateMachine.addState(std::make_unique<MapSelectorState>(gameData));
     }else{
         startMul = true;
+        std::cout << "gameStarted!" << std::endl;
     }  
 }
