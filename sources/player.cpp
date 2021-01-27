@@ -78,7 +78,6 @@ void Player::handleInput(){
         if(controls.getBombKeyPressed() && !bombCooldown){
             bombHandler->createBomb(playerId, 4, 4, 2, playerPosition); 
             playerInfo.spawnedBomb = true;
-            playerInfo.disconnected = false;
             gameData->server.sendData(playerInfo);
             playerInfo.spawnedBomb = false;
             

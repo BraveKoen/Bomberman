@@ -50,6 +50,7 @@ int Server::getPlayerId(int playerId){
 
 
 void Server::sendData(PlayerInfo &playerInfo){
+    std::cout << "send data to: " << server << " " << port << std::endl;
     socket.setBlocking(false);
     sendPacket.clear();
     

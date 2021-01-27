@@ -61,6 +61,8 @@
         "ratio": "cpp",
         "mutex": "cpp",
         "thread": "cpp",
-        "xhash": "cpp"
+        "xhash": "cpp",
+        "functional": "cpp",
+        "unordered_map": "cpp"
     }
 }

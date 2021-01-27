@@ -2,7 +2,8 @@
 
 ModeSelectState::ModeSelectState(gameDataRef gameData):
     gameData{gameData},
-    showPlayerNumberButtons{false}
+    showPlayerNumberButtons{false},
+    showOnlineNumberButtons{false}
 {}
 
 void ModeSelectState::init() {
@@ -16,13 +17,10 @@ void ModeSelectState::init() {
     sf::sleep(transitionTime);
     
     const auto& windowSize = gameData->window.getSize();
-    stateData["showPlayerNumberButtons"]=false;
-    stateData["showReadyButton"]=false;
-
     const std::vector menuButtonsData{
-        buttonDataExt{"Local", [&showButtons = showPlayerNumberButtons](gameDataRef){showButtons=true;}},
-        buttonDataExt{"Online", [&showButtons = showPlayerNumberButtons](gameDataRef){std::cout << "Online Multiplayer WIP" << std::endl; showButtons=false;}},
-        buttonDataExt{"Back", [](gameDataRef gameData){sf::sleep(sf::milliseconds(100)); gameData->stateMachine.removeState();}}
+        buttonDataExt{"Local", [&](){showPlayerNumberButtons=true; showOnlineNumberButtons=false; }},
+        buttonDataExt{"Online", [&](){showPlayerNumberButtons=false; showOnlineNumberButtons=true;}},
+        buttonDataExt{"Back", [&](){sf::Time transitionTime = sf::seconds(0.1f); sf::sleep(transitionTime); gameData->stateMachine.removeState();}}
     };
     const std::vector playerNumberButtonsData{
         buttonDataExt{"2 Players", [](gameDataRef gameData){gameData->playerCount=2; gameData->stateMachine.addState(std::make_unique<MapSelectorState>(gameData));}},
@@ -31,7 +29,8 @@ void ModeSelectState::init() {
     };
 
     const std::vector readyButtonData{
-        buttonData{"Ready", [](gameDataRef gameData){gameData->multiplayer = true;gameData->server.playerReady();}}
+        buttonDataExt{"Join online", [&](){gameData->multiplayer = true;gameData->server.playerReady();}},
+        buttonDataExt{"You are connected!", [&](){}}
     };
     menuButtons = makeButtons(menuButtonsData);
     playerNumberButtons = makeButtons(playerNumberButtonsData, sf::Vector2f(menuButtons[0].getSprite().getGlobalBounds().width*1.1, 0));
@@ -41,7 +40,7 @@ void ModeSelectState::init() {
     background.setScale(windowSize / bgTexture.getSize());
 }
 
-void ModeSelectState::handleInput() {
+void ModeSelectState::handleInput(){
     sf::Event event;
     
     while (gameData->window.pollEvent(event)) {
@@ -66,7 +65,7 @@ void ModeSelectState::handleInput() {
                 }
             }
         }
-        if(stateData.at("showReadyButton")){
+        if(showOnlineNumberButtons){
             for (auto const& button : readyButton) {
                 if (gameData->inputManager.isSpriteClicked(
                     button.getSprite(), sf::Mouse::Left, gameData->window)
@@ -82,7 +81,6 @@ void ModeSelectState::handleInput() {
 void ModeSelectState::update(float){
     if(gameData->multiplayer && oneTimePress){
         oneTimePress = false;
-        std::cout << "start thread" << std::endl;
         mThread = std::thread(&ModeSelectState::lobbyQueue, this);
     }
 
@@ -102,7 +100,6 @@ void ModeSelectState::update(float){
 void ModeSelectState::draw(float) {
     gameData->window.clear();
     gameData->window.draw(background);
-
     for (const auto& button : menuButtons) {
         button.draw(gameData->window);
     }
@@ -111,9 +108,11 @@ void ModeSelectState::draw(float) {
             button.draw(gameData->window);
         }
     }
-    if(stateData.at("showReadyButton")){
-        for (auto const& button : readyButton) {
-            button.draw(gameData->window);
+    if(showOnlineNumberButtons){
+        if(gameData->server.getPlayerId() != -1){
+            readyButton[1].draw(gameData->window);
+        }else{
+            readyButton[0].draw(gameData->window);
         }
     }
     gameData->window.display();
@@ -135,7 +134,6 @@ std::vector<MenuButtonExt> ModeSelectState::makeButtons(std::vector<buttonDataEx
         text.setFillColor(sf::Color::Cyan);
         text.setOrigin(Util::scaleRect(text.getGlobalBounds(), {2, 2}));
         text.setPosition(Util::centerVector(sprite.getPosition(), spriteBounds, {2, 2.5}));
-
         buttons.emplace_back(std::move(sprite), std::move(text), buttonData[index].action);
     }
     return buttons;

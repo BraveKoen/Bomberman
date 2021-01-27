@@ -17,9 +17,11 @@
 class ModeSelectState: public State {
 private:
     gameDataRef gameData;
-    std::vector<MenuButton> menuButtons;
-    std::vector<MenuButton> playerNumberButtons;
-    std::vector<MenuButton> readyButton;
+    bool showPlayerNumberButtons;
+    bool showOnlineNumberButtons;
+    std::vector<MenuButtonExt> menuButtons;
+    std::vector<MenuButtonExt> playerNumberButtons;
+    std::vector<MenuButtonExt> readyButton;
     sf::Sprite background;
     std::map<std::string, bool> stateData;
     std::thread mThread;
@@ -33,9 +35,6 @@ public:
     virtual void draw(float delta) override;
 
     std::vector<MenuButtonExt> makeButtons(std::vector<buttonDataExt> buttonData, sf::Vector2f offset={0,0});
-    virtual std::map<std::string, bool>& getStateDataRef();
-
-    std::vector<MenuButton> makeButtons(std::vector<std::pair<const char*, buttonFunc>> buttonData, sf::Vector2f offset={0,0});
 
     void lobbyQueue();
 };

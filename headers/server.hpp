@@ -37,7 +37,6 @@ public:
     void sendData(LobbyInfo &lobbyInfo);
 
     void serverGetPlayerId(int playerId);
-    int getPlayerId(int playerId);
 
     void playerDisconnect();
     PlayerInfo receiveDataInGame();
@@ -52,9 +51,6 @@ public:
     void hostReady(std::vector<std::vector<std::string>> map);
 
     std::vector<std::vector<std::string>> getMap(){return map;}
-
-    
-
 };
 
 #endif // __CONNECT_HPP__

@@ -41,6 +41,7 @@ void InGameState::init(){
     initMenuButtons({hudFrame.x / 20.0f, hudFrame.y - Util::getSize(hudMenu).y});
 
     gameData->tileMap.setTileMapPosition({hudFrame.x, 0});
+
     gameData->tileMap.setTileMapSize({Resource::screenHeight, Resource::screenHeight});
 
     std::vector<ControlScheme> controlSchemes;
@@ -84,16 +85,10 @@ void InGameState::init(){
             }
             std::string textureName = "player";
             textureName.append(std::to_string(i+1));
-            std::cout << "player spawn Location: x:" << spawnLocation.x << " y: " << spawnLocation.y << std::endl;
             players.push_back(std::make_unique<Player>(gameData, bHandler, controlSchemes[i], spawnLocation, i + 1, textureName, Resource::defaultPlayerMoveSpeed * (gameData->tileMap.getTileMapSize().x / gameData->tileMap.getMapSize().x)));
         }
     }
     
-    bHandler = std::make_shared<BombHandler>(gameData);
-
-    gameData->tileMap.setTileMapPosition(sf::Vector2f(0, 0));
-    gameData->tileMap.setTileMapSize(sf::Vector2f(Resource::screenHeight, Resource::screenHeight));
-
     //needs to be fixed! 
     const auto& bgTexture = gameData->assetManager.getTexture("default background");
     background.setTexture(bgTexture);
@@ -177,13 +172,6 @@ void InGameState::update(float delta) {
     }
 }
 
-void InGameState::updateOpponentLocation(){
-    PlayerInfo opponentInfo;
-    while(true){
-        opponentInfo = gameData->server.receiveData();
-        std::cout << "ontvangen bericht!" << std::endl;
-    }
-}
 
 
 void InGameState::updateOpponentLocation(){
@@ -200,9 +188,7 @@ void InGameState::updateOpponentLocation(){
                 gameHud->setHealthBar(gameData, opponentInfo.playerId, opponentInfo.playerHealth);
             } 
         }else{
-            if(opponentInfo.playerId != gameData->server.getPlayerId()){
-                mapOfEnemies[opponentInfo.playerId] = std::make_shared<Opponent>(gameData, bHandler, opponentInfo.pos);
-            }   
+            mapOfEnemies[opponentInfo.playerId] = std::make_shared<Opponent>(gameData, bHandler, opponentInfo.pos);  
         }
     }
 }

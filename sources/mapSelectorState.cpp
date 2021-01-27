@@ -56,13 +56,13 @@ void MapSelectorState::init() {
     );
 
     playButtonMultiplayer.setTexture(gameData->assetManager.getTexture("default button"));
-    playButtonMultiplayer.setPosition(Resource::screenWidth/7*5.8, Resource::screenHeight/5*4.25);
+    playButtonMultiplayer.setPosition(Resource::screenWidth/7*4.4, Resource::screenHeight/5*4.25);
     playButtonMultiplayer.setScale(
-        (gameData->window.getSize().x/gameData->assetManager.getTexture("default button").getSize().x)/5, 
-        (gameData->window.getSize().y/gameData->assetManager.getTexture("default button").getSize().y)/10
+        (gameData->window.getSize().x/gameData->assetManager.getTexture("default button").getSize().x)/5.0f, 
+        (gameData->window.getSize().y/gameData->assetManager.getTexture("default button").getSize().y)/10.0f
     );
     playButtonMultiplayerText.setFont(gameData->assetManager.getFont("default font"));
-    playButtonMultiplayerText.setString("Back");
+    playButtonMultiplayerText.setString("Start online");
     playButtonMultiplayerText.setFillColor(sf::Color(255, 194, 0));
     playButtonMultiplayerText.setStyle(sf::Text::Bold);
     playButtonMultiplayerText.setOrigin(playButtonMultiplayerText.getGlobalBounds().width/2, playButtonMultiplayerText.getGlobalBounds().height/2);
@@ -119,19 +119,18 @@ void MapSelectorState::handleInput() {
                 selectedMapIndex = index;
             }
         }
-        if (gameData->inputManager.isSpriteClicked(
-            playButton, sf::Mouse::Left, gameData->window)
-        ) {
+        if (gameData->inputManager.isSpriteClicked(playButton, sf::Mouse::Left, gameData->window) && !gameData->multiplayer){
             tileMapPreviewAvailable = false;
+            gameData->tileMap = tileMapVector[mapToDisplayIndex];
             gameData->tileMap = std::move(mapStore[selectedMapIndex].tileMap);
             return gameData->stateMachine.addState(std::make_unique<InGameState>(gameData));
-        }
+
         if (gameData->inputManager.isSpriteClicked(
             returnButton, sf::Mouse::Left, gameData->window)
         ) {
             gameData->stateMachine.removeState();
         }
-        if(gameData->inputManager.isSpriteClicked(playButtonMultiplayer, sf::Mouse::Left, gameData->window)){
+        if(gameData->inputManager.isSpriteClicked(playButtonMultiplayer, sf::Mouse::Left, gameData->window) && gameData->multiplayer){
             gameData->tileMap = tileMapVector[mapToDisplayIndex];
             gameData->server.hostReady(gameData->tileMap.getMapInString());
             gameData->stateMachine.addState(std::make_unique<InGameState>(gameData)); 
@@ -144,12 +143,17 @@ void MapSelectorState::update(float){}
 void MapSelectorState::draw(float) {
     gameData->window.clear();
     gameData->window.draw(background);
-    gameData->window.draw(playButton);
-    gameData->window.draw(playButtonText);
     gameData->window.draw(returnButton);
     gameData->window.draw(returnButtonText);
-    gameData->window.draw(playButtonMultiplayer);
-    gameData->window.draw(playButtonMultiplayerText);
+
+    if(gameData->multiplayer){
+        gameData->window.draw(playButtonMultiplayer);
+        gameData->window.draw(playButtonMultiplayerText);
+    }else{
+        gameData->window.draw(playButton);
+        gameData->window.draw(playButtonText);
+    }
+    
     for(unsigned short int i=0; i<menuOptions.size(); i++){
         gameData->window.draw(menuOptions[i]);
         gameData->window.draw(menuOptionsText[i]);

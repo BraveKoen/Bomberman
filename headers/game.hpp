@@ -20,7 +20,7 @@ struct GameData{
     TileMap tileMap;
     int playerCount;
     Server server{Resource::serverIp, 1999};
-    bool multiplayer = false;
+    bool multiplayer;
 };
 
 class Game{
