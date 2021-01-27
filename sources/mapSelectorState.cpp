@@ -63,8 +63,8 @@ void MapSelectorState::spawnMapButtons(){
         sf::Sprite optionSprite;
         optionSprite.setTexture(gameData->assetManager.getTexture("default button"));
         optionSprite.setScale(
-            (gameData->window.getSize().x/mapSelectorStateOptionSize.x)/5, 
-            (gameData->window.getSize().y/mapSelectorStateOptionSize.y)/10
+            (gameData->window.getSize().x/mapSelectorStateOptionSize.x)/5.0f, 
+            (gameData->window.getSize().y/mapSelectorStateOptionSize.y)/10.0f
         );
         optionSprite.setPosition(
             (gameData->window.getSize().x/20), 
@@ -141,8 +141,8 @@ void MapSelectorState::init(){
     playButton.setTexture(gameData->assetManager.getTexture("default button"));
     playButton.setPosition(Resource::screenWidth/7*4.4, Resource::screenHeight/5*4.25);
     playButton.setScale(
-        (gameData->window.getSize().x/gameData->assetManager.getTexture("default button").getSize().x)/5, 
-        (gameData->window.getSize().y/gameData->assetManager.getTexture("default button").getSize().y)/10
+        (gameData->window.getSize().x/gameData->assetManager.getTexture("default button").getSize().x)/5.0f, 
+        (gameData->window.getSize().y/gameData->assetManager.getTexture("default button").getSize().y)/10.0f
     );
     playButtonText.setFont(gameData->assetManager.getFont("default font"));
     playButtonText.setString("Play");
@@ -157,8 +157,8 @@ void MapSelectorState::init(){
     returnButton.setTexture(gameData->assetManager.getTexture("default button"));
     returnButton.setPosition(Resource::screenWidth/7*2.8, Resource::screenHeight/5*4.25);
     returnButton.setScale(
-        (gameData->window.getSize().x/gameData->assetManager.getTexture("default button").getSize().x)/5, 
-        (gameData->window.getSize().y/gameData->assetManager.getTexture("default button").getSize().y)/10
+        (gameData->window.getSize().x/gameData->assetManager.getTexture("default button").getSize().x)/5.0f, 
+        (gameData->window.getSize().y/gameData->assetManager.getTexture("default button").getSize().y)/10.0f
     );
     returnButtonText.setFont(gameData->assetManager.getFont("default font"));
     returnButtonText.setString("Back");
