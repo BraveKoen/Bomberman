@@ -36,7 +36,7 @@ void InGameState::init(){
     hudMenu.setPosition({0, hudFrame.y});
     constexpr auto ratio = 6.0f;
     hudMenu.setScale(1, gameData->window.getSize().y / ratio / hudMenu.getGlobalBounds().height);
-    initMenuButtons({0, hudFrame.y});
+    initMenuButtons({hudFrame.x/20.0f, hudFrame.y - Sprite::getSize(hudMenu).y});
 
     gameData->tileMap.setTileMapPosition({hudFrame.x, 0});
     gameData->tileMap.setTileMapSize({Resource::screenHeight, Resource::screenHeight});
@@ -124,11 +124,12 @@ void InGameState::update(float delta) {
         // note: change this so health bar is updated only when necessary
         gameHud->setHealthBar(gameData, player->getPlayerId() - 1, player->getHealth());
     }
+    bHandler->update();
 }
 
 void InGameState::draw(float) {
     gameData->window.clear();
-    gameData->window.draw(background); //idk of dit handig is
+    gameData->window.draw(background);
     gameData->tileMap.draw();
     gameHud->draw(gameData->window);
     // gameData->window.draw(hudMenu); // fix later
@@ -137,7 +138,6 @@ void InGameState::draw(float) {
         menuButton.draw(gameData->window);
     }
 
-    bHandler->update();
     bHandler->draw();
 
     for (const auto &player : players) {

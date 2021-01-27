@@ -22,35 +22,36 @@ Player::Player(
     placeBomb{true}
 {
     playerUpAnimationIterator = 0;
-    playerUpAnimationRects.emplace_back(32, 96, 32, 32);//these dimentions are here to cut out the sprites form the spritesheet
-    playerUpAnimationRects.emplace_back(64, 96, 32, 32);
-    playerUpAnimationRects.emplace_back(32, 96, 32, 32);
-    playerUpAnimationRects.emplace_back(0, 96, 32, 32);
+    int frameSize = 100;
+    playerUpAnimationRects.emplace_back(100, 300, frameSize, frameSize);//these dimentions are here to cut out the sprites form the spritesheet
+    playerUpAnimationRects.emplace_back(200, 300, frameSize, frameSize);
+    playerUpAnimationRects.emplace_back(100, 300, frameSize, frameSize);
+    playerUpAnimationRects.emplace_back(0, 300, frameSize, frameSize);
     
     playerDownAnimationIterator = 0;
-    playerDownAnimationRects.emplace_back(32, 0, 32, 32);//these dimentions are here to cut out the sprites form the spritesheet
-    playerDownAnimationRects.emplace_back(64, 0, 32, 32);
-    playerDownAnimationRects.emplace_back(32, 0, 32, 32);
-    playerDownAnimationRects.emplace_back(0, 0, 32, 32);
+    playerDownAnimationRects.emplace_back(100, 0, frameSize, frameSize);//these dimentions are here to cut out the sprites form the spritesheet
+    playerDownAnimationRects.emplace_back(200, 0, frameSize, frameSize);
+    playerDownAnimationRects.emplace_back(100, 0, frameSize, frameSize);
+    playerDownAnimationRects.emplace_back(0, 0, frameSize, frameSize);
 
     playerLeftAnimationIterator = 0;
-    playerLeftAnimationRects.emplace_back(32, 32, 32, 32);//these dimentions are here to cut out the sprites form the spritesheet
-    playerLeftAnimationRects.emplace_back(64, 32, 32, 32);
-    playerLeftAnimationRects.emplace_back(32, 32, 32, 32);
-    playerLeftAnimationRects.emplace_back(0, 32, 32, 32);
+    playerLeftAnimationRects.emplace_back(100, 100, frameSize, frameSize);//these dimentions are here to cut out the sprites form the spritesheet
+    playerLeftAnimationRects.emplace_back(200, 100, frameSize, frameSize);
+    playerLeftAnimationRects.emplace_back(100, 100, frameSize, frameSize);
+    playerLeftAnimationRects.emplace_back(0, 100, frameSize, frameSize);
     
     playerRightAnimationIterator = 0;
-    playerRightAnimationRects.emplace_back(32, 64, 32, 32);//these dimentions are here to cut out the sprites form the spritesheet
-    playerRightAnimationRects.emplace_back(64, 64, 32, 32);
-    playerRightAnimationRects.emplace_back(32, 64, 32, 32);
-    playerRightAnimationRects.emplace_back(0, 64, 32, 32);
+    playerRightAnimationRects.emplace_back(100, 200, frameSize, frameSize);//these dimentions are here to cut out the sprites form the spritesheet
+    playerRightAnimationRects.emplace_back(200, 200, frameSize, frameSize);
+    playerRightAnimationRects.emplace_back(100, 200, frameSize, frameSize);
+    playerRightAnimationRects.emplace_back(0, 200, frameSize, frameSize);
 
     playerSprite.setTexture(gameData->assetManager.getTexture(textureName));
     playerSprite.setTextureRect(playerDownAnimationRects.at(playerDownAnimationIterator));
     auto tileSize = gameData->tileMap.getTileMapSize().x / gameData->tileMap.getMapSize().x;
     playerSprite.setScale(
-        tileSize / gameData->assetManager.getTexture(textureName).getSize().x *1.5,
-        tileSize / gameData->assetManager.getTexture(textureName).getSize().y *2    
+        tileSize / gameData->assetManager.getTexture(textureName).getSize().x *2,
+        tileSize / gameData->assetManager.getTexture(textureName).getSize().y *2.5    
     );
     playerSprite.setOrigin(
         gameData->assetManager.getTexture(textureName).getSize().x / 6, 

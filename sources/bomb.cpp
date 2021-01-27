@@ -20,26 +20,26 @@ Bomb::Bomb(
     auto tileSize = data->tileMap.getTileMapSize().x / data->tileMap.getMapSize().x;
     
     bombFuseAnimationIterator = 0;
-    bombFuseAnimationRects.emplace_back(0, 0, 450, 375);//these dimentions are here to cut out the sprites form the spritesheet
-    bombFuseAnimationRects.emplace_back(450, 0, 450, 375);
-    bombFuseAnimationRects.emplace_back(0, 375, 450, 375);
-    bombFuseAnimationRects.emplace_back(450, 375, 450, 375);
+    bombFuseAnimationRects.emplace_back(0, 0, 450, 450);//these dimentions are here to cut out the sprites form the spritesheet
+    bombFuseAnimationRects.emplace_back(450, 0, 450, 450);
+    bombFuseAnimationRects.emplace_back(0, 450, 450, 450);
+    bombFuseAnimationRects.emplace_back(450, 450, 450, 450);
 
     bombExplosionAnimationIterator = 0;
-    bombExplosionAnimationRects.emplace_back(0, 750, 450, 375);//these dimentions are here to cut out the sprites form the spritesheet
-    bombExplosionAnimationRects.emplace_back(450, 750, 450, 375);
-    bombExplosionAnimationRects.emplace_back(0, 1125, 450, 375);
-    bombExplosionAnimationRects.emplace_back(450, 1125, 450, 375);
+    bombExplosionAnimationRects.emplace_back(0, 900, 450, 450);//these dimentions are here to cut out the sprites form the spritesheet
+    bombExplosionAnimationRects.emplace_back(450, 900, 450, 450);
+    bombExplosionAnimationRects.emplace_back(0, 1350, 450, 450);
+    bombExplosionAnimationRects.emplace_back(450, 1350, 450, 450);
 
     bombSprite.setTexture(data->assetManager.getTexture("bomb spritesheet"));
     bombSprite.setTextureRect(bombFuseAnimationRects.at(bombFuseAnimationIterator));
     bombSprite.setScale(
-        tileSize / data->assetManager.getTexture("bomb spritesheet").getSize().x*2,// *2 because the spritesheet is 2 sprites wide 
-        tileSize / data->assetManager.getTexture("bomb spritesheet").getSize().y*4 // *4 because the spritesheet is 4 sprites long 
+        tileSize / data->assetManager.getTexture("bomb spritesheet").getSize().x*1.5,// These numbers are to make the bomb a nice size ingame
+        tileSize / data->assetManager.getTexture("bomb spritesheet").getSize().y*3 //  ^
     );
     bombSprite.setOrigin(
-        data->assetManager.getTexture("bomb spritesheet").getSize().x / 4, // /4 becuase the sprietheet is 2 sprited wide and another /2 to get the centre of the sprite
-        data->assetManager.getTexture("bomb spritesheet").getSize().y / 8  // /8 becuase the sprietheet is 4 sprited long and another /2 to get the centre of the sprite
+        data->assetManager.getTexture("bomb spritesheet").getSize().x / 4, // /4 becuase the spritesheet is 2 sprites wide and another /2 to get the centre of the sprite
+        data->assetManager.getTexture("bomb spritesheet").getSize().y / 8  // /8 becuase the spritesheet is 4 sprites long and another /2 to get the centre of the sprite
     );
     setPos(pos);
 }

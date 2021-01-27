@@ -38,14 +38,14 @@ void MainMenuState::init() {
     gameData->assetManager.loadTexture("title", Resource::title);
     title.setTexture(gameData->assetManager.getTexture("title"));
     title.setScale(
-        (gameData->window.getSize().x/gameData->assetManager.getTexture("title").getSize().x)/2, 
-        (gameData->window.getSize().y/gameData->assetManager.getTexture("title").getSize().y)/4
+        (gameData->window.getSize().y/gameData->assetManager.getTexture("title").getSize().y)/3.5f, 
+        (gameData->window.getSize().y/gameData->assetManager.getTexture("title").getSize().y)/3.5f
     );
     title.setOrigin(
         gameData->assetManager.getTexture("title").getSize().x/2,
         gameData->assetManager.getTexture("title").getSize().y/2    
     );
-    title.setPosition(gameData->window.getSize().x/2, gameData->window.getSize().y/5);
+    title.setPosition(gameData->window.getSize().x/2, gameData->window.getSize().y/6.0f);
 }
 
 void MainMenuState::handleInput() {

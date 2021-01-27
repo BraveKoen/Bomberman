@@ -15,14 +15,14 @@ GameHUD::GameHUD(gameDataRef gameData, const sf::Vector2f& position):
 {
     constexpr auto ratio = 17/20.f;
     const auto windowHeight = gameData->window.getSize().y;
-    frame.setScale(1, Util::scaleFromRatio(windowHeight, getFrameHeight(), ratio));
+    frame.setScale(1, Util::scaleFromRatio(windowHeight, getFrameHeight(), 1));
     frame.setPosition(position);
 
     const auto frameWidth = getFrameWidth();
     const auto borderX = position.x + Util::offsetFromRatio(frameWidth, ratio);
     const auto borderY = position.y + 12;
     banner.setPosition(borderX, borderY);
-    banner.setScale(Util::scaleFromRatio(frameWidth, Sprite::getWidth(banner), ratio), 1);
+    banner.setScale(Util::scaleFromRatio(frameWidth, Sprite::getWidth(banner), ratio), Util::scaleFromRatio(frameWidth, Sprite::getWidth(banner), ratio));
     createPlayerHuds(gameData, {position.x, borderY + Sprite::getHeight(banner)});
     // add optional game time here
 }
