@@ -7,7 +7,7 @@
 
 class Opponent : public Character{
 public:
-    Opponent(gameDataRef data, std::shared_ptr<BombHandler> bombHandler, sf::Vector2f spawnPosition);
+    Opponent(gameDataRef data, std::shared_ptr<BombHandler> bombHandler, sf::Vector2f spawnPosition, std::string textureName);
     // ~Opponent();
 
     void draw() override;
@@ -21,15 +21,32 @@ public:
     void setMovementSpeed(uint8_t speed) override;
     int getMovementSpeed() const override;
 
-    void spawnBomb(int playerId);
+    void spawnBomb(int opponentId);
+
+    void animateMovementDirection();
+
+    void animateMovement(std::vector<sf::IntRect> & animationRect, unsigned int & iterator);
 
 private:
-    gameDataRef data; //the data
+    gameDataRef gameData;
     std::shared_ptr<BombHandler> bombHandler;
     sf::Sprite opponentSprite;
     sf::Vector2f opponentPosition;
+    sf::Vector2f oldPosition;
     uint16_t movementSpeed = 2;
     uint8_t opponentHealth = 100;
+    std::string textureName;
+    
+
+    std::vector<sf::IntRect> opponentUpAnimationRects;
+    unsigned int opponentUpAnimationIterator;
+    std::vector<sf::IntRect> opponentDownAnimationRects;
+    unsigned int opponentDownAnimationIterator;
+    std::vector<sf::IntRect> opponentLeftAnimationRects;
+    unsigned int opponentLeftAnimationIterator;
+    std::vector<sf::IntRect> opponentRightAnimationRects;
+    unsigned int opponentRightAnimationIterator;
+    sf::Clock opponentAnimationClock; 
 };
 
 #endif // __OPPONENT_HPP__

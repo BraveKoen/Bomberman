@@ -28,8 +28,8 @@ void InGameState::init(){
     gameData->assetManager.loadTexture("player1", Resource::player1);
     gameData->assetManager.loadTexture("player2", Resource::player2);
     gameData->assetManager.loadTexture("player3", Resource::player3);
+    gameData->assetManager.loadTexture("player4", Resource::player4);
     
-    //gameData->assetManager.loadTexture("opponent", Resource::play2); //More opponent stuff, this is all for the yet-to-be-implemented online multiplayer
     gameData->assetManager.loadTexture("biem", Resource::biem);
     gameData->assetManager.loadTexture("bomb spritesheet", Resource::bombSpritesheet);
 
@@ -62,6 +62,8 @@ void InGameState::init(){
         spawnLocations.erase(spawnLocations.begin());
         players.push_back(std::make_unique<Player>(gameData, bHandler, controlSchemes[0], spawnLocation, gameData->server.getPlayerId(), textureName, Resource::defaultPlayerMoveSpeed * (gameData->tileMap.getTileMapSize().x / gameData->tileMap.getMapSize().x)));
         for(int i = 1u; i <= gameData->server.getOpponentCount() + 1; i++){
+            textureName = "player";
+            textureName.append(std::to_string(i));
             std::cout << "own playerId: " << gameData->server.getPlayerId() << std::endl;
             if(i == gameData->server.getPlayerId()){
                 continue;
@@ -69,7 +71,7 @@ void InGameState::init(){
                 std::cout << "multiplayer create opponent with playerId: " << i << std::endl;
                 spawnLocOpponent = gameData->tileMap.tilePosToScreenPos(spawnLocations[0]);
                 spawnLocations.erase(spawnLocations.begin());
-                mapOfEnemies[i] = std::make_shared<Opponent>(gameData, bHandler, spawnLocOpponent);
+                mapOfEnemies[i] = std::make_shared<Opponent>(gameData, bHandler, spawnLocOpponent, textureName);
             }
         }
     }else{
@@ -176,6 +178,7 @@ void InGameState::update(float delta) {
 
 void InGameState::updateOpponentLocation(){
     PlayerInfo opponentInfo;
+    std::string textureName = "player";
     while(true){
         opponentInfo = gameData->server.receiveDataInGame();
         std::cout << opponentInfo.playerId << " playeId binnengekomen" << std::endl;
@@ -188,7 +191,9 @@ void InGameState::updateOpponentLocation(){
                 gameHud->setHealthBar(gameData, opponentInfo.playerId, opponentInfo.playerHealth);
             } 
         }else{
-            mapOfEnemies[opponentInfo.playerId] = std::make_shared<Opponent>(gameData, bHandler, opponentInfo.pos);  
+            textureName = "player";
+            textureName.append(std::to_string(opponentInfo.playerId));
+            mapOfEnemies[opponentInfo.playerId] = std::make_shared<Opponent>(gameData, bHandler, opponentInfo.pos, textureName);  
         }
     }
 }

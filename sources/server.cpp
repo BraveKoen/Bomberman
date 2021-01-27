@@ -4,11 +4,11 @@
 
 sf::Packet& operator <<(sf::Packet& packet, const PlayerInfo& m){
 
-    return packet << m.playerId << m.pos.x << m.pos.y << m.disconnected << m.spawnedBomb << m.playerHealth;
+    return packet << m.playerId << m.pos.x << m.pos.y << m.disconnected << m.spawnedBomb;
 }
 sf::Packet& operator >>(sf::Packet& packet, PlayerInfo& m){
 
-    return packet >> m.playerId >> m.pos.x >> m.pos.y >> m.disconnected >> m.spawnedBomb >> m.playerHealth;
+    return packet >> m.playerId >> m.pos.x >> m.pos.y >> m.disconnected >> m.spawnedBomb;
 }
 
 sf::Packet& operator <<(sf::Packet& packet, const LobbyInfo& m){
@@ -41,16 +41,8 @@ void Server::serverGetPlayerId(int playerId){
     socket.send(sendPacket, server, port);
 }
 
-int Server::getPlayerId(int playerId){
-    lobby.playerId = playerId;
-    sendPacket.clear();
-    sendPacket << lobby;
-    socket.send(sendPacket, server, port);
-}
-
 
 void Server::sendData(PlayerInfo &playerInfo){
-    std::cout << "send data to: " << server << " " << port << std::endl;
     socket.setBlocking(false);
     sendPacket.clear();
     
@@ -164,22 +156,6 @@ void Server::hostReady(std::vector<std::vector<std::string>> map){
     sf::IpAddress ipOntvanger;
     uint16_t portOntvanger;
     lobby.disconnected = false;
-    lobby.ready = true;
-    lobby.disconnected = true;
-    playerInfo.disconnected = true;
-    sendPacket.clear();
-    sendPacket << lobby;
-    socket.send(sendPacket, server, port);
-    sendPacket.clear();
-    sendPacket << playerInfo;
-    socket.send(sendPacket, server, port);
-}
-
-int Server::getPlayerId(){
-    return playerNumber;
-}
-
-void Server::playerReady(){
     lobby.ready = true;
     lobby.playerId = playerNumber;
     lobby.map = mapEncoder(map);
