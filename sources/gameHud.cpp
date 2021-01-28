@@ -16,7 +16,7 @@ GameHUD::GameHUD(gameDataRef gameData, const sf::Vector2f& position) {
     });
     constexpr auto ratio = 85/100.f;
     const auto windowHeight = gameData->window.getSize().y;
-    frame.setScale(Util::yScaleFromRatio(windowHeight, getFrameHeight(), ratio));
+    frame.setScale(Util::yScaleFromRatio(windowHeight, getFrameHeight(), 1));
     frame.setPosition(position);
 
     const auto frameWidth = getFrameWidth();

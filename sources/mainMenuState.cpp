@@ -20,7 +20,6 @@ void MainMenuState::init() {
     const auto& windowSize = gameData->window.getSize();
     constexpr std::array buttons{
         buttonData{"Play", Util::switchState<ModeSelectState>},
-        buttonData{"Game over", Util::switchState<PostGameState>},//[](gameDataRef){}},
         buttonData{"Exit game", [](gameDataRef gameData){gameData->window.close();}}
     };
     for (std::size_t index = 0; index < buttons.size(); ++index) {
