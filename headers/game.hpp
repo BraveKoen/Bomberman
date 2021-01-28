@@ -18,7 +18,7 @@ struct GameData{
     AssetManager assetManager;
     InputManager inputManager;
     TileMap tileMap;
-    int playerCount;
+    unsigned int playerCount;
     Server server{Resource::serverIp, 1999};
     bool multiplayer;
 };

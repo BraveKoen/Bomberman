@@ -7,7 +7,7 @@
 
 class Opponent : public Character{
 public:
-    Opponent(gameDataRef data, std::shared_ptr<BombHandler> bombHandler, sf::Vector2f spawnPosition, std::string textureName);
+    Opponent(gameDataRef data, std::shared_ptr<BombHandler> bombHandler, sf::Vector2f spawnPosition, std::string textureName, unsigned int playerId);
     // ~Opponent();
 
     void draw() override;
@@ -29,7 +29,9 @@ public:
 
     void setIsAlive(bool alive);
 
-    bool isOpponentAlive();
+    bool isPlayerAlive() const override;
+
+    unsigned int getPlayerId() const override;
 
 private:
     gameDataRef gameData;
@@ -41,6 +43,7 @@ private:
     int movementSpeed;
     int opponentHealth;
     bool isAlive = true;
+    unsigned int playerId;
     
 
     std::vector<sf::IntRect> opponentUpAnimationRects;

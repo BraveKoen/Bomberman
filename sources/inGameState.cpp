@@ -55,12 +55,14 @@ void InGameState::init(){
             }
             textureName = "player";
             textureName.append(std::to_string(i));
-            std::cout << "own playerId: " << gameData->server.getPlayerId() << std::endl;
+            
             if(i == gameData->server.getPlayerId()){
+                std::cout << "own playerId: " << gameData->server.getPlayerId() << std::endl;
                 players.push_back(std::make_unique<Player>(gameData, bombHandler, controlSchemes[0], spawnLocation, gameData->server.getPlayerId(), textureName, Resource::defaultPlayerMoveSpeed * (gameData->tileMap.getTileMapSize().x / gameData->tileMap.getMapSize().x)));
             }else{
                 std::cout << "multiplayer create opponent with playerId: " << i << std::endl;
-                mapOfEnemies[i] = std::make_shared<Opponent>(gameData, bombHandler, spawnLocation, textureName);
+                std::cout << "opponent counter: " << gameData->server.getOpponentCount() << std::endl;
+                mapOfEnemies[i] = std::make_shared<Opponent>(gameData, bombHandler, spawnLocation, textureName, i);
             }
         }
     }else{
@@ -84,6 +86,7 @@ void InGameState::init(){
     const auto& bgTexture = gameData->assetManager.getTexture("default background");
     background.setTexture(bgTexture);
     background.setScale(gameData->window.getSize() / bgTexture.getSize());
+    gameStartDelay.restart();
     
 }
 
@@ -136,10 +139,9 @@ void InGameState::handleInput(){
 
 void InGameState::update(float delta) {
     bombHandler->update();
-    std::cout << "inGameState update" << __LINE__ << std::endl;
     if (gameState == GameState::Closing) {
         if (gameOverDelay.getElapsedTime().asSeconds() > 2.5f) {
-            Util::switchState<PostGameState>(gameData, players[0]->getPlayerId() - 1);
+            Util::switchState<PostGameState>(gameData, getWinningPlayerId() - 1);
         }
         return;
     }
@@ -156,19 +158,33 @@ void InGameState::update(float delta) {
     }
     if(gameData->multiplayer){
         for(const auto &opponent : mapOfEnemies){
-            if(opponent.second->isOpponentAlive()){
+            if(opponent.second->isPlayerAlive()){
                 ++livingPlayers;
             }
         }
     }
 
-    if (livingPlayers <= 1) {
-        std::cout << "inGameState if statement " << __LINE__ << std::endl;
+    if ((livingPlayers <= 1) && (gameStartDelay.getElapsedTime().asSeconds() > 15)) {
         gameOverDelay.restart();
         gameState = GameState::Closing;
-        
     }
-    std::cout << "inGameState update einde  " << __LINE__ << std::endl;
+}
+
+unsigned int InGameState::getWinningPlayerId() const{
+    if(gameData->multiplayer){
+        for(const auto &opponent : mapOfEnemies){
+            if(opponent.second->isPlayerAlive()){
+                return opponent.second->getPlayerId();
+            }
+        }
+    }else{
+        for(const auto& player : players){
+            if(player->isPlayerAlive()){
+                return player->getPlayerId();
+            }
+        }
+    }
+    return -1;
 }
 
 void InGameState::updateOpponentLocation(){
@@ -190,7 +206,7 @@ void InGameState::updateOpponentLocation(){
         }else{
             textureName = "player";
             textureName.append(std::to_string(opponentInfo.playerId));
-            mapOfEnemies[opponentInfo.playerId] = std::make_shared<Opponent>(gameData, bombHandler, opponentInfo.pos, textureName);  
+            mapOfEnemies[opponentInfo.playerId] = std::make_shared<Opponent>(gameData, bombHandler, opponentInfo.pos, textureName, opponentInfo.playerId);  
         }
     }
 }

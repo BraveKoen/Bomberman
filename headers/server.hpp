@@ -18,6 +18,7 @@ private:
     sf::UdpSocket socket;
     sf::Packet sendPacket;
     bool connection = false;
+    bool goToMapSelect = false;
     LobbyInfo lobby;
     std::thread mThread;
     std::vector<std::vector<std::string>> map;
@@ -40,7 +41,7 @@ public:
 
     void playerDisconnect();
     PlayerInfo receiveDataInGame();
-    bool receiveDataLobby();
+    bool receiveDataLobby(bool stopIfHost=true);
 
     int getPlayerId();
 
@@ -51,6 +52,8 @@ public:
     void hostReady(std::vector<std::vector<std::string>> map);
 
     std::vector<std::vector<std::string>> getMap(){return map;}
+
+    bool getGoToMapSelect(){return goToMapSelect;}
 };
 
 #endif // __CONNECT_HPP__

@@ -46,12 +46,15 @@ private:
     std::vector<MenuButton> menuButtons;
     Collision collision;
     sf::Clock gameOverDelay;
+    sf::Clock gameStartDelay;
     std::map<int, std::shared_ptr<Opponent>> mapOfEnemies;
     sf::Sprite background;
     sf::Sprite hudMenu;
 
     void initMenuButtons(const sf::Vector2f& offset);
     std::thread mThread;
+
+    unsigned int getWinningPlayerId() const;
 };
 
 #endif // __INGAMESTATE_HPP__

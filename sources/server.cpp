@@ -1,25 +1,26 @@
 #include "../headers/server.hpp"
 #include "../headers/opponent.hpp"
 
+
 sf::Packet& operator <<(sf::Packet& packet, const PlayerInfo& m){
 
-    return packet << m.playerId << m.pos.x << m.pos.y << m.disconnected << m.spawnedBomb << m.playerHealth;
+    return packet << m.playerId << m.pos.x << m.pos.y << m.disconnected << m.spawnedBomb;
 }
-
 sf::Packet& operator >>(sf::Packet& packet, PlayerInfo& m){
 
-    return packet >> m.playerId >> m.pos.x >> m.pos.y >> m.disconnected >> m.spawnedBomb >> m.playerHealth;
+    return packet >> m.playerId >> m.pos.x >> m.pos.y >> m.disconnected >> m.spawnedBomb;
 }
 
 sf::Packet& operator <<(sf::Packet& packet, const LobbyInfo& m){
 
     return packet << m.playerId << m.opponentsCount << m.disconnected << m.ready << m.map;
 }
-
 sf::Packet& operator >>(sf::Packet& packet, LobbyInfo& m){
 
     return packet >> m.playerId >> m.opponentsCount >> m.disconnected >> m.ready >> m.map;
 }
+
+
 
 Server::Server(sf::IpAddress ip, unsigned short port):
     server{ip},
@@ -31,6 +32,7 @@ Server::Server(sf::IpAddress ip, unsigned short port):
     
 }
 
+
 void Server::serverGetPlayerId(int playerId){
     std::cout << "server: " << server << " port: " << port<< std::endl;
     lobby.playerId = playerId;
@@ -39,21 +41,26 @@ void Server::serverGetPlayerId(int playerId){
     socket.send(sendPacket, server, port);
 }
 
+
 void Server::sendData(PlayerInfo &playerInfo){
     socket.setBlocking(false);
     sendPacket.clear();
+    
     sendPacket << playerInfo;
     socket.send(sendPacket, server, port);
     socket.setBlocking(true);
 }
 
 void Server::sendData(LobbyInfo &lobbyInfo){
+    std::cout << "send data!" << std::endl;
     socket.setBlocking(false);
     sendPacket.clear();
+    
     sendPacket << lobbyInfo;
     socket.send(sendPacket, server, port);
     socket.setBlocking(true);
 }
+
 
 PlayerInfo Server::receiveDataInGame(){ 
     PlayerInfo playerInfo;
@@ -67,8 +74,7 @@ PlayerInfo Server::receiveDataInGame(){
         }
     }
 }
-
-bool Server::receiveDataLobby(){ 
+bool Server::receiveDataLobby(bool stopIfHost){ 
     LobbyInfo lobbyInfo;
     while(true){
         sf::Packet packetOntvanger;
@@ -83,7 +89,7 @@ bool Server::receiveDataLobby(){
                 playerNumber = lobbyInfo.playerId;
                 std::cout << "playerId ontvangen: " << lobbyInfo.playerId << std::endl;
                 serverGetPlayerId(lobbyInfo.playerId);
-                if(playerNumber == 1){
+                if(playerNumber == 1 && stopIfHost){
                     std::cout << "player 1 gaat naar lobby" << std::endl;
                     return true;
                 }            
@@ -118,7 +124,6 @@ void Server::playerDisconnect(){
     PlayerInfo playerInfo;
     playerInfo.playerId = playerNumber;
     playerInfo.disconnected = true;
-    playerInfo.spawnedBomb = false;
     sendPacket.clear();
     sendPacket << playerInfo;
     socket.send(sendPacket, server, port);

@@ -1,10 +1,11 @@
 #include "../headers/opponent.hpp"
 
-Opponent::Opponent(gameDataRef data, std::shared_ptr<BombHandler> bombHandler, sf::Vector2f spawnPosition, std::string textureName):
+Opponent::Opponent(gameDataRef data, std::shared_ptr<BombHandler> bombHandler, sf::Vector2f spawnPosition, std::string textureName, unsigned int playerId):
     gameData(data),
     bombHandler(bombHandler),
     opponentPosition(spawnPosition),
-    textureName(textureName)
+    textureName(textureName),
+    playerId(playerId)
 {
     opponentUpAnimationIterator = 0;
     int frameSize = 100;
@@ -120,6 +121,10 @@ void Opponent::setIsAlive(bool alive){
     isAlive = alive;
 }
 
-bool Opponent::isOpponentAlive(){
+bool Opponent::isPlayerAlive() const{
     return isAlive;
+}
+
+unsigned int Opponent::getPlayerId() const{
+    return playerId;
 }

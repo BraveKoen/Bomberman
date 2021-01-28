@@ -13,6 +13,10 @@ void MapSelectorState::init() {
     gameData->assetManager.loadTexture("background", Resource::mapBackground);
     gameData->assetManager.loadTexture("empty", Resource::solid);
 
+    if(gameData->multiplayer){
+        mThread = std::thread(&MapSelectorState::lobbyQueue, this);
+    }
+
     const auto& bgTexture = gameData->assetManager.getTexture("default background");
     background.setTexture(bgTexture);
     background.setScale(gameData->window.getSize() / bgTexture.getSize());
@@ -138,7 +142,12 @@ void MapSelectorState::handleInput() {
     }
 }
 
-void MapSelectorState::update(float){}
+void MapSelectorState::update(float){
+    if(startGame){
+        mThread.join();
+        gameData->stateMachine.addState(std::make_unique<InGameState>(gameData)); 
+    }
+}
 
 void MapSelectorState::draw(float) {
     gameData->window.clear();
@@ -162,4 +171,9 @@ void MapSelectorState::draw(float) {
         mapStore[selectedMapIndex].tileMap.draw(true);
     }
     gameData->window.display();
+}
+
+void MapSelectorState::lobbyQueue(){
+    gameData->server.receiveDataLobby(false); 
+    startGame = true;
 }

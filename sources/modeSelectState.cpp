@@ -88,6 +88,10 @@ void ModeSelectState::update(float){
         gameData->tileMap = TileMap(gameData, sf::Vector2f(Resource::screenWidth/7*3, Resource::screenHeight/5), sf::Vector2f(Resource::screenHeight/5*3, Resource::screenHeight/5*3), gameData->server.getMap());
         gameData->stateMachine.addState(std::make_unique<InGameState>(gameData)); 
     }
+    if(startMapSelect){
+        mThread.join();
+        gameData->stateMachine.addState(std::make_unique<MapSelectorState>(gameData));
+    }
 }
 
 void ModeSelectState::draw(float) {
@@ -135,7 +139,7 @@ std::vector<MenuButtonExt> ModeSelectState::makeButtons(std::vector<buttonDataEx
 void ModeSelectState::lobbyQueue(){
     gameData->server.receiveDataLobby();
     if(gameData->server.getPlayerId() == 1){
-        gameData->stateMachine.addState(std::make_unique<MapSelectorState>(gameData));
+        startMapSelect = true;
     }else{
         startMul = true;
         std::cout << "gameStarted!" << std::endl;

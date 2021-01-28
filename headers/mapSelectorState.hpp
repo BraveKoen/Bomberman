@@ -24,6 +24,7 @@ public:
     virtual void handleInput() override;
     virtual void update(float deltaTime) override;
     virtual void draw(float deltaTime) override;
+    void lobbyQueue();
 private:
     gameDataRef gameData;
     MapLoader mapLoader;
@@ -42,6 +43,7 @@ private:
     std::vector<std::string> mapNames;
     std::vector<TileMap> tileMapVector;  
     std::thread mThread;
+    bool startGame = false;
 
     void spawnMapButtons();
 };

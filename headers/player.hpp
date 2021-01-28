@@ -22,12 +22,12 @@ public:
     void update(const float & delta);
 
     void setPlayerId(unsigned int id);
-    unsigned int getPlayerId() const;
+    unsigned int getPlayerId() const override;
 
     void setHealth(uint8_t health) override;
     int getHealth() const override;
 
-    bool isPlayerAlive() const;
+    bool isPlayerAlive() const override;
 
     void setPosition(const sf::Vector2f& pos) override;
     const sf::Vector2f& getPosition() const override;
