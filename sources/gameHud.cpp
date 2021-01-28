@@ -24,7 +24,7 @@ GameHUD::GameHUD(gameDataRef gameData, const sf::Vector2f& position) {
     const auto borderY = position.y + 12;
     banner.setPosition(borderX, borderY);
     const auto bannerScale = Util::scaleFromRatio(frameWidth, Util::getWidth(banner), ratio);
-    banner.setScale(bannerScale, bannerScale));
+    banner.setScale(bannerScale, bannerScale);
     createPlayerHuds(gameData, {position.x, borderY + Util::getHeight(banner)});
     // add optional game time here
 }

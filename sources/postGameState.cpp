@@ -54,11 +54,11 @@ void PostGameState::init() {
     Util::centerXscaleY(windowSize, winningText, 39/100.f);
 
     createMenuButtons(std::array{
-        buttonData{"Play again", [](gameDataRef gameData){
+        buttonData{"Play Again", [](gameDataRef gameData){
             gameData->tileMap.loadMap();
             Util::replaceState<InGameState>(gameData);
         }},
-        buttonData{"Quit", Util::replaceState<MainMenuState>}
+        buttonData{"Main Menu", Util::replaceState<MainMenuState>}
     });
 }
 
@@ -81,7 +81,7 @@ void PostGameState::createMenuButtons(const std::array<buttonData, N>& buttons) 
         static const auto& font = gameData->assetManager.getFont("default font");
         auto text = sf::Text{buttons[index].title, font};
         Util::centerOrigin(text);
-        static const auto& textScale = scale / 2;
+        static const auto& textScale = scale * 1.4f;
         text.setScale(textScale);
         text.setPosition(position.x, position.y - 8);
         text.setFillColor(sf::Color::Cyan);

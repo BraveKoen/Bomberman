@@ -55,10 +55,10 @@ namespace Resource {
 
         constexpr auto banner = resourceData{"banner", "resources/banner.png"};
         constexpr auto profiles = std::array{
-            resourceData{"profile0", "resources/profile0.png"},
             resourceData{"profile1", "resources/profile1.png"},
             resourceData{"profile2", "resources/profile2.png"},
-            resourceData{"profile3", "resources/profile3.png"}
+            resourceData{"profile3", "resources/profile3.png"},
+            resourceData{"profile4", "resources/profile4.png"}
         };
         constexpr auto maxPlayers = Resource::HUD::profiles.size();
         constexpr auto maxLives = 5u;

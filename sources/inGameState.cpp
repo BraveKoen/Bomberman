@@ -110,6 +110,8 @@ void InGameState::handleInput(){
 }
 
 void InGameState::update(float delta) {
+    bombHandler->update();
+
     if (gameState == GameState::Closing) {
         if (gameOverDelay.getElapsedTime().asSeconds() > 2.5f) {
             Util::switchState<PostGameState>(gameData, players[0]->getPlayerId() - 1);
@@ -134,7 +136,6 @@ void InGameState::update(float delta) {
             }
         }
     }
-    bombHandler->update();
 }
 
 void InGameState::draw(float) {

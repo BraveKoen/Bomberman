@@ -59,6 +59,12 @@ inline sf::Vector2f operator*(
     return {left * right.x, left * right.y};
 }
 
+inline sf::Vector2f operator*(
+    const sf::Vector2f& left,
+    float right
+) {
+    return {left.x * right, left.y * right};
+}
 
 inline sf::Vector2f operator+(
     const sf::Vector2f& left,
