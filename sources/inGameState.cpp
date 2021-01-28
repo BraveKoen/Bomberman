@@ -70,14 +70,14 @@ void InGameState::initMenuButtons(const sf::Vector2f& offset) {
     };
     for (std::size_t index = 0; index < buttons.size(); ++index) {
         static const auto& texture = gameData->assetManager.getTexture("default button");
-        auto&& sprite = sf::Sprite{texture};
+        auto sprite = sf::Sprite{texture};
         auto const& hudSize = Util::getSize(hudMenu);
         sprite.setScale(hudSize / texture.getSize() / sf::Vector2f{1, 3});
         const auto& spriteBounds = sprite.getGlobalBounds();
         sprite.setPosition(offset + Util::centerRect(hudSize, spriteBounds, index, buttons.size()));
 
         static const auto& font = gameData->assetManager.getFont("default font");
-        auto&& text = sf::Text{buttons[index].title, font};
+        auto text = sf::Text{buttons[index].title, font};
         text.setFillColor(sf::Color::Cyan);
         text.setOrigin(Util::scaleRect(text.getGlobalBounds(), {2, 2}));
         text.setPosition(Util::centerVector(sprite.getPosition(), spriteBounds, {2, 3.2}));
