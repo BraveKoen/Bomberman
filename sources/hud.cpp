@@ -1,20 +1,16 @@
 #include "../headers/hud.hpp"
-
-HUD::HUD(const sf::Texture& texture):
-    frame{texture}
-{}
+#include "../headers/utilities.hpp"
 
 float HUD::getFrameWidth() const {
-    return frame.getGlobalBounds().width;
+    return Util::getWidth(frame);
 }
 
 float HUD::getFrameHeight() const {
-    return frame.getGlobalBounds().height;
+    return Util::getHeight(frame);
 }
 
 sf::Vector2f HUD::getFrameSize() const {
-    const auto& bounds = frame.getGlobalBounds();
-    return {bounds.width, bounds.height};
+    return Util::getSize(frame);
 }
 
 void HUD::setFrameScale(float factorX, float factorY) {

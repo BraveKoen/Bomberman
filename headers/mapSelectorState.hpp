@@ -1,31 +1,33 @@
 #ifndef __MAPSELECTORSTATE_HPP__
 #define __MAPSELECTORSTATE_HPP__
 
-#include <SFML/Graphics.hpp>
-#include <experimental/filesystem>
-#include <stdio.h>
-#include <iostream>
-#include <fstream>
 #include <vector>
 #include <string>
+#include <fstream>
+#include <iostream>
+#include <experimental/filesystem>
+#include <SFML/Graphics.hpp>
+// #include <stdio.h>
 
-#include "tileMap.hpp"
 #include "definitions.hpp"
+#include "mapLoader.hpp"
+#include "inGameState.hpp"
+#include "tileMap.hpp"
 #include "state.hpp"
 #include "game.hpp"
-#include "inGameState.hpp"
 
-class MapSelectorState : public State{
+class MapSelectorState : public State {
 public:
     MapSelectorState(gameDataRef gameData);
 
-    void init();
-    void handleInput();
-    void update(float deltaTime);
-    void draw(float deltaTime);
+    virtual void init() override;
+    virtual void handleInput() override;
+    virtual void update(float deltaTime) override;
+    virtual void draw(float deltaTime) override;
 private:
     gameDataRef gameData;
-    int mapToDisplayIndex;
+    MapLoader mapLoader;
+    std::size_t selectedMapIndex;
     std::vector<sf::Text> menuOptionsText;
     sf::Sprite background;
     sf::Sprite playButton;
@@ -33,11 +35,9 @@ private:
     sf::Sprite returnButton;
     sf::Text returnButtonText;
     std::vector<sf::Sprite> menuOptions;
-    std::vector<std::string> mapNames;
-    std::vector<TileMap> tileMapVector;  
+    std::vector<mapData> mapStore;
+    bool tileMapPreviewAvailable;
 
-    bool isValidFile(std::string fileName);
-    std::vector<std::vector<std::string>> makeMap(std::string fileName);
     void spawnMapButtons();
 };
 

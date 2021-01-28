@@ -1,4 +1,5 @@
 #include "../headers/inGameState.hpp"
+#include "../headers/postGameState.hpp"
 #include "../headers/menuButton.hpp"
 #include "../headers/mainMenuState.hpp"
 #include "../headers/tileMap.hpp"
@@ -8,20 +9,12 @@
 
 InGameState::InGameState(gameDataRef gameData):
     gameData{gameData},
-    bHandler{std::make_shared<BombHandler>(gameData)}
+    gameHud{gameData},
+    gameState{GameState::Running},
+    bombHandler{std::make_shared<BombHandler>(gameData)}
 {}
 
-void InGameState::init(){
-    gameData->assetManager.loadTexture("HUD frame", Resource::frame);
-    gameData->assetManager.loadTexture("HUD small frame", Resource::smallFrame);
-    gameData->assetManager.loadTexture("HUD banner", Resource::banner);
-    gameData->assetManager.loadTexture("HUD profile0", Resource::profile4);
-    gameData->assetManager.loadTexture("HUD profile1", Resource::profile1);
-    gameData->assetManager.loadTexture("HUD profile2", Resource::profile2);
-    gameData->assetManager.loadTexture("HUD profile3", Resource::profile3);
-    gameData->assetManager.loadTexture("HUD live full", Resource::liveFull);
-    gameData->assetManager.loadTexture("HUD live empty", Resource::liveEmpty);
-
+void InGameState::init() {
     gameData->assetManager.loadTexture("player1", Resource::player1);
     gameData->assetManager.loadTexture("player2", Resource::player2);
     gameData->assetManager.loadTexture("player3", Resource::player3);
@@ -30,13 +23,12 @@ void InGameState::init(){
     gameData->assetManager.loadTexture("biem", Resource::biem);
     gameData->assetManager.loadTexture("bomb spritesheet", Resource::bombSpritesheet);
 
-    gameHud = std::make_unique<GameHUD>(gameData);
-    hudMenu.setTexture(gameData->assetManager.loadTexture("menu frame", Resource::menuFrame));
-    const auto& hudFrame = gameHud->getFrameSize();
+    hudMenu.setTexture(gameData->assetManager.loadTexture(Resource::HUD::menuFrame));
+    const auto& hudFrame = gameHud.getFrameSize();
     hudMenu.setPosition({0, hudFrame.y});
     constexpr auto ratio = 6.0f;
     hudMenu.setScale(1, gameData->window.getSize().y / ratio / hudMenu.getGlobalBounds().height);
-    initMenuButtons({hudFrame.x/20.0f, hudFrame.y - Sprite::getSize(hudMenu).y});
+    initMenuButtons({hudFrame.x / 20.0f, hudFrame.y - Util::getSize(hudMenu).y});
 
     gameData->tileMap.setTileMapPosition({hudFrame.x, 0});
     gameData->tileMap.setTileMapSize({Resource::screenHeight, Resource::screenHeight});
@@ -64,31 +56,28 @@ void InGameState::init(){
         }
         std::string textureName = "player";
         textureName.append(std::to_string(i+1));
-        players.push_back(std::make_unique<Player>(gameData, bHandler, controlSchemes[i], spawnLocation, i + 1, textureName, Resource::defaultPlayerMoveSpeed * (gameData->tileMap.getTileMapSize().x / gameData->tileMap.getMapSize().x)));
+        players.push_back(std::make_unique<Player>(gameData, bombHandler, controlSchemes[i], spawnLocation, i + 1, textureName, Resource::defaultPlayerMoveSpeed * (gameData->tileMap.getTileMapSize().x / gameData->tileMap.getMapSize().x)));
     }
-
     //needs to be fixed! 
     const auto& bgTexture = gameData->assetManager.getTexture("default background");
     background.setTexture(bgTexture);
     background.setScale(gameData->window.getSize() / bgTexture.getSize());
-    
 }
 
 void InGameState::initMenuButtons(const sf::Vector2f& offset) {
     constexpr std::array buttons{
-        buttonData{"Settings", [](gameDataRef){std::cout << "settings hud menu\n";}}, // print something
         buttonData{"Quit", Util::switchState<MainMenuState>} // back to main menu
     };
     for (std::size_t index = 0; index < buttons.size(); ++index) {
         static const auto& texture = gameData->assetManager.getTexture("default button");
-        auto&& sprite = sf::Sprite{texture};
-        auto const& hudSize = Sprite::getSize(hudMenu);
+        auto sprite = sf::Sprite{texture};
+        auto const& hudSize = Util::getSize(hudMenu);
         sprite.setScale(hudSize / texture.getSize() / sf::Vector2f{1, 3});
         const auto& spriteBounds = sprite.getGlobalBounds();
         sprite.setPosition(offset + Util::centerRect(hudSize, spriteBounds, index, buttons.size()));
 
         static const auto& font = gameData->assetManager.getFont("default font");
-        auto&& text = sf::Text{buttons[index].title, font};
+        auto text = sf::Text{buttons[index].title, font};
         text.setFillColor(sf::Color::Cyan);
         text.setOrigin(Util::scaleRect(text.getGlobalBounds(), {2, 2}));
         text.setPosition(Util::centerVector(sprite.getPosition(), spriteBounds, {2, 3.2}));
@@ -98,6 +87,9 @@ void InGameState::initMenuButtons(const sf::Vector2f& offset) {
 }
 
 void InGameState::handleInput(){
+    if (gameState not_eq GameState::Running) {
+        return;
+    }
     sf::Event event;
 
     while (gameData->window.pollEvent(event)) {
@@ -118,27 +110,45 @@ void InGameState::handleInput(){
 }
 
 void InGameState::update(float delta) {
-    for (const auto& player : players) {
-        player->update(delta);
+    bombHandler->update();
+
+    if (gameState == GameState::Closing) {
+        if (gameOverDelay.getElapsedTime().asSeconds() > 2.5f) {
+            Util::switchState<PostGameState>(gameData, players[0]->getPlayerId() - 1);
+        }
+        return;
+    }
+    for (auto iter = players.begin(); iter not_eq players.end();) {
+        (*iter)->update(delta);
 
         // note: change this so health bar is updated only when necessary
-        gameHud->setHealthBar(gameData, player->getPlayerId() - 1, player->getHealth());
+        gameHud.setHealthBar(gameData, (*iter)->getPlayerId() - 1, (*iter)->getHealth());
+
+        if ((*iter)->isPlayerAlive()) {
+            ++iter;
+        } else {
+            iter = players.erase(iter);
+
+            if (players.size() <= 1) {
+                gameOverDelay.restart();
+                gameState = GameState::Closing;
+                return;
+            }
+        }
     }
-    bHandler->update();
 }
 
 void InGameState::draw(float) {
     gameData->window.clear();
     gameData->window.draw(background);
     gameData->tileMap.draw();
-    gameHud->draw(gameData->window);
-    // gameData->window.draw(hudMenu); // fix later
+    gameHud.draw(gameData->window);
 
     for (const auto& menuButton : menuButtons) {
         menuButton.draw(gameData->window);
     }
 
-    bHandler->draw();
+    bombHandler->draw();
 
     for (const auto &player : players) {
         player->draw();

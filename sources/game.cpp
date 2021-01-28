@@ -10,7 +10,7 @@ Game::Game(int width, int height, std::string title):
     gameData->assetManager.loadFont("default font", Resource::globalFont);
     gameData->assetManager.loadTexture("default background", Resource::defaultBackground);
     gameData->assetManager.loadTexture("default button", Resource::defaultButton);
-    gameData->playerCount=4;
+    gameData->playerCount = 4;
     run();
 }
 
@@ -24,11 +24,13 @@ void Game::run(){
 
         newTime = clock.getElapsedTime().asSeconds();
         frameTime = newTime - currentTime;
-        if(frameTime > 0.25f) frameTime=0.25f;
+        if (frameTime > 0.25f) {
+            frameTime = 0.25f;
+        }
         currentTime = newTime;
         accumulator += frameTime;
 
-        while(accumulator >= delta){
+        while (accumulator >= delta) {
             gameData->stateMachine.getActiveState()->handleInput();
             gameData->stateMachine.getActiveState()->update(delta);
             accumulator -= delta;

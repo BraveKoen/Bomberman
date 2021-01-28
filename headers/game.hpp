@@ -20,14 +20,14 @@ struct GameData{
 };
 
 class Game{
-    private:
-        gameDataRef gameData;
-        const float delta;
-        sf::Clock clock;
+private:
+    gameDataRef gameData;
+    const float delta;
+    sf::Clock clock;
 
-        void run();
-    public:
-        Game(int width, int height, std::string title);
+    void run();
+public:
+    Game(int width, int height, std::string title);
 };
 
 #endif // __GAME_HPP__

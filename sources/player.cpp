@@ -129,6 +129,10 @@ int Player::getHealth() const {
     return playerHealth;
 }
 
+bool Player::isPlayerAlive() const {
+    return isAlive;
+}
+
 void Player::setPosition(const sf::Vector2f& pos){
     playerSprite.setPosition(pos);
 }

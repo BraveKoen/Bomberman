@@ -1,17 +1,25 @@
 #ifndef __DEFINITIONS_HPP__
 #define __DEFINITIONS_HPP__
 
+#include <array>
 #include <memory>
+#include <SFML/Graphics.hpp>
 
 struct GameData;
 using gameDataRef = std::shared_ptr<GameData>;
 
+// the linker doesn't seem to like this:
+//   using textureData = struct {const char *name; const char *file;};
+//   using textureDataExt = struct {const char *name; const char *file; sf::Sprite *sprite;};
+typedef struct {const char *name; const char *file;} resourceData;
+typedef struct {const resourceData& data; sf::Sprite *sprite = nullptr;} resourceContainer;
+
 namespace Resource {
     constexpr auto screenWidth = 1280;
     constexpr auto screenHeight = 720;
+    inline const auto screenSize = sf::Vector2f{screenWidth, screenHeight};
 
     constexpr auto mapFolderLocation = "resources/maps";
-    
     constexpr auto globalFont = "resources/256bytes.ttf";
 
     constexpr auto solid = "resources/solid.png";
@@ -24,17 +32,6 @@ namespace Resource {
     constexpr auto biem = "resources/biem.png";
     constexpr auto mapBackground = "resources/mapBackground.png";
 
-    constexpr auto frame = "resources/frame.png";
-    constexpr auto smallFrame = "resources/smallFrame.png";
-    constexpr auto menuFrame = "resources/menuFrame.png";
-    constexpr auto banner = "resources/banner.png";
-    constexpr auto profile1 = "resources/profile0.png";
-    constexpr auto profile2 = "resources/profile1.png";
-    constexpr auto profile3 = "resources/profile2.png";
-    constexpr auto profile4 = "resources/profile3.png";
-    constexpr auto liveFull = "resources/liveFull.png";
-    constexpr auto liveEmpty = "resources/liveEmpty.png";
-
     constexpr auto defaultBackground = "resources/defaultBackground.png";
     constexpr auto defaultButton = "resources/defaultButton.png";
     constexpr auto menuButton = "resources/menuButton.png";
@@ -42,9 +39,30 @@ namespace Resource {
     constexpr auto bombSpritesheet = "resources/bombFuse.png";
     constexpr auto title = "resources/title.png";
 
-    constexpr float defaultPlayerMoveSpeed = 2.5;
-    constexpr unsigned int defaultPlayerLives = 5;
+    constexpr auto defaultPlayerMoveSpeed = 2.5f;
+    constexpr auto defaultPlayerLives = 5u;
 
+    constexpr auto maxTileMaps = 5u;
+    constexpr auto fileExtension = ".txt";
+
+    namespace HUD {
+        constexpr auto mainFrame = resourceData{"main frame", "resources/mainFrame.png"};
+        constexpr auto subFrame = resourceData{"sub frame", "resources/subFrame.png"};
+        constexpr auto menuFrame = resourceData{"menu frame", "resources/menuFrame.png"};
+
+        constexpr auto fullLife = resourceData{"full life", "resources/fullLife.png"};
+        constexpr auto emptyLife = resourceData{"empty life", "resources/emptyLife.png"};
+
+        constexpr auto banner = resourceData{"banner", "resources/banner.png"};
+        constexpr auto profiles = std::array{
+            resourceData{"profile1", "resources/profile1.png"},
+            resourceData{"profile2", "resources/profile2.png"},
+            resourceData{"profile3", "resources/profile3.png"},
+            resourceData{"profile4", "resources/profile4.png"}
+        };
+        constexpr auto maxPlayers = Resource::HUD::profiles.size();
+        constexpr auto maxLives = 5u;
+    }
 }
 
 #endif // __DEFINITIONS_HPP__

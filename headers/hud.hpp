@@ -7,10 +7,9 @@ class HUD {
 protected:
     sf::Sprite frame;
 public:
-    HUD(const sf::Texture& texture);
+    HUD() = default;
     float getFrameWidth() const;
     float getFrameHeight() const;
-    // const sf::FloatRect getFrameBounds() const;
     sf::Vector2f getFrameSize() const;
     void setFrameScale(float factorX, float factorY);
     virtual void draw(sf::RenderWindow& window) const;

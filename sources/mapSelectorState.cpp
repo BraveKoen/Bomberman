@@ -1,141 +1,26 @@
 #include "../headers/mapSelectorState.hpp"
 
 MapSelectorState::MapSelectorState(gameDataRef gameData):
-    gameData(gameData),
-    mapToDisplayIndex(0)
+    gameData{gameData},
+    selectedMapIndex{},
+    tileMapPreviewAvailable{true}
 {}
 
-bool MapSelectorState::isValidFile(std::string fileName){
-    bool valid = true;
-    std::ifstream file(fileName);
-    std::string line;
-    while (getline(file, line)) {
-        std::istringstream ss(line);
-        std::string word; 
-        while (ss >> word){
-            if(
-                word != "solid" &&
-                word != "break" &&
-                word != "empty" &&
-                word != "spawn"
-            ){
-                valid = false;
-                break;
-            }
-        }
-    }
-    file.close();
-    return valid;
-}
-
-std::vector<std::vector<std::string>> MapSelectorState::makeMap(std::string fileName){
-    std::vector<std::vector<std::string>> map = {};
-    std::ifstream file(fileName);
-    std::string line;
-    while (getline(file, line)) {
-        std::vector<std::string> mapLine = {};
-        std::istringstream ss(line);
-        std::string word; 
-        while (ss >> word){
-            mapLine.push_back(word);
-        }
-        map.push_back(mapLine);
-    }
-    // to add: reverse the map
-    // std::vector<std::vector<std::string>> reverseMap = map;
-    // for (unsigned int i = 0; i < map.size(); i++){
-    //     for (unsigned int j = 0; j < map[i].size(); j++){
-    //         reverseMap[j][i] = map[i][j];
-    //     }
-        
-    // }
-    
-    file.close();
-    return map;
-}
-
-void MapSelectorState::spawnMapButtons(){
-    sf::Vector2f mapSelectorStateOptionSize = sf::Vector2f( 
-		static_cast< float >( gameData->assetManager.getTexture("default button").getSize().x ), 
-		static_cast< float >( gameData->assetManager.getTexture("default button").getSize().y )
-	);
-    for(unsigned int i=0; i<mapNames.size(); i++){
-        sf::Sprite optionSprite;
-        optionSprite.setTexture(gameData->assetManager.getTexture("default button"));
-        optionSprite.setScale(
-            (gameData->window.getSize().x/mapSelectorStateOptionSize.x)/5.0f, 
-            (gameData->window.getSize().y/mapSelectorStateOptionSize.y)/10.0f
-        );
-        optionSprite.setPosition(
-            (gameData->window.getSize().x/20), 
-            ((gameData->window.getSize().y/10) - (optionSprite.getGlobalBounds().height/5) 
-                + (i*((gameData->window.getSize().y/5) - (optionSprite.getGlobalBounds().height/5))))
-        );
-        menuOptions.push_back(optionSprite);
-        sf::Text optionText;
-        optionText.setFont(gameData->assetManager.getFont("default font"));
-        optionText.setString(mapNames[i]);
-        optionText.setFillColor(sf::Color(255, 194, 0));
-        optionText.setStyle(sf::Text::Bold);
-        optionText.setOrigin(optionText.getGlobalBounds().width/2, optionText.getGlobalBounds().height/2);
-        optionText.setPosition(
-            (optionSprite.getPosition().x)+(optionSprite.getGlobalBounds().width/2), 
-            (optionSprite.getPosition().y)+(optionSprite.getGlobalBounds().height/3)
-        );
-        menuOptionsText.push_back(optionText);
-    }
-}
-
-void MapSelectorState::init(){
-    int ammountOfFiles = 0;
-
+void MapSelectorState::init() {
     gameData->assetManager.loadTexture("solid", Resource::solid);
     gameData->assetManager.loadTexture("break", Resource::breakable);
     gameData->assetManager.loadTexture("spawn", Resource::spawn);
     gameData->assetManager.loadTexture("background", Resource::mapBackground);
     gameData->assetManager.loadTexture("empty", Resource::solid);
 
-    for(const auto & entry : std::experimental::filesystem::directory_iterator(Resource::mapFolderLocation)){
-        if(entry.path().extension().u8string() == ".txt"){
-            if(isValidFile(entry.path().u8string())){
-                if(ammountOfFiles >= 5){
-                    break;
-                }else{
-                    ammountOfFiles++;
-                }
-                std::string fileName = entry.path().u8string();
-                std::vector<std::vector<std::string>> map = makeMap(entry.path().u8string());
-                //to add: scalable dimentions v
-                TileMap tileMap(
-                    sf::Vector2f(Resource::screenWidth/7*3, Resource::screenHeight/5), 
-                    sf::Vector2f(Resource::screenHeight/5*3, Resource::screenHeight/5*3), 
-                    gameData, 
-                    map,
-                    sf::Vector2u(map.size(), map[0].size())
-                );
-                tileMapVector.push_back(tileMap);
+    const auto& bgTexture = gameData->assetManager.getTexture("default background");
+    background.setTexture(bgTexture);
+    background.setScale(gameData->window.getSize() / bgTexture.getSize());
 
-
-                fileName = fileName.substr(15, fileName.length()-19);
-                if(fileName.length() > 16){
-                    fileName = fileName.substr(0, 13);
-                    fileName = fileName.append("...");
-                }
-                mapNames.push_back(fileName);
-            }
-        }
-    }
-        
-    background.setTexture(gameData->assetManager.getTexture("default background"));
-    sf::Vector2f mapSelectorStateBackgroundSize = sf::Vector2f( 
-		static_cast< float >( gameData->assetManager.getTexture("default background").getSize().x ), 
-		static_cast< float >( gameData->assetManager.getTexture("default background").getSize().y )
-	);
-    background.setScale(
-        gameData->window.getSize().x/mapSelectorStateBackgroundSize.x, 
-        gameData->window.getSize().y/mapSelectorStateBackgroundSize.y
+    mapStore = mapLoader.loadTileMaps(gameData,
+        Resource::screenSize * sf::Vector2f{40/100.f, 10/100.f},
+        Resource::screenHeight * sf::Vector2f{70/100.f, 70/100.f}
     );
-    
     spawnMapButtons();
 
     playButton.setTexture(gameData->assetManager.getTexture("default button"));
@@ -171,47 +56,83 @@ void MapSelectorState::init(){
     );
 }
 
-void MapSelectorState::handleInput(){
+void MapSelectorState::spawnMapButtons(){
+    sf::Vector2f mapSelectorStateOptionSize = sf::Vector2f( 
+        static_cast< float >( gameData->assetManager.getTexture("default button").getSize().x ), 
+        static_cast< float >( gameData->assetManager.getTexture("default button").getSize().y )
+    );
+    for(unsigned int i=0; i<mapStore.size(); i++){
+        sf::Sprite optionSprite;
+        optionSprite.setTexture(gameData->assetManager.getTexture("default button"));
+        optionSprite.setScale(
+            (gameData->window.getSize().x/mapSelectorStateOptionSize.x)/5, 
+            (gameData->window.getSize().y/mapSelectorStateOptionSize.y)/10
+        );
+        optionSprite.setPosition(
+            (gameData->window.getSize().x/20), 
+            ((gameData->window.getSize().y/10) - (optionSprite.getGlobalBounds().height/5) 
+                + (i*((gameData->window.getSize().y/5) - (optionSprite.getGlobalBounds().height/5))))
+        );
+        menuOptions.push_back(optionSprite);
+        sf::Text optionText;
+        optionText.setFont(gameData->assetManager.getFont("default font"));
+        optionText.setString(Util::ellipseString(mapStore[i].name, 16)); // change literal
+        optionText.setFillColor(sf::Color(255, 194, 0));
+        optionText.setStyle(sf::Text::Bold);
+        optionText.setOrigin(optionText.getGlobalBounds().width/2, optionText.getGlobalBounds().height/2);
+        optionText.setPosition(
+            (optionSprite.getPosition().x)+(optionSprite.getGlobalBounds().width/2), 
+            (optionSprite.getPosition().y)+(optionSprite.getGlobalBounds().height/3)
+        );
+        menuOptionsText.push_back(optionText);
+    }
+}
+
+void MapSelectorState::handleInput() {
     sf::Event event;
 
-    while(gameData->window.pollEvent(event)){
-        if( event.type == sf::Event::Closed ){
+    while (gameData->window.pollEvent(event)) {
+        if (event.type == sf::Event::Closed) {
             gameData->window.close();
         }
-        for(unsigned short int i=0; i<menuOptions.size(); i++){
-            if(gameData->inputManager.isSpriteClicked(menuOptions[i], sf::Mouse::Left, gameData->window)){
-                mapToDisplayIndex = i;
+        for (auto index = 0u; index < menuOptions.size(); ++index) {
+            if (gameData->inputManager.isSpriteClicked(
+                menuOptions[index], sf::Mouse::Left, gameData->window)
+            ) {
+                selectedMapIndex = index;
             }
         }
-        if(gameData->inputManager.isSpriteClicked(playButton, sf::Mouse::Left, gameData->window)){
-            // std::cout << "go to inGameState" << std::endl;
-            gameData->tileMap = tileMapVector[mapToDisplayIndex];
-            gameData->stateMachine.addState(std::make_unique<InGameState>(gameData));
+        if (gameData->inputManager.isSpriteClicked(
+            playButton, sf::Mouse::Left, gameData->window)
+        ) {
+            tileMapPreviewAvailable = false;
+            gameData->tileMap = std::move(mapStore[selectedMapIndex].tileMap);
+            return gameData->stateMachine.addState(std::make_unique<InGameState>(gameData));
         }
-        if(gameData->inputManager.isSpriteClicked(returnButton, sf::Mouse::Left, gameData->window)){
+        if (gameData->inputManager.isSpriteClicked(
+            returnButton, sf::Mouse::Left, gameData->window)
+        ) {
             gameData->stateMachine.removeState();
         } 
     }
 }
 
-void MapSelectorState::update(float deltaTime){
-    (void)deltaTime;
-}
+void MapSelectorState::update(float){}
 
-void MapSelectorState::draw(float deltaTime){
-    (void)deltaTime;
+void MapSelectorState::draw(float) {
     gameData->window.clear();
-
     gameData->window.draw(background);
     gameData->window.draw(playButton);
     gameData->window.draw(playButtonText);
     gameData->window.draw(returnButton);
     gameData->window.draw(returnButtonText);
-    for(unsigned short int i=0; i<menuOptions.size(); i++){
-        gameData->window.draw(menuOptions[i]);
-        gameData->window.draw(menuOptionsText[i]);
-    }
-    tileMapVector[mapToDisplayIndex].draw(true);
 
+    for (auto index = 0u; index < menuOptions.size(); ++index) {
+        gameData->window.draw(menuOptions[index]);
+        gameData->window.draw(menuOptionsText[index]);
+    }
+    if (tileMapPreviewAvailable) {
+        mapStore[selectedMapIndex].tileMap.draw(true);
+    }
     gameData->window.display();
 }

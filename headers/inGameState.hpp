@@ -25,13 +25,21 @@ public:
     void update(float delta) override;
     void draw(float delta) override;
 private:
+    enum class GameState {
+        Running,
+        Closing,
+        Stopped
+    };
     gameDataRef gameData;
-    std::unique_ptr<GameHUD> gameHud;
-    std::shared_ptr<BombHandler> bHandler;
+    // std::unique_ptr<GameHUD> gameHud;
+    GameHUD gameHud;
+    GameState gameState;
+    std::shared_ptr<BombHandler> bombHandler;
     std::vector<std::unique_ptr<Player>> players;
     std::vector<std::unique_ptr<Opponent>> opponents;
     std::vector<MenuButton> menuButtons;
     Collision collision;
+    sf::Clock gameOverDelay;
     sf::Sprite background;
     sf::Sprite hudMenu;
 
