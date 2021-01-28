@@ -53,25 +53,24 @@ void InGameState::init(){
 
     std::vector<sf::Vector2u> spawnLocations = gameData->tileMap.searchForType("spawn");
     sf::Vector2f spawnLocation = sf::Vector2f{0, 0};
-    sf::Vector2f spawnLocOpponent = sf::Vector2f{200, 0};   //Not really sure how opponents are going to work, will treat mostly like normal player for now
+
     std::string textureName = "player";
     if(gameData->multiplayer){
         mThread = std::thread(&InGameState::updateOpponentLocation, this);
         textureName.append(std::to_string(gameData->server.getPlayerId()));
-        spawnLocation = gameData->tileMap.tilePosToScreenPos(spawnLocations[0]);
-        spawnLocations.erase(spawnLocations.begin());
-        players.push_back(std::make_unique<Player>(gameData, bHandler, controlSchemes[0], spawnLocation, gameData->server.getPlayerId(), textureName, Resource::defaultPlayerMoveSpeed * (gameData->tileMap.getTileMapSize().x / gameData->tileMap.getMapSize().x)));
         for(int i = 1u; i <= gameData->server.getOpponentCount() + 1; i++){
+            if(spawnLocations.size() > 0){
+                spawnLocation = gameData->tileMap.tilePosToScreenPos(spawnLocations[0]);
+                spawnLocations.erase(spawnLocations.begin());
+            }
             textureName = "player";
             textureName.append(std::to_string(i));
             std::cout << "own playerId: " << gameData->server.getPlayerId() << std::endl;
             if(i == gameData->server.getPlayerId()){
-                continue;
+                players.push_back(std::make_unique<Player>(gameData, bHandler, controlSchemes[0], spawnLocation, gameData->server.getPlayerId(), textureName, Resource::defaultPlayerMoveSpeed * (gameData->tileMap.getTileMapSize().x / gameData->tileMap.getMapSize().x)));
             }else{
                 std::cout << "multiplayer create opponent with playerId: " << i << std::endl;
-                spawnLocOpponent = gameData->tileMap.tilePosToScreenPos(spawnLocations[0]);
-                spawnLocations.erase(spawnLocations.begin());
-                mapOfEnemies[i] = std::make_shared<Opponent>(gameData, bHandler, spawnLocOpponent, textureName);
+                mapOfEnemies[i] = std::make_shared<Opponent>(gameData, bHandler, spawnLocation, textureName);
             }
         }
     }else{
@@ -132,7 +131,7 @@ void InGameState::handleInput(){
             gameData->server.playerDisconnect();
             gameData->window.close();
         }
-        for (auto const& button : menuButtons) {
+        for (auto const& button : menuButtons){
             if (gameData->inputManager.isSpriteClicked(
                 button.getSprite(), sf::Mouse::Left, gameData->window)
             ) {
@@ -140,7 +139,7 @@ void InGameState::handleInput(){
             }
         }
     }
-    for (const auto& player : players) {
+    for (const auto& player : players){
         player->handleInput();
     }
 }
@@ -174,14 +173,11 @@ void InGameState::update(float delta) {
     }
 }
 
-
-
 void InGameState::updateOpponentLocation(){
     PlayerInfo opponentInfo;
     std::string textureName = "player";
     while(true){
         opponentInfo = gameData->server.receiveDataInGame();
-        std::cout << opponentInfo.playerId << " playeId binnengekomen" << std::endl;
         if(mapOfEnemies.find(opponentInfo.playerId) != mapOfEnemies.end()){
             if(opponentInfo.spawnedBomb){
                 mapOfEnemies[opponentInfo.playerId]->spawnBomb(opponentInfo.playerId);
@@ -189,6 +185,9 @@ void InGameState::updateOpponentLocation(){
             }else{
                 mapOfEnemies[opponentInfo.playerId]->setPosition(opponentInfo.pos);
                 gameHud->setHealthBar(gameData, opponentInfo.playerId, opponentInfo.playerHealth);
+                if(opponentInfo.playerHealth == 0){
+                    mapOfEnemies[opponentInfo.playerId]->setIsAlive(false);
+                }
             } 
         }else{
             textureName = "player";

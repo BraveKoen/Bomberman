@@ -56,7 +56,9 @@ Opponent::Opponent(gameDataRef data, std::shared_ptr<BombHandler> bombHandler, s
 }
 
 void Opponent::draw(){
-    gameData->window.draw(opponentSprite);
+    if (isAlive) {
+        gameData->window.draw(opponentSprite);
+    }
 }
 
 void Opponent::setHealth(uint8_t health){
@@ -95,9 +97,9 @@ void Opponent::animateMovementDirection(){
         animateMovement(opponentRightAnimationRects, opponentRightAnimationIterator);
     }else if(oldPosition.x > opponentPosition.x){
         animateMovement(opponentLeftAnimationRects, opponentLeftAnimationIterator);
-    }else if(oldPosition.y < opponentPosition.y){
-        animateMovement(opponentUpAnimationRects, opponentUpAnimationIterator);
     }else if(oldPosition.y > opponentPosition.y){
+        animateMovement(opponentUpAnimationRects, opponentUpAnimationIterator);
+    }else if(oldPosition.y < opponentPosition.y){
         animateMovement(opponentDownAnimationRects, opponentDownAnimationIterator);
     }
 }
@@ -112,4 +114,8 @@ void Opponent::animateMovement(std::vector<sf::IntRect> & animationRect, unsigne
         opponentSprite.setTextureRect(animationRect.at(iterator));
         opponentAnimationClock.restart();
     }    
+}
+
+void Opponent::setIsAlive(bool alive){
+    isAlive = alive;
 }

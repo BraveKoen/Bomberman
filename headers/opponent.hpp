@@ -27,15 +27,18 @@ public:
 
     void animateMovement(std::vector<sf::IntRect> & animationRect, unsigned int & iterator);
 
+    void setIsAlive(bool alive);
+
 private:
     gameDataRef gameData;
     std::shared_ptr<BombHandler> bombHandler;
     sf::Sprite opponentSprite;
     sf::Vector2f opponentPosition;
     sf::Vector2f oldPosition;
-    uint16_t movementSpeed = 2;
-    uint8_t opponentHealth = 100;
     std::string textureName;
+    int movementSpeed;
+    int opponentHealth;
+    bool isAlive = true;
     
 
     std::vector<sf::IntRect> opponentUpAnimationRects;

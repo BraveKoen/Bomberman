@@ -9,7 +9,7 @@ struct PlayerInfo{
     sf::Vector2f pos;
     bool disconnected;
     bool spawnedBomb;
-    uint8_t playerHealth;
+    int playerHealth;
 };
 
 struct LobbyInfo{

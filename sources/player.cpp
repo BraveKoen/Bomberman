@@ -8,7 +8,7 @@ Player::Player(
     unsigned int playerId,
     std::string textureName,
     float movementSpeed, 
-    uint8_t playerHealth
+    int playerHealth
 ):
     gameData{gameData},
     bombHandler{bombHandler},
@@ -95,12 +95,17 @@ void Player::update(const float & delta){
     if(bombHandler->checkBombCollision(playerSprite) && !playerHit){
         timePlayerHit = clock.getElapsedTime().asSeconds();
         playerHit = true;
-        playerHealth--;
-        playerInfo.playerHealth = playerHealth;
+        
+        if(playerHealth > 0){
+            playerHealth--;
+            playerInfo.playerHealth = playerHealth;
+        }
 
         if (playerHealth < 1) {
             isAlive = false;
+            playerInfo.playerHealth = 0;
         }
+        gameData->server.sendData(playerInfo);
     }else{
         if((timePlayerHit + 2.5) <= clock.getElapsedTime().asSeconds()){
             playerHit = false;

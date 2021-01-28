@@ -39,7 +39,7 @@ void GameHUD::createPlayerHuds(gameDataRef gameData, sf::Vector2f&& position) {
 }
 
 void GameHUD::setHealthBar(gameDataRef gameData, uint_fast8_t playerId, uint_fast8_t lives) {
-    playerHuds[playerId].setHealthBar(gameData, lives);
+    playerHuds[playerId - 1].setHealthBar(gameData, lives);
 }
 
 void GameHUD::drawImplementation(sf::RenderWindow& window) const {
