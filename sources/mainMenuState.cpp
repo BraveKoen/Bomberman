@@ -1,5 +1,8 @@
 #include "../headers/mainMenuState.hpp"
 #include "../headers/modeSelectState.hpp"
+//
+#include "../headers/postGameState.hpp"
+//
 #include "../headers/inputManager.hpp"
 #include "../headers/assetManager.hpp"
 #include "../headers/menuButton.hpp"
@@ -11,21 +14,24 @@ MainMenuState::MainMenuState(gameDataRef gameData):
 {}
 
 void MainMenuState::init() {
+    // remove this:
+    gameData->assetManager.loadTexture(Resource::HUD::profiles[0]);
+
     const auto& windowSize = gameData->window.getSize();
     constexpr std::array buttons{
         buttonData{"Play", Util::switchState<ModeSelectState>},
-        buttonData{"Highscores", [](gameDataRef){}},
-        buttonData{"Exit", [](gameDataRef gameData){gameData->window.close();}}
+        buttonData{"Game over", Util::switchState<PostGameState>},//[](gameDataRef){}},
+        buttonData{"Exit game", [](gameDataRef gameData){gameData->window.close();}}
     };
     for (std::size_t index = 0; index < buttons.size(); ++index) {
         static const auto& texture = gameData->assetManager.getTexture("default button");
-        auto&& sprite = sf::Sprite{texture};
+        auto sprite = sf::Sprite{texture};
         sprite.setScale(windowSize / texture.getSize() / sf::Vector2f{5, 10});
         const auto& spriteBounds = sprite.getGlobalBounds();
         sprite.setPosition(Util::centerRectMargin(windowSize, spriteBounds, index, buttons.size()));
 
         static const auto& font = gameData->assetManager.getFont("default font");
-        auto&& text = sf::Text{buttons[index].title, font};
+        auto text = sf::Text{buttons[index].title, font};
         text.setFillColor(sf::Color::Cyan);
         text.setOrigin(Util::scaleRect(text.getGlobalBounds(), {2, 2}));
         text.setPosition(Util::centerVector(sprite.getPosition(), spriteBounds, {2, 2.5}));

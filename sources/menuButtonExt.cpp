@@ -5,12 +5,21 @@
 MenuButtonExt::MenuButtonExt(
     const sf::Sprite& sprite,
     const sf::Text& text,
-    std::function<void()> action
+    buttonFuncExt action
+):
+    Button{sprite, text},
+    action{action}
+{}
+
+MenuButtonExt::MenuButtonExt(
+    sf::Sprite&& sprite,
+    sf::Text&& text,
+    buttonFuncExt action
 ):
     Button{std::move(sprite), std::move(text)},
     action{action}
 {}
 
-void MenuButtonExt::invokeAction(gameDataRef) const {
-    action();
+void MenuButtonExt::invokeAction(gameDataRef gameData) const {
+    action(gameData);
 }

@@ -8,10 +8,9 @@
 
 class PlayerHUD : public HUD {
 private:
-    static constexpr auto maxHealth = 5;
     sf::Sprite profile;
-    std::array<sf::Sprite, maxHealth> healthBar;
-    void createHealthBar(const sf::Texture& texture, sf::Vector2f&& position);
+    std::array<sf::Sprite, Resource::HUD::maxLives> healthBar;
+    void createHealthBar(gameDataRef gameData, sf::Vector2f&& position);
 public:
     PlayerHUD(
         gameDataRef gameData,

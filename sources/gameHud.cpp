@@ -9,21 +9,23 @@ GameHUD::GameHUD(gameDataRef gameData):
     GameHUD{gameData, {0, 0}}
 {}
 
-GameHUD::GameHUD(gameDataRef gameData, const sf::Vector2f& position):
-    HUD{gameData->assetManager.getTexture("HUD frame")},
-    banner{gameData->assetManager.getTexture("HUD banner")}
-{
-    constexpr auto ratio = 17/20.f;
+GameHUD::GameHUD(gameDataRef gameData, const sf::Vector2f& position) {
+    Util::loadTextures(gameData, std::array{
+        resourceContainer{Resource::HUD::mainFrame, &frame},
+        resourceContainer{Resource::HUD::banner, &banner}
+    });
+    constexpr auto ratio = 85/100.f;
     const auto windowHeight = gameData->window.getSize().y;
-    frame.setScale(1, Util::scaleFromRatio(windowHeight, getFrameHeight(), 1));
+    frame.setScale(Util::yScaleFromRatio(windowHeight, getFrameHeight(), ratio));
     frame.setPosition(position);
 
     const auto frameWidth = getFrameWidth();
     const auto borderX = position.x + Util::offsetFromRatio(frameWidth, ratio);
     const auto borderY = position.y + 12;
     banner.setPosition(borderX, borderY);
-    banner.setScale(Util::scaleFromRatio(frameWidth, Sprite::getWidth(banner), ratio), Util::scaleFromRatio(frameWidth, Sprite::getWidth(banner), ratio));
-    createPlayerHuds(gameData, {position.x, borderY + Sprite::getHeight(banner)});
+    const auto bannerScale = Util::scaleFromRatio(frameWidth, Util::getWidth(banner), ratio);
+    banner.setScale(bannerScale, bannerScale));
+    createPlayerHuds(gameData, {position.x, borderY + Util::getHeight(banner)});
     // add optional game time here
 }
 

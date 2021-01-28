@@ -6,20 +6,20 @@ ModeSelectState::ModeSelectState(gameDataRef gameData):
 {}
 
 void ModeSelectState::init() {
-    sf::Time transitionTime = sf::seconds(0.1f);
+    sf::Time transitionTime = sf::milliseconds(100);
     sf::sleep(transitionTime);
 
     const auto& windowSize = gameData->window.getSize();
 
     const std::vector menuButtonsData{
-        buttonDataExt{"Local", [&](){showPlayerNumberButtons=true;}},
-        buttonDataExt{"Online", [&](){std::cout << "Online Multiplayer WIP" << std::endl; showPlayerNumberButtons=false;}},
-        buttonDataExt{"Back", [&](){sf::Time transitionTime = sf::seconds(0.1f); sf::sleep(transitionTime); gameData->stateMachine.removeState();}}
+        buttonDataExt{"Local", [&showButtons = showPlayerNumberButtons](gameDataRef){showButtons=true;}},
+        buttonDataExt{"Online", [&showButtons = showPlayerNumberButtons](gameDataRef){std::cout << "Online Multiplayer WIP" << std::endl; showButtons=false;}},
+        buttonDataExt{"Back", [](gameDataRef gameData){sf::sleep(sf::milliseconds(100)); gameData->stateMachine.removeState();}}
     };
     const std::vector playerNumberButtonsData{
-        buttonDataExt{"2 Players", [&](){gameData->playerCount=2; gameData->stateMachine.addState(std::make_unique<MapSelectorState>(gameData));}},
-        buttonDataExt{"3 Players", [&](){gameData->playerCount=3; gameData->stateMachine.addState(std::make_unique<MapSelectorState>(gameData));}},  //Maybe highlight button and show a "map select" button instead or smth
-        buttonDataExt{"4 Players", [&](){gameData->playerCount=4; gameData->stateMachine.addState(std::make_unique<MapSelectorState>(gameData));}}
+        buttonDataExt{"2 Players", [](gameDataRef gameData){gameData->playerCount=2; gameData->stateMachine.addState(std::make_unique<MapSelectorState>(gameData));}},
+        buttonDataExt{"3 Players", [](gameDataRef gameData){gameData->playerCount=3; gameData->stateMachine.addState(std::make_unique<MapSelectorState>(gameData));}},  //Maybe highlight button and show a "map select" button instead or smth
+        buttonDataExt{"4 Players", [](gameDataRef gameData){gameData->playerCount=4; gameData->stateMachine.addState(std::make_unique<MapSelectorState>(gameData));}}
     };
     menuButtons = makeButtons(menuButtonsData);
     playerNumberButtons = makeButtons(playerNumberButtonsData, sf::Vector2f(menuButtons[0].getSprite().getGlobalBounds().width*1.1, 0));

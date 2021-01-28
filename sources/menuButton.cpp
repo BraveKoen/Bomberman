@@ -7,6 +7,15 @@ MenuButton::MenuButton(
     const sf::Text& text,
     buttonFunc action
 ):
+    Button{sprite, text},
+    action{action}
+{}
+
+MenuButton::MenuButton(
+    sf::Sprite&& sprite,
+    sf::Text&& text,
+    buttonFunc action
+):
     Button{std::move(sprite), std::move(text)},
     action{action}
 {}

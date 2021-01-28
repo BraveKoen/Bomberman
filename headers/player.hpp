@@ -26,6 +26,8 @@ public:
     void setHealth(uint8_t health) override;
     int getHealth() const override;
 
+    bool isPlayerAlive() const;
+
     void setPosition(const sf::Vector2f& pos) override;
     const sf::Vector2f& getPosition() const override;
 
