@@ -15,16 +15,6 @@ InGameState::InGameState(gameDataRef gameData):
 {}
 
 void InGameState::init(){
-    gameData->assetManager.loadTexture("HUD frame", Resource::frame);
-    gameData->assetManager.loadTexture("HUD small frame", Resource::smallFrame);
-    gameData->assetManager.loadTexture("HUD banner", Resource::banner);
-    gameData->assetManager.loadTexture("HUD profile0", Resource::profile4);
-    gameData->assetManager.loadTexture("HUD profile1", Resource::profile1);
-    gameData->assetManager.loadTexture("HUD profile2", Resource::profile2);
-    gameData->assetManager.loadTexture("HUD profile3", Resource::profile3);
-    gameData->assetManager.loadTexture("HUD live full", Resource::liveFull);
-    gameData->assetManager.loadTexture("HUD live empty", Resource::liveEmpty);
-
     gameData->assetManager.loadTexture("player1", Resource::player1);
     gameData->assetManager.loadTexture("player2", Resource::player2);
     gameData->assetManager.loadTexture("player3", Resource::player3);
@@ -67,10 +57,10 @@ void InGameState::init(){
             textureName.append(std::to_string(i));
             std::cout << "own playerId: " << gameData->server.getPlayerId() << std::endl;
             if(i == gameData->server.getPlayerId()){
-                players.push_back(std::make_unique<Player>(gameData, bHandler, controlSchemes[0], spawnLocation, gameData->server.getPlayerId(), textureName, Resource::defaultPlayerMoveSpeed * (gameData->tileMap.getTileMapSize().x / gameData->tileMap.getMapSize().x)));
+                players.push_back(std::make_unique<Player>(gameData, bombHandler, controlSchemes[0], spawnLocation, gameData->server.getPlayerId(), textureName, Resource::defaultPlayerMoveSpeed * (gameData->tileMap.getTileMapSize().x / gameData->tileMap.getMapSize().x)));
             }else{
                 std::cout << "multiplayer create opponent with playerId: " << i << std::endl;
-                mapOfEnemies[i] = std::make_shared<Opponent>(gameData, bHandler, spawnLocation, textureName);
+                mapOfEnemies[i] = std::make_shared<Opponent>(gameData, bombHandler, spawnLocation, textureName);
             }
         }
     }else{
@@ -86,7 +76,7 @@ void InGameState::init(){
             }
             std::string textureName = "player";
             textureName.append(std::to_string(i+1));
-            players.push_back(std::make_unique<Player>(gameData, bHandler, controlSchemes[i], spawnLocation, i + 1, textureName, Resource::defaultPlayerMoveSpeed * (gameData->tileMap.getTileMapSize().x / gameData->tileMap.getMapSize().x)));
+            players.push_back(std::make_unique<Player>(gameData, bombHandler, controlSchemes[i], spawnLocation, i + 1, textureName, Resource::defaultPlayerMoveSpeed * (gameData->tileMap.getTileMapSize().x / gameData->tileMap.getMapSize().x)));
         }
     }
     
@@ -146,31 +136,39 @@ void InGameState::handleInput(){
 
 void InGameState::update(float delta) {
     bombHandler->update();
-
+    std::cout << "inGameState update" << __LINE__ << std::endl;
     if (gameState == GameState::Closing) {
         if (gameOverDelay.getElapsedTime().asSeconds() > 2.5f) {
             Util::switchState<PostGameState>(gameData, players[0]->getPlayerId() - 1);
         }
         return;
     }
-    for (auto iter = players.begin(); iter not_eq players.end();) {
-        (*iter)->update(delta);
+    unsigned int livingPlayers = 0;
+    for (auto &player : players) {
+        player->update(delta);
 
         // note: change this so health bar is updated only when necessary
-        gameHud.setHealthBar(gameData, (*iter)->getPlayerId() - 1, (*iter)->getHealth());
+        gameHud.setHealthBar(gameData, player->getPlayerId(), player->getHealth());
 
-        if ((*iter)->isPlayerAlive()) {
-            ++iter;
-        } else {
-            iter = players.erase(iter);
-
-            if (players.size() <= 1) {
-                gameOverDelay.restart();
-                gameState = GameState::Closing;
-                return;
+        if (player->isPlayerAlive()){
+            ++livingPlayers;
+        }
+    }
+    if(gameData->multiplayer){
+        for(const auto &opponent : mapOfEnemies){
+            if(opponent.second->isOpponentAlive()){
+                ++livingPlayers;
             }
         }
     }
+
+    if (livingPlayers <= 1) {
+        std::cout << "inGameState if statement " << __LINE__ << std::endl;
+        gameOverDelay.restart();
+        gameState = GameState::Closing;
+        
+    }
+    std::cout << "inGameState update einde  " << __LINE__ << std::endl;
 }
 
 void InGameState::updateOpponentLocation(){
@@ -184,7 +182,7 @@ void InGameState::updateOpponentLocation(){
                 mapOfEnemies[opponentInfo.playerId]->setPosition(opponentInfo.pos);
             }else{
                 mapOfEnemies[opponentInfo.playerId]->setPosition(opponentInfo.pos);
-                gameHud->setHealthBar(gameData, opponentInfo.playerId, opponentInfo.playerHealth);
+                gameHud.setHealthBar(gameData, opponentInfo.playerId, opponentInfo.playerHealth);
                 if(opponentInfo.playerHealth == 0){
                     mapOfEnemies[opponentInfo.playerId]->setIsAlive(false);
                 }
@@ -192,7 +190,7 @@ void InGameState::updateOpponentLocation(){
         }else{
             textureName = "player";
             textureName.append(std::to_string(opponentInfo.playerId));
-            mapOfEnemies[opponentInfo.playerId] = std::make_shared<Opponent>(gameData, bHandler, opponentInfo.pos, textureName);  
+            mapOfEnemies[opponentInfo.playerId] = std::make_shared<Opponent>(gameData, bombHandler, opponentInfo.pos, textureName);  
         }
     }
 }

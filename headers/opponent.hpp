@@ -29,6 +29,8 @@ public:
 
     void setIsAlive(bool alive);
 
+    bool isOpponentAlive();
+
 private:
     gameDataRef gameData;
     std::shared_ptr<BombHandler> bombHandler;

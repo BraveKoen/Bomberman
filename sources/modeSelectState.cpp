@@ -23,9 +23,9 @@ void ModeSelectState::init() {
         buttonDataExt{"Back", [&](){sf::Time transitionTime = sf::seconds(0.1f); sf::sleep(transitionTime); gameData->stateMachine.removeState();}}
     };
     const std::vector playerNumberButtonsData{
-        buttonDataExt{"2 Players", [](gameDataRef gameData){gameData->playerCount=2; gameData->stateMachine.addState(std::make_unique<MapSelectorState>(gameData));}},
-        buttonDataExt{"3 Players", [](gameDataRef gameData){gameData->playerCount=3; gameData->stateMachine.addState(std::make_unique<MapSelectorState>(gameData));}},  //Maybe highlight button and show a "map select" button instead or smth
-        buttonDataExt{"4 Players", [](gameDataRef gameData){gameData->playerCount=4; gameData->stateMachine.addState(std::make_unique<MapSelectorState>(gameData));}}
+        buttonDataExt{"2 Players", [&](){gameData->playerCount=2; gameData->stateMachine.addState(std::make_unique<MapSelectorState>(gameData));}},
+        buttonDataExt{"3 Players", [&](){gameData->playerCount=3; gameData->stateMachine.addState(std::make_unique<MapSelectorState>(gameData));}},  //Maybe highlight button and show a "map select" button instead or smth
+        buttonDataExt{"4 Players", [&](){gameData->playerCount=4; gameData->stateMachine.addState(std::make_unique<MapSelectorState>(gameData));}}
     };
 
     const std::vector readyButtonData{
@@ -83,18 +83,11 @@ void ModeSelectState::update(float){
         oneTimePress = false;
         mThread = std::thread(&ModeSelectState::lobbyQueue, this);
     }
-
-
     if(startMul){
         mThread.join();
-        TileMap TileMap(sf::Vector2f(Resource::screenWidth/7*3, Resource::screenHeight/5), sf::Vector2f(Resource::screenHeight/5*3, Resource::screenHeight/5*3), 
-        gameData, 
-        gameData->server.getMap(),
-         sf::Vector2u(gameData->server.getMap().size(), gameData->server.getMap()[0].size()));
-        gameData->tileMap = TileMap;
-        gameData->stateMachine.addState(std::make_unique<InGameState>(gameData));
+        gameData->tileMap = TileMap(gameData, sf::Vector2f(Resource::screenWidth/7*3, Resource::screenHeight/5), sf::Vector2f(Resource::screenHeight/5*3, Resource::screenHeight/5*3), gameData->server.getMap());
+        gameData->stateMachine.addState(std::make_unique<InGameState>(gameData)); 
     }
-
 }
 
 void ModeSelectState::draw(float) {

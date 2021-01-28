@@ -119,3 +119,7 @@ void Opponent::animateMovement(std::vector<sf::IntRect> & animationRect, unsigne
 void Opponent::setIsAlive(bool alive){
     isAlive = alive;
 }
+
+bool Opponent::isOpponentAlive(){
+    return isAlive;
+}

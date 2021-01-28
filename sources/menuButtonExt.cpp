@@ -20,6 +20,6 @@ MenuButtonExt::MenuButtonExt(
     action{action}
 {}
 
-void MenuButtonExt::invokeAction(gameDataRef gameData) const {
-    action(gameData);
+void MenuButtonExt::invokeAction(gameDataRef) const {
+    action();
 }

@@ -121,19 +121,19 @@ void MapSelectorState::handleInput() {
         }
         if (gameData->inputManager.isSpriteClicked(playButton, sf::Mouse::Left, gameData->window) && !gameData->multiplayer){
             tileMapPreviewAvailable = false;
-            gameData->tileMap = tileMapVector[mapToDisplayIndex];
             gameData->tileMap = std::move(mapStore[selectedMapIndex].tileMap);
             return gameData->stateMachine.addState(std::make_unique<InGameState>(gameData));
-
+        }
         if (gameData->inputManager.isSpriteClicked(
             returnButton, sf::Mouse::Left, gameData->window)
         ) {
             gameData->stateMachine.removeState();
         }
         if(gameData->inputManager.isSpriteClicked(playButtonMultiplayer, sf::Mouse::Left, gameData->window) && gameData->multiplayer){
-            gameData->tileMap = tileMapVector[mapToDisplayIndex];
-            gameData->server.hostReady(gameData->tileMap.getMapInString());
-            gameData->stateMachine.addState(std::make_unique<InGameState>(gameData)); 
+            tileMapPreviewAvailable = false;
+            gameData->tileMap = std::move(mapStore[selectedMapIndex].tileMap);
+            gameData->server.hostReady(gameData->tileMap.getLayoutMap());
+            return gameData->stateMachine.addState(std::make_unique<InGameState>(gameData));
         } 
     }
 }
@@ -154,12 +154,6 @@ void MapSelectorState::draw(float) {
         gameData->window.draw(playButtonText);
     }
     
-    for(unsigned short int i=0; i<menuOptions.size(); i++){
-        gameData->window.draw(menuOptions[i]);
-        gameData->window.draw(menuOptionsText[i]);
-    }
-    tileMapVector[mapToDisplayIndex].draw(true);
-
     for (auto index = 0u; index < menuOptions.size(); ++index) {
         gameData->window.draw(menuOptions[index]);
         gameData->window.draw(menuOptionsText[index]);

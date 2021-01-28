@@ -237,7 +237,7 @@ void TileMap::draw(bool drawPlayerSpawns){
     }
 }
 
-std::vector<std::vector<std::string>> TileMap::getMapInString(){
-    return mapInString;
+std::vector<std::vector<std::string>> TileMap::getLayoutMap()const{
+    return layoutMap;
 }
 
