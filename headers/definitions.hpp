@@ -61,7 +61,7 @@ namespace Resource {
             resourceData{"profile4", "resources/profile4.png"}
         };
         constexpr auto maxPlayers = Resource::HUD::profiles.size();
-        constexpr auto maxLives = 5u;
+        constexpr int maxLives = 5u;
     }
 
     constexpr auto serverIp = "77.161.253.51";

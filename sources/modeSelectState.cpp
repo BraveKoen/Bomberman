@@ -87,6 +87,7 @@ void ModeSelectState::update(float){
         mThread.join();
         gameData->tileMap = TileMap(gameData, sf::Vector2f(Resource::screenWidth/7*3, Resource::screenHeight/5), sf::Vector2f(Resource::screenHeight/5*3, Resource::screenHeight/5*3), gameData->server.getMap());
         gameData->stateMachine.addState(std::make_unique<InGameState>(gameData)); 
+        std::cout << "inGame!" << std::endl;
     }
     if(startMapSelect){
         mThread.join();

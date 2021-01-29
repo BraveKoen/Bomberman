@@ -84,3 +84,8 @@ void MainMenuState::draw(float) {
     }
     gameData->window.display();
 }
+
+void MainMenuState::resume(){
+    gameData->multiplayer = false;
+    gameData->server.setPlayerId(-1);
+}

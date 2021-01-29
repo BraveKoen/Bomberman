@@ -21,6 +21,7 @@ public:
     virtual void handleInput() override;
     virtual void update(float delta) override;
     virtual void draw(float delta) override;
+    virtual void resume() override;
 };
 
 #endif // __MAINMENUSTATE_HPP__

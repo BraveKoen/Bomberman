@@ -45,6 +45,8 @@ public:
 
     int getPlayerId();
 
+    void setPlayerId(int newPlayerId);
+
     int getOpponentCount();
 
     void playerReady();
