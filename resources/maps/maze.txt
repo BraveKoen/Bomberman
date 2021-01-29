@@ -1,0 +1,15 @@
+solid solid solid solid solid solid solid solid solid solid solid solid solid solid solid
+solid spawn empty break empty solid solid empty empty empty solid empty empty spawn solid
+solid empty solid solid break break empty empty solid empty solid empty break solid solid
+solid empty empty empty break solid solid solid solid empty solid break break empty solid
+solid break solid solid empty solid empty break break empty break solid empty solid solid
+solid empty empty solid empty solid empty solid solid solid empty empty empty empty solid
+solid break empty solid empty empty break break empty empty solid break solid empty solid
+solid break solid empty empty solid break solid empty solid empty empty empty solid solid
+solid empty empty empty empty solid break empty solid solid empty solid empty empty solid
+solid solid empty solid empty break empty solid empty empty empty solid solid empty solid
+solid solid break solid break break empty empty break solid solid empty break break solid
+solid empty empty empty solid solid empty break break solid solid empty solid empty solid
+solid empty solid break solid empty solid break solid empty empty empty solid empty solid
+solid spawn empty break empty empty solid empty empty empty solid solid empty spawn solid
+solid solid solid solid solid solid solid solid solid solid solid solid solid solid solid

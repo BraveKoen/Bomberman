@@ -20,7 +20,8 @@ namespace Resource {
     inline const auto screenSize = sf::Vector2f{screenWidth, screenHeight};
 
     constexpr auto mapFolderLocation = "resources/maps";
-    constexpr auto globalFont = "resources/256bytes.ttf";
+    constexpr auto globalFont = "resources/KOMIKAX_.ttf";
+    inline const sf::Color globalFontColor(22, 21, 51);
 
     constexpr auto solid = "resources/solid.png";
     constexpr auto breakable = "resources/break.png";

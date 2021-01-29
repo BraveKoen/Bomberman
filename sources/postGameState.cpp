@@ -45,13 +45,14 @@ void PostGameState::init() {
 
     Util::centerOrigin(playerProfile);
     Util::centerXscaleY(windowSize, playerProfile, 30/100.f);
+    playerProfile.setScale(1.5f, 1.5f);
 
     winningText.setFont(defaultFont);
     winningText.setString("Player " + std::to_string(winnerId + 1) + " wins!");
     winningText.setFillColor(sf::Color::Yellow);
     winningText.setCharacterSize(48);
     Util::centerOrigin(winningText);
-    Util::centerXscaleY(windowSize, winningText, 39/100.f);
+    Util::centerXscaleY(windowSize, winningText, 45/100.f);
 
     createMenuButtons(std::array{
         buttonData{"Play Again", [](gameDataRef gameData){
@@ -83,8 +84,8 @@ void PostGameState::createMenuButtons(const std::array<buttonData, N>& buttons) 
         Util::centerOrigin(text);
         static const auto& textScale = scale * 1.4f;
         text.setScale(textScale);
-        text.setPosition(position.x, position.y - 8);
-        text.setFillColor(sf::Color::Cyan);
+        text.setPosition(position.x, position.y - 2);
+        text.setFillColor(Resource::globalFontColor);
 
         menuButtons.emplace_back(std::move(sprite), std::move(text), buttons[index].action);
     }

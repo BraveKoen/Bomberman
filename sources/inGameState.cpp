@@ -103,9 +103,9 @@ void InGameState::initMenuButtons(const sf::Vector2f& offset) {
 
         static const auto& font = gameData->assetManager.getFont("default font");
         auto text = sf::Text{buttons[index].title, font};
-        text.setFillColor(sf::Color::Cyan);
+        text.setFillColor(Resource::globalFontColor);
         text.setOrigin(Util::scaleRect(text.getGlobalBounds(), {2, 2}));
-        text.setPosition(Util::centerVector(sprite.getPosition(), spriteBounds, {2, 3.2}));
+        text.setPosition(Util::centerVector(sprite.getPosition(), spriteBounds, {2, 2.2}));
 
         menuButtons.emplace_back(std::move(sprite), std::move(text), buttons[index].action);
     }

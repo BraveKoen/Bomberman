@@ -35,12 +35,12 @@ void MapSelectorState::init() {
     );
     playButtonText.setFont(gameData->assetManager.getFont("default font"));
     playButtonText.setString("Play");
-    playButtonText.setFillColor(sf::Color(255, 194, 0));
+    playButtonText.setFillColor(Resource::globalFontColor);
     playButtonText.setStyle(sf::Text::Bold);
     playButtonText.setOrigin(playButtonText.getGlobalBounds().width/2, playButtonText.getGlobalBounds().height/2);
     playButtonText.setPosition(
             (playButton.getPosition().x)+(playButton.getGlobalBounds().width/2), 
-            (playButton.getPosition().y)+(playButton.getGlobalBounds().height/3)
+            (playButton.getPosition().y)+(playButton.getGlobalBounds().height/2.2)
     );
 
     returnButton.setTexture(gameData->assetManager.getTexture("default button"));
@@ -51,12 +51,12 @@ void MapSelectorState::init() {
     );
     returnButtonText.setFont(gameData->assetManager.getFont("default font"));
     returnButtonText.setString("Back");
-    returnButtonText.setFillColor(sf::Color(255, 194, 0));
+    returnButtonText.setFillColor(Resource::globalFontColor);
     returnButtonText.setStyle(sf::Text::Bold);
     returnButtonText.setOrigin(returnButtonText.getGlobalBounds().width/2, returnButtonText.getGlobalBounds().height/2);
     returnButtonText.setPosition(
         (returnButton.getPosition().x)+(returnButton.getGlobalBounds().width/2), 
-        (returnButton.getPosition().y)+(returnButton.getGlobalBounds().height/3)
+        (returnButton.getPosition().y)+(returnButton.getGlobalBounds().height/2.2)
     );
 
     playButtonMultiplayer.setTexture(gameData->assetManager.getTexture("default button"));
@@ -67,12 +67,12 @@ void MapSelectorState::init() {
     );
     playButtonMultiplayerText.setFont(gameData->assetManager.getFont("default font"));
     playButtonMultiplayerText.setString("Start online");
-    playButtonMultiplayerText.setFillColor(sf::Color(255, 194, 0));
+    playButtonMultiplayerText.setFillColor(Resource::globalFontColor);
     playButtonMultiplayerText.setStyle(sf::Text::Bold);
     playButtonMultiplayerText.setOrigin(playButtonMultiplayerText.getGlobalBounds().width/2, playButtonMultiplayerText.getGlobalBounds().height/2);
     playButtonMultiplayerText.setPosition(
         (playButtonMultiplayer.getPosition().x)+(playButtonMultiplayer.getGlobalBounds().width/2), 
-        (playButtonMultiplayer.getPosition().y)+(playButtonMultiplayer.getGlobalBounds().height/3)
+        (playButtonMultiplayer.getPosition().y)+(playButtonMultiplayer.getGlobalBounds().height/2.2)
     );
     
 }
@@ -97,13 +97,13 @@ void MapSelectorState::spawnMapButtons(){
         menuOptions.push_back(optionSprite);
         sf::Text optionText;
         optionText.setFont(gameData->assetManager.getFont("default font"));
-        optionText.setString(Util::ellipseString(mapStore[i].name, 16)); // change literal
-        optionText.setFillColor(sf::Color(255, 194, 0));
+        optionText.setString(Util::ellipseString(mapStore[i].name, 12)); // change literal
+        optionText.setFillColor(Resource::globalFontColor);
         optionText.setStyle(sf::Text::Bold);
         optionText.setOrigin(optionText.getGlobalBounds().width/2, optionText.getGlobalBounds().height/2);
         optionText.setPosition(
             (optionSprite.getPosition().x)+(optionSprite.getGlobalBounds().width/2), 
-            (optionSprite.getPosition().y)+(optionSprite.getGlobalBounds().height/3)
+            (optionSprite.getPosition().y)+(optionSprite.getGlobalBounds().height/2.2)
         );
         menuOptionsText.push_back(optionText);
     }

@@ -1,0 +1,6 @@
+solid solid solid solid solid solid
+solid spawn empty empty spawn solid
+solid empty break break empty solid
+solid empty break break empty solid
+solid spawn empty empty spawn solid
+solid solid solid solid solid solid
