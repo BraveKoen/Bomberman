@@ -86,6 +86,7 @@ void MainMenuState::draw(float) {
 }
 
 void MainMenuState::resume(){
+    std::cout << "resume" << std::endl;
     gameData->multiplayer = false;
     gameData->server.setPlayerId(-1);
 }

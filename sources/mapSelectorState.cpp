@@ -146,6 +146,7 @@ void MapSelectorState::update(float){
     if(startGame){
         mThread.join();
         gameData->stateMachine.addState(std::make_unique<InGameState>(gameData)); 
+        startGame = false;
     }
 }
 

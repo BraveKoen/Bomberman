@@ -58,7 +58,7 @@ void PostGameState::init() {
             gameData->tileMap.loadMap();
             Util::replaceState<InGameState>(gameData);
         }},
-        buttonData{"Main Menu", Util::replaceState<MainMenuState>}
+        buttonData{"Main Menu", [](gameDataRef gameData){gameData->stateMachine.removeState();}}
     });
 }
 

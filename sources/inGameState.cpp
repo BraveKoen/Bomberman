@@ -91,7 +91,7 @@ void InGameState::init(){
 
 void InGameState::initMenuButtons(const sf::Vector2f& offset) {
     constexpr std::array buttons{
-        buttonData{"Quit", Util::switchState<MainMenuState>} // back to main menu
+        buttonData{"Quit", [](gameDataRef gameData){gameData->stateMachine.removeState();}} // back to main menu
     };
     for (std::size_t index = 0; index < buttons.size(); ++index) {
         static const auto& texture = gameData->assetManager.getTexture("default button");
@@ -140,7 +140,8 @@ void InGameState::update(float delta) {
     bombHandler->update();
     if (gameState == GameState::Closing) {
         if (gameOverDelay.getElapsedTime().asSeconds() > 2.5f) {
-            Util::switchState<PostGameState>(gameData, getWinningPlayerId() - 1);
+            gameData->server.playerDisconnect();
+            Util::replaceState<PostGameState>(gameData, getWinningPlayerId() - 1);
         }
         return;
     }
