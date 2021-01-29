@@ -30,7 +30,7 @@ void ModeSelectState::init() {
 
     const std::vector readyButtonData{
         buttonDataExt{"Join online", [&](){gameData->multiplayer = true;gameData->server.playerReady();}},
-        buttonDataExt{"You are connected!", [&](){}}
+        buttonDataExt{"Connected!", [&](){}}
     };
     menuButtons = makeButtons(menuButtonsData);
     playerNumberButtons = makeButtons(playerNumberButtonsData, sf::Vector2f(menuButtons[0].getSprite().getGlobalBounds().width*1.1, 0));
