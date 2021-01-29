@@ -133,9 +133,9 @@ std::vector<MenuButtonExt> ModeSelectState::makeButtons(std::vector<buttonDataEx
 
         static const auto& font = gameData->assetManager.getFont("default font");
         sf::Text text{buttonData[index].title, font};
-        text.setFillColor(sf::Color::Cyan);
+        text.setFillColor(Resource::globalFontColor);
         text.setOrigin(Util::scaleRect(text.getGlobalBounds(), {2, 2}));
-        text.setPosition(Util::centerVector(sprite.getPosition(), spriteBounds, {2, 2.5}));
+        text.setPosition(Util::centerVector(sprite.getPosition(), spriteBounds, {2, 2.2}));
         buttons.emplace_back(std::move(sprite), std::move(text), buttonData[index].action);
     }
     return buttons;
