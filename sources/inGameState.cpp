@@ -215,7 +215,7 @@ void InGameState::draw(float delta) {
     gameData->window.clear();
     gameData->window.draw(background);
     gameData->tileMap.draw();
-    gameHud.draw(gameData->window);
+    gameHud.drawFrame(gameData->window);
 
     for (const auto& menuButton : menuButtons) {
         menuButton.draw(gameData->window);
@@ -225,9 +225,11 @@ void InGameState::draw(float delta) {
 
     for (const auto &player : players) {
         player->draw();
+        gameHud.drawPlayerHud(gameData->window, player->getPlayerId());
     }
     for(const auto &opponent : mapOfEnemies){
         opponent.second->draw();
+        gameHud.drawPlayerHud(gameData->window, opponent.second->getPlayerId());
     }
     
     gameData->window.display();

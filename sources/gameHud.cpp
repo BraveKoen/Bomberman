@@ -49,3 +49,12 @@ void GameHUD::drawImplementation(sf::RenderWindow& window) const {
         playerHud.draw(window);
     }
 }
+
+void GameHUD::drawFrame(sf::RenderWindow& window) const {
+    window.draw(frame);
+    window.draw(banner);
+}
+
+void GameHUD::drawPlayerHud(sf::RenderWindow& window, uint_fast8_t playerId ) const {
+    playerHuds[playerId - 1].draw(window);
+}
