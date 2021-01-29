@@ -87,6 +87,8 @@ public:
         unsigned int range = 1
     );
     void draw(bool drawPlayerSpawns=false);
+
+    std::vector<std::vector<std::string>> getLayoutMap()const;
 };
 
 #endif // __TILEMAP_HPP__

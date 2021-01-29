@@ -9,7 +9,6 @@ class Character {
 public:
     Character() = default;
 
-private:
     virtual void draw() = 0;
 
     virtual void setHealth(uint8_t health) = 0;
@@ -20,6 +19,10 @@ private:
 
     virtual void setMovementSpeed(uint8_t speed) = 0;
     virtual int getMovementSpeed() const = 0;
+
+    virtual unsigned int getPlayerId() const = 0;
+
+    virtual bool isPlayerAlive() const = 0;
 };
 
 #endif // __CHARACTER_HPP__

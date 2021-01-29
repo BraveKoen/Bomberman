@@ -103,6 +103,11 @@ namespace Util {
         gameData->stateMachine.addState(std::make_unique<T>(gameData), true);
     }
 
+    template<typename T>
+    constexpr void replaceState(gameDataRef gameData, uint_fast8_t playerId) {
+        gameData->stateMachine.addState(std::make_unique<T>(gameData, playerId), true);
+    }
+
     inline std::string ellipseString(std::string origin, std::size_t limit) {
         if (origin.length() > limit) {
             const auto ellipses = std::string{"..."};

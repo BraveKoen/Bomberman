@@ -7,7 +7,7 @@
 #include "button.hpp"
 #include "definitions.hpp"
 
-using buttonFuncExt = const std::function<void(gameDataRef gameData)>;
+using buttonFuncExt = const std::function<void()>;
 using buttonDataExt = struct {const char* title; buttonFuncExt action;};
 
 class MenuButtonExt: public Button {

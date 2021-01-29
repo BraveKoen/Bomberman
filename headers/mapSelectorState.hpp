@@ -24,6 +24,7 @@ public:
     virtual void handleInput() override;
     virtual void update(float deltaTime) override;
     virtual void draw(float deltaTime) override;
+    void lobbyQueue();
 private:
     gameDataRef gameData;
     MapLoader mapLoader;
@@ -34,9 +35,15 @@ private:
     sf::Text playButtonText;
     sf::Sprite returnButton;
     sf::Text returnButtonText;
+    sf::Sprite playButtonMultiplayer;
+    sf::Text playButtonMultiplayerText;
     std::vector<sf::Sprite> menuOptions;
     std::vector<mapData> mapStore;
     bool tileMapPreviewAvailable;
+    std::vector<std::string> mapNames;
+    std::vector<TileMap> tileMapVector;  
+    std::thread mThread;
+    bool startGame = false;
 
     void spawnMapButtons();
 };

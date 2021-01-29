@@ -4,6 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <string>
+#include <thread>
+#include <map>
 
 #include "player.hpp"
 #include "opponent.hpp"
@@ -12,9 +14,10 @@
 #include "bombHandler.hpp"
 #include "controlScheme.hpp"
 #include "definitions.hpp"
-#include "collision.hpp"
 #include "menuButton.hpp"
+#include "collision.hpp"
 #include "gameHud.hpp"
+#include "serverInfo.hpp"
 
 class InGameState : public State {
 public:
@@ -24,6 +27,9 @@ public:
     void handleInput() override;
     void update(float delta) override;
     void draw(float delta) override;
+    void updateOpponentLocation();
+    void createOpponent();
+
 private:
     enum class GameState {
         Running,
@@ -36,14 +42,19 @@ private:
     GameState gameState;
     std::shared_ptr<BombHandler> bombHandler;
     std::vector<std::unique_ptr<Player>> players;
-    std::vector<std::unique_ptr<Opponent>> opponents;
+
     std::vector<MenuButton> menuButtons;
     Collision collision;
     sf::Clock gameOverDelay;
+    sf::Clock gameStartDelay;
+    std::map<int, std::shared_ptr<Opponent>> mapOfEnemies;
     sf::Sprite background;
     sf::Sprite hudMenu;
 
     void initMenuButtons(const sf::Vector2f& offset);
+    std::thread mThread;
+
+    unsigned int getWinningPlayerId() const;
 };
 
 #endif // __INGAMESTATE_HPP__

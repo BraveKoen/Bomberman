@@ -18,6 +18,8 @@ public:
     GameHUD(gameDataRef gameData, const sf::Vector2f& position);
     void setHealthBar(gameDataRef gameData, uint_fast8_t playerId, uint_fast8_t lives);
     virtual void drawImplementation(sf::RenderWindow& window) const override;
+    void drawFrame(sf::RenderWindow& window) const;
+    void drawPlayerHud(sf::RenderWindow& window, uint_fast8_t playerId ) const;
 };
 
 #endif // __GAMEHUD_HPP__

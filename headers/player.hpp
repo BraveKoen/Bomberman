@@ -10,10 +10,11 @@
 #include "controlScheme.hpp"
 #include "collision.hpp"
 #include "utilities.hpp"
+#include "serverInfo.hpp"
 
 class Player : public Character {
 public:
-    Player(gameDataRef gameData, std::shared_ptr<BombHandler> bombHandler, ControlScheme controls, const sf::Vector2f& spawnPosition, unsigned int playerId, std::string textureName, float movementSpeed=Resource::defaultPlayerMoveSpeed, uint8_t playerHealth=Resource::defaultPlayerLives);
+    Player(gameDataRef gameData, std::shared_ptr<BombHandler> bombHandler, ControlScheme controls, const sf::Vector2f& spawnPosition, unsigned int playerId, std::string textureName, float movementSpeed=Resource::defaultPlayerMoveSpeed, int playerHealth=Resource::defaultPlayerLives);
     // ~Player(){std::cout << "PlayerDespt" << std::endl;}
 
     void draw() override;
@@ -21,12 +22,12 @@ public:
     void update(const float & delta);
 
     void setPlayerId(unsigned int id);
-    unsigned int getPlayerId() const;
+    unsigned int getPlayerId() const override;
 
     void setHealth(uint8_t health) override;
     int getHealth() const override;
 
-    bool isPlayerAlive() const;
+    bool isPlayerAlive() const override;
 
     void setPosition(const sf::Vector2f& pos) override;
     const sf::Vector2f& getPosition() const override;
@@ -52,10 +53,11 @@ private:
     sf::Vector2f prevPosition;
     unsigned int playerId;
     float movementSpeed;
-    uint8_t playerHealth;
+    int playerHealth;
     sf::Vector2i movementDirection;
     sf::Vector2i prevMovementDirection;
     bool placeBomb;
+    PlayerInfo playerInfo;
     
     Collision collision;
     sf::Sprite playerSprite;

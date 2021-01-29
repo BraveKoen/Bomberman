@@ -4,11 +4,13 @@
 #include <memory>
 #include <string>
 #include <SFML/Graphics.hpp>
+#include <thread>
 #include "definitions.hpp"
 #include "stateMachine.hpp"
 #include "assetManager.hpp"
 #include "inputManager.hpp"
 #include "tileMap.hpp"
+#include "server.hpp"
 
 struct GameData{
     sf::RenderWindow window;
@@ -17,6 +19,8 @@ struct GameData{
     InputManager inputManager;
     TileMap tileMap;
     unsigned int playerCount;
+    Server server{Resource::serverIp, 1999};
+    bool multiplayer;
 };
 
 class Game{
