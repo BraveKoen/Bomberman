@@ -44,16 +44,6 @@ Opponent::Opponent(gameDataRef data, std::shared_ptr<BombHandler> bombHandler, s
         gameData->assetManager.getTexture(textureName).getSize().y / 8
     );
     opponentSprite.setPosition(spawnPosition);
-
-
-
-
-    // opponentSprite.setTexture(data->assetManager.getTexture("opponent4"));
-    // auto tileSize = data->tileMap.getTileMapSize().x / data->tileMap.getMapSize().x;
-    // opponentSprite.setScale(tileSize / data->assetManager.getTexture("opponent4").getSize().x / 2, tileSize / data->assetManager.getTexture("opponent4").getSize().y / 2);
-    // opponentSprite.setOrigin(data->assetManager.getTexture("opponent4").getSize().x / 2, data->assetManager.getTexture("opponent4").getSize().y / 2); 
-    // opponentSprite.setPosition(sf::Vector2f{150,150});
-    // opponentSprite.setPosition(spawnPosition);
 }
 
 void Opponent::draw(){

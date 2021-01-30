@@ -42,7 +42,22 @@ public:
     bool playerMove(const float & delta);
     void revertMove(const char & axis=' ');
 
+    /// \brief
+    /// void animateMovementDirection()
+    /// \details
+    /// This function will decide on wich movmement direction the Player should be animated in.
+    /// After wich it will call the animateMovement with these directions.
+    /// By using the sf::Vector2i movementDirection it can decide the movement direction of the Player.
+    /// If the player is moving in two or more directions at the same time,
+    /// it will prefer to draw the Player walking to the right, then left, then up, then down.
     void animateMovementDirection();
+
+    /// \brief
+    /// void animateMovement(std::vector<sf::IntRect> & animationRect, unsigned int & iterator)
+    /// \details
+    /// This function will (given a animationrect and iterator) animate the Player on a standard delay of 0.5 seconds.
+    /// It will cycle through all sprite rects in the animationRect using the iterator.
+    /// Function should be called no slower then every *delay* amount of seconds or else it will effect the animation speed.
     void animateMovement(std::vector<sf::IntRect> & animationRect, unsigned int & iterator);
 
 private:

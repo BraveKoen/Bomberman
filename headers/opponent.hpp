@@ -23,8 +23,22 @@ public:
 
     void spawnBomb(int opponentId);
 
+    /// \brief
+    /// void animateMovementDirection()
+    /// \details
+    /// This function will decide on wich movmement direction the Opponent should be animated in.
+    /// After wich it will call the animateMovement with these directions.
+    /// By saving the old position of the Opponent it can decide the movement direction.
+    /// If the Opponent is moving in two or more directions at the same time,
+    /// it will prefer to draw the Opponent walking to the right, then left, then up, then down.
     void animateMovementDirection();
 
+    /// \brief
+    /// void animateMovement(std::vector<sf::IntRect> & animationRect, unsigned int & iterator)
+    /// \details
+    /// This function will (given a animationrect and iterator) animate the Opponent on a standard delay of 0.5 seconds.
+    /// It will cycle through all sprite rects in the animationRect using the iterator.
+    /// Function should be called no slower then every *delay* amount of seconds or else it will effect the animation speed.
     void animateMovement(std::vector<sf::IntRect> & animationRect, unsigned int & iterator);
 
     void setIsAlive(bool alive);

@@ -12,7 +12,6 @@
 /// Class Bomb
 /// \details
 /// Bomb is one bomb on the screen with is own time
-
 class Bomb{
 public:
     /// \brief
@@ -73,10 +72,28 @@ public:
 
     bool bombColliding(const sf::Sprite& target);
 
+    /// \brief
+    /// void animateFuse()
+    /// \details
+    /// This function will animate the bomb fuse on a standard delay of 0.5 seconds.
+    /// It will cycle through all sprites declared in the constructor in the bombFuseAnimationRects.
+    /// Function should be called no slower then every *delay* amount of seconds or else it will effect the animation speed.
     void animateFuse();
     
+    /// \brief
+    /// void animateExplosion()
+    /// \details
+    /// This function will animate the bomb explosion on a standard delay of 0.5 seconds.
+    /// It will cycle through all sprites declared in the constructor in the bombExplosionAnimationRects.
+    /// Function should be called no slower then every *delay* amount of seconds or else it will effect the animation speed. 
     void animateExplosion();
 
+    /// \brief
+    /// bool getPrimed()
+    /// \details
+    /// This function will return a bool with the value of private member variable primed.
+    /// The variable returned decides if the bomb is ready to explode.
+    /// It has influence in the Bomb::isExploded(float currentTime) function.
     bool getPrimed();
 
 private:
