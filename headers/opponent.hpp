@@ -41,10 +41,22 @@ public:
     /// Function should be called no slower then every *delay* amount of seconds or else it will effect the animation speed.
     void animateMovement(std::vector<sf::IntRect> & animationRect, unsigned int & iterator);
 
+    /// \brief
+    ///  void setIsAlive bool
+    /// \details
+    /// you can let a player die
     void setIsAlive(bool alive);
 
+    /// \brief
+    ///  bool isPlayerAlive
+    /// \details
+    /// returns if the opponent is alive
     bool isPlayerAlive() const override;
 
+    /// \brief
+    ///  unsigned int getPlayerId
+    /// \details
+    /// returns opponentId
     unsigned int getPlayerId() const override;
 
 private:

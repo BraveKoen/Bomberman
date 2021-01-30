@@ -26,9 +26,19 @@ public:
     void init() override;
     void handleInput() override;
     void update(float delta) override;
+     /// \brief
+    ///  void draw
+    /// \details
+    
+    /// draws all object on the screen
     void draw(float delta) override;
+
+    /// \brief
+    ///  void updateOpponentLocation
+    /// \details
+    /// function needs to be in a different thread!
+    /// when is receives new opponent info it will update the opponent on the map
     void updateOpponentLocation();
-    void createOpponent();
 
 private:
     enum class GameState {

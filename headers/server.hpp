@@ -101,6 +101,10 @@ public:
     /// sends the hole map through and will start the game
     void hostReady(std::vector<std::vector<std::string>> map);
 
+    /// \brief
+    ///  std::vector<std::vector<std::string>> map
+    /// \details
+    /// returns a falid map
     std::vector<std::vector<std::string>> getMap(){return map;}
 
     bool getGoToMapSelect(){return goToMapSelect;}
