@@ -90,7 +90,7 @@ public:
     int getOpponentCount();
 
     /// \brief
-    /// void playerReady
+    /// void playerReady!
     /// \details
     /// sends a message to the server when a user says he is ready
     void playerReady();
