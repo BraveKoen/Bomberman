@@ -29,6 +29,11 @@ namespace Resource {
     constexpr auto globalFont = "resources/KOMIKAX_.ttf";
     inline const sf::Color globalFontColor(22, 21, 51);
 
+    /// \brief
+    /// Map object resources
+    /// \details
+    /// Contains the file locations of all the resources that are needed
+    /// for properly drawing map related objects onto the screen.
     constexpr auto solid = "resources/solid.png";
     constexpr auto breakable = "resources/break.png";
     constexpr auto spawn = "resources/spawn.png";
@@ -39,6 +44,11 @@ namespace Resource {
     constexpr auto biem = "resources/biem.png";
     constexpr auto mapBackground = "resources/mapBackground.png";
 
+    /// \brief
+    /// Menu resources
+    /// \details
+    /// Contains the file locations of all the resources that are needed
+    /// for properly drawing menus onto the screen.
     constexpr auto defaultBackground = "resources/defaultBackground.png";
     constexpr auto defaultButton = "resources/defaultButton.png";
     constexpr auto menuButton = "resources/menuButton.png";

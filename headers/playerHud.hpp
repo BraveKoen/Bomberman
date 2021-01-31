@@ -6,6 +6,11 @@
 #include "hud.hpp"
 #include "definitions.hpp"
 
+/// \brief
+/// Derived PlayerHUD class
+/// \details
+/// This class is used for drawing the HUD of an individual player. It keeps
+/// track of the amount of lives it needs to use to fill the healthbar.
 class PlayerHUD : public HUD {
 private:
     sf::Sprite profile;
