@@ -82,6 +82,7 @@ void MapSelectorState::spawnMapButtons(){
         static_cast< float >( gameData->assetManager.getTexture("default button").getSize().x ), 
         static_cast< float >( gameData->assetManager.getTexture("default button").getSize().y )
     );
+    int maxCharsInButtons = 12;
     for(unsigned int i=0; i<mapStore.size(); i++){
         sf::Sprite optionSprite;
         optionSprite.setTexture(gameData->assetManager.getTexture("default button"));
@@ -97,7 +98,7 @@ void MapSelectorState::spawnMapButtons(){
         menuOptions.push_back(optionSprite);
         sf::Text optionText;
         optionText.setFont(gameData->assetManager.getFont("default font"));
-        optionText.setString(Util::ellipseString(mapStore[i].name, 12)); // change literal
+        optionText.setString(Util::ellipseString(mapStore[i].name, maxCharsInButtons));
         optionText.setFillColor(Resource::globalFontColor);
         optionText.setStyle(sf::Text::Bold);
         optionText.setOrigin(optionText.getGlobalBounds().width/2, optionText.getGlobalBounds().height/2);
@@ -128,9 +129,7 @@ void MapSelectorState::handleInput() {
             gameData->tileMap = std::move(mapStore[selectedMapIndex].tileMap);
             return gameData->stateMachine.addState(std::make_unique<InGameState>(gameData));
         }
-        if (gameData->inputManager.isSpriteClicked(
-            returnButton, sf::Mouse::Left, gameData->window)
-        ) {
+        if (gameData->inputManager.isSpriteClicked(returnButton, sf::Mouse::Left, gameData->window)) {
             gameData->stateMachine.removeState();
         }
         if(gameData->inputManager.isSpriteClicked(playButtonMultiplayer, sf::Mouse::Left, gameData->window) && gameData->multiplayer){

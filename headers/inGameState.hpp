@@ -23,12 +23,41 @@ class InGameState : public State {
 public:
     InGameState(gameDataRef gameData);
 
+    /// \brief
+    ///  void init
+    /// \details
+    /// loads a the textures in.
+    /// creates the players
+    /// rescale the map to the max screen size
     void init() override;
+
+    /// \brief
+    ///  void update
+    /// \details
+    /// checks if there is a button pressed
+    /// also updates player.handleInput if the player pressed a key
     void handleInput() override;
+
+    /// \brief
+    ///  void update, float
+    /// \details
+    /// is for all the updates.
+    /// health has to be updated true the update function
+    /// it is important that this function is not called every screen update.
     void update(float delta) override;
+
+     /// \brief
+    ///  void draw
+    /// \details
+    /// draws all object on the screen
     void draw(float delta) override;
+
+    /// \brief
+    ///  void updateOpponentLocation
+    /// \details
+    /// function needs to be in a different thread!
+    /// when is receives new opponent info it will update the opponent on the map
     void updateOpponentLocation();
-    void createOpponent();
 
 private:
     enum class GameState {

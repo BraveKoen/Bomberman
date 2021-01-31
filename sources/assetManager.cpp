@@ -6,9 +6,12 @@ const sf::Texture& AssetManager::loadTexture(const resourceData& resource) {
 }
 
 const sf::Texture& AssetManager::loadTexture(std::string name, std::string fileName) {
-    sf::Texture texture;
-    texture.loadFromFile(fileName);
-    return textures[name] = std::move(texture);
+    const auto& [texture, isKeyNew] = textures.emplace(name, sf::Texture());
+
+    if (isKeyNew) {
+        texture->second.loadFromFile(fileName);
+    }
+    return texture->second;
 }
 
 const sf::Font& AssetManager::loadFont(const resourceData& resource) {
@@ -16,6 +19,29 @@ const sf::Font& AssetManager::loadFont(const resourceData& resource) {
 }
 
 const sf::Font& AssetManager::loadFont(std::string name, std::string fileName) {
+    const auto& [font, isKeyNew] = fonts.emplace(name, sf::Font());
+
+    if (isKeyNew) {
+        font->second.loadFromFile(fileName);
+    }
+    return font->second;
+}
+
+const sf::Texture& AssetManager::reloadTexture(const resourceData& resource) {
+    return reloadTexture(resource.name, resource.file);
+}
+
+const sf::Texture& AssetManager::reloadTexture(std::string name, std::string fileName) {
+    sf::Texture texture;
+    texture.loadFromFile(fileName);
+    return textures[name] = std::move(texture);
+}
+
+const sf::Font& AssetManager::reloadFont(const resourceData& resource) {
+    return reloadFont(resource.name, resource.file);
+}
+
+const sf::Font& AssetManager::reloadFont(std::string name, std::string fileName) {
     sf::Font font;
     font.loadFromFile(fileName);
     return fonts[name] = std::move(font);

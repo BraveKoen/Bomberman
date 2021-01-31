@@ -106,22 +106,6 @@ bool Server::receiveDataLobby(bool stopIfHost){
     return false;
 }
 
-void Server::run(){
-    LobbyInfo lobbyInfo;
-    PlayerInfo playerInfo;
-    sf::Packet packetOntvanger;
-    sf::IpAddress ipOntvanger;
-    uint16_t portOntvanger;
-    while(true){
-        if(socket.receive(packetOntvanger, ipOntvanger, portOntvanger) == sf::Socket::Done){
-            packetOntvanger >> lobbyInfo;
-            playerNumber = lobbyInfo.playerId;
-            std::cout << "PlayerId: " <<  lobbyInfo.playerId << std::endl;
-            //std::cout << "PlayerId: " << playerInfo.playerId << " X: " << playerInfo.pos.x << " Y: " << playerInfo.pos.y <<  std::endl;
-        }
-    }
-}
-
 void Server::playerDisconnect(){
     std::cout << "send disconnect" << std::endl;
     PlayerInfo playerInfo;
