@@ -70,6 +70,10 @@ public:
     /// clearBomb get rid of al the explotion animations
     void clearBomb();
 
+    /// \brief
+    /// bool bombColliding()
+    /// \details
+    /// checks if a bomb collets with a player
     bool bombColliding(const sf::Sprite& target);
 
     /// \brief
