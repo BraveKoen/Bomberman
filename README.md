@@ -1,0 +1,3 @@
+# Bomberman
+
+See documentation folder
