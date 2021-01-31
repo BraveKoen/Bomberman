@@ -11,8 +11,6 @@ MainMenuState::MainMenuState(gameDataRef gameData):
 {}
 
 void MainMenuState::init() {
-    // remove this:
-    gameData->assetManager.loadTexture(Resource::HUD::profiles[0]);
 
     const auto& windowSize = gameData->window.getSize();
     constexpr std::array buttons{
@@ -55,7 +53,7 @@ void MainMenuState::handleInput() {
 
     while (gameData->window.pollEvent(event)) {
         if (sf::Event::Closed == event.type
-            or sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) // remove or change later
+            or sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)
         ) {
             gameData->window.close();
         }
@@ -83,7 +81,6 @@ void MainMenuState::draw(float) {
 }
 
 void MainMenuState::resume(){
-    std::cout << "resume" << std::endl;
     gameData->multiplayer = false;
     gameData->server.setPlayerId(-1);
 }
