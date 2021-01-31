@@ -1,105 +1,71 @@
+# Makefile Recipe Generator
+#
+# File:     makefile
+# Version:  0.4
+#
+# Author:   Joeri Kok
+# Date:     January 2021
+#
+# Description:
+#	A makefile orignally designed for the Bomberman project which generates
+#   target recipes based on file header inclusions within source files.
+#
+# Summary:
+#   This makefile searches for CPP source files located within the directory
+#   specified by the SRC_DIR variable. For every source file it finds, it will
+#   look for all the user included header files (encapsulated within quotes
+#   rather than pointy brackets) within that source file and its corresponding
+#   header file. After that, a recipe is created which is tied to the header
+#   files that were found. This allows the makefile to be flexible yet
+#   efficient. There is no need to manually update the makefile when creating
+#   new source files and the object files are only being rebuild when it is
+#   deemed necessary.
+#
 SFML_PATH := d:/arduino/sfml-2.5.1
 
 SFML_LIB := $(SFML_PATH)/lib
 SFML_INC := $(SFML_PATH)/include
 
-SFML_STL := -lsfml-main -lsfml-graphics-s -lsfml-window-s -lsfml-system-s
-WIN_STL := -lgdi32 -lopengl32 -lwinmm -lfreetype -lstdc++fs
+SFML_STL := -lsfml-main -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lsfml-network-s
+WIN_STL := -lgdi32 -lopengl32 -lws2_32 -lwinmm -lfreetype -lstdc++fs
 
-FLAGS := -std=c++17 -pedantic -Wall -Wextra -Werror -D SFML_STATIC
-OBJECTS := bomberman.o game.o state.o input.o asset.o menu.o button.o menubutton.o bomb.o bombhdlr.o player.o opponent.o tile.o tilemap.o gamestate.o mapselect.o collision.o hud.o gamehud.o playerhud.o ctrlscheme.o modeselect.o mbuttonex.o poststate.o maploader.o
+MACROS := SFML_STATIC
 
-SRC := sources/
-HDR := headers/
+# note: to hide the console window, add the following flag: -mwindows
+CFLAGS := -std=c++17 -pedantic -Wall -Wextra -Werror -D $(MACROS)
+OUT_FILE := bomberman.exe
 
-# -luser32 -lfreetype -lwinmm -lmingw32 -lopengl32 -lgdi32
-# -lsfml-graphics -lsfml-window -lsfml-system
+SRC_DIR := sources
+HDR_DIR := headers
 
-# note: revert -mwindows later
+VPATH = $(SRC_DIR):$(HDR_DIR)
 
-bomberman: $(OBJECTS)
-	g++ $(FLAGS) $(OBJECTS) -o bomberman.exe -L $(SFML_LIB) $(SFML_STL) $(WIN_STL) 
-# -mwindows
+# extract file names from all CPP files within the SRC_DIR directory
+# and replace the .cpp extensions with .o
+targets := $(patsubst %.cpp,%.o,$(notdir $(wildcard $(SRC_DIR)/*.cpp)))
 
-bomberman.o: $(SRC)bomberman.cpp $(HDR)game.hpp $(HDR)definitions.hpp
-	g++ $(FLAGS) -c $(SRC)bomberman.cpp -I $(SFML_INC) -o bomberman.o
+# search through the HPP and CPP file specified by the $1 (first) argument and
+# only return the strings that start with '#include "' (note the double quote)
+find_includes = findstr 2^>nul /b /i /c:"\#include "^" "$(HDR_DIR)\\$1.hpp" "$(SRC_DIR)\\$1.cpp"
 
-game.o: $(SRC)game.cpp $(HDR)game.hpp $(HDR)stateMachine.hpp $(HDR)assetManager.hpp $(HDR)inputManager.hpp $(HDR)tileMap.hpp $(HDR)mainMenuState.hpp $(HDR)definitions.hpp
-	g++ $(FLAGS) -c $(SRC)game.cpp -I $(SFML_INC) -o game.o
+# walk through the output of the find_includes command, returning the 2nd token
+# delimited by double quotes while only keeping the file name and extension
+find_dependencies = for /f tokens^=2^ delims^=^" %%e in ('$(find_includes)') do echo %%~nxe
 
-state.o: $(SRC)stateMachine.cpp $(HDR)stateMachine.hpp $(HDR)state.hpp 
-	g++ $(FLAGS) -c $(SRC)stateMachine.cpp -I $(SFML_INC) -o state.o
+# creates a recipe for a target based on the 1st argument it receives and runs
+# the find_dependencies command to look for all corresponding header files
+define create_target_recipe
+    $1.o: $1.cpp $(shell $(find_dependencies))
+		g++ $(CFLAGS) -c $$< -I $(SFML_INC) -o $$@
+endef
 
-input.o: $(SRC)inputManager.cpp $(HDR)inputManager.hpp
-	g++ $(FLAGS) -c $(SRC)inputManager.cpp -I $(SFML_INC) -o input.o
+build: $(targets)
+	g++ $(CFLAGS) $(targets) -o $(OUT_FILE) -L $(SFML_LIB) $(SFML_STL) $(WIN_STL)
 
-asset.o: $(SRC)assetManager.cpp $(HDR)assetManager.hpp
-	g++ $(FLAGS) -c $(SRC)assetManager.cpp -I $(SFML_INC) -o asset.o
-
-menu.o: $(SRC)mainMenuState.cpp $(HDR)mainMenuState.hpp $(HDR)inputManager.hpp $(HDR)assetManager.hpp $(HDR)menuButton.hpp $(HDR)game.hpp $(HDR)state.hpp $(HDR)definitions.hpp $(HDR)utilities.hpp $(HDR)mapSelectorState.hpp $(HDR)modeSelectState.hpp $(HDR)postGameState.hpp
-	g++ $(FLAGS) -c $(SRC)mainMenuState.cpp -I $(SFML_INC) -o menu.o
-
-button.o: $(SRC)button.cpp $(HDR)button.hpp $(HDR)definitions.hpp
-	g++ $(FLAGS) -c $(SRC)button.cpp -I $(SFML_INC) -o button.o
-
-menubutton.o: $(SRC)menuButton.cpp $(HDR)menuButton.hpp $(HDR)button.hpp $(HDR)game.hpp $(HDR)definitions.hpp
-	g++ $(FLAGS) -c $(SRC)menuButton.cpp -I $(SFML_INC) -o menubutton.o
-
-bomb.o: $(SRC)bomb.cpp $(HDR)bomb.hpp $(HDR)game.hpp $(HDR)tile.hpp $(HDR)tileMap.hpp
-	g++ $(FLAGS) -c $(SRC)bomb.cpp -I $(SFML_INC) -o bomb.o
-
-bombhdlr.o: $(SRC)bombHandler.cpp $(HDR)bomb.hpp
-	g++ $(FLAGS) -c $(SRC)bombHandler.cpp -I $(SFML_INC) -o bombhdlr.o
-
-player.o: $(SRC)player.cpp $(HDR)player.hpp $(HDR)game.hpp $(HDR)bombHandler.hpp $(HDR)character.hpp
-	g++ $(FLAGS) -c $(SRC)player.cpp -I $(SFML_INC) -o player.o
-
-opponent.o: $(SRC)opponent.cpp $(HDR)opponent.hpp $(HDR)game.hpp $(HDR)bombHandler.hpp $(HDR)character.hpp
-	g++ $(FLAGS) -c $(SRC)opponent.cpp -I $(SFML_INC) -o opponent.o
-
-tile.o: $(SRC)tile.cpp $(HDR)tile.hpp
-	g++ $(FLAGS) -c $(SRC)tile.cpp -I $(SFML_INC) -o tile.o
-
-tilemap.o: $(SRC)tileMap.cpp $(HDR)tileMap.hpp $(HDR)tile.hpp $(HDR)game.hpp $(HDR)definitions.hpp
-	g++ $(FLAGS) -c $(SRC)tileMap.cpp -I $(SFML_INC) -o tilemap.o
-
-gamestate.o: $(SRC)inGameState.cpp $(HDR)inGameState.hpp $(HDR)player.hpp $(HDR)game.hpp $(HDR)utilities.hpp $(HDR)bombHandler.hpp $(HDR)definitions.hpp $(HDR)collision.hpp $(HDR)tileMap.hpp $(HDR)gameHud.hpp $(HDR)postGameState.hpp
-	g++ $(FLAGS) -c $(SRC)inGameState.cpp -I $(SFML_INC) -o gamestate.o
-
-mapselect.o: $(SRC)mapSelectorState.cpp $(HDR)mapSelectorState.hpp $(HDR)tileMap.hpp $(HDR)definitions.hpp $(HDR)game.hpp $(HDR)state.hpp
-	g++ $(FLAGS) -c $(SRC)mapSelectorState.cpp -I $(SFML_INC) -o mapselect.o
-
-collision.o: $(SRC)collision.cpp $(HDR)collision.hpp
-	g++ $(FLAGS) -c $(SRC)collision.cpp -I $(SFML_INC) -o collision.o
-
-hud.o: $(SRC)hud.cpp $(HDR)hud.hpp
-	g++ $(FLAGS) -c $(SRC)hud.cpp -I $(SFML_INC) -o hud.o
-
-gamehud.o: $(SRC)gameHud.cpp $(HDR)gameHud.hpp $(HDR)hud.hpp $(HDR)playerHud.hpp $(HDR)mainMenuState.hpp $(HDR)definitions.hpp $(HDR)utilities.hpp $(HDR)game.hpp
-	g++ $(FLAGS) -c $(SRC)gameHud.cpp -I $(SFML_INC) -o gamehud.o
-
-playerhud.o: $(SRC)playerHud.cpp $(HDR)playerHud.hpp $(HDR)hud.hpp $(HDR)definitions.hpp $(HDR)game.hpp $(HDR)utilities.hpp
-	g++ $(FLAGS) -c $(SRC)playerHud.cpp -I $(SFML_INC) -o playerhud.o
-
-ctrlscheme.o: $(SRC)controlScheme.cpp $(HDR)controlScheme.hpp
-	g++ $(FLAGS) -c $(SRC)controlScheme.cpp -I $(SFML_INC) -o ctrlscheme.o
-
-modeselect.o: $(SRC)modeSelectState.cpp $(HDR)modeSelectState.hpp $(HDR)game.hpp $(HDR)state.hpp $(HDR)utilities.hpp $(HDR)definitions.hpp $(HDR)menuButton.hpp
-	g++ $(FLAGS) -c $(SRC)modeSelectState.cpp -I $(SFML_INC) -o modeselect.o
-
-mbuttonex.o: $(SRC)menuButtonExt.cpp $(HDR)menuButtonExt.hpp $(HDR)game.hpp $(HDR)button.hpp $(HDR)definitions.hpp
-	g++ $(FLAGS) -c $(SRC)menuButtonExt.cpp -I $(SFML_INC) -o mbuttonex.o
-
-poststate.o: $(SRC)postGameState.cpp $(HDR)postGameState.hpp $(HDR)state.hpp $(HDR)game.hpp $(HDR)utilities.hpp $(HDR)definitions.hpp $(HDR)menuButton.hpp $(HDR)mainMenuState.hpp $(HDR)inGameState.hpp $(HDR)inputManager.hpp $(HDR)assetManager.hpp
-	g++ $(FLAGS) -c $(SRC)postGameState.cpp -I $(SFML_INC) -o poststate.o
-
-maploader.o: $(SRC)mapLoader.cpp $(HDR)mapLoader.hpp $(HDR)definitions.hpp $(HDR)tileMap.hpp $(HDR)tile.hpp
-	g++ $(FLAGS) -c $(SRC)mapLoader.cpp -I $(SFML_INC) -o maploader.o
-
-.PHONY: build clean
-
-build:
-	bomberman
+# iterate over all the targets found and create a recipe for each of them
+$(foreach target, $(basename $(targets)), $(eval $(call create_target_recipe,$(target))))
 
 clean:
-	del $(OBJECTS) 2>nul
+	del $(targets) 2>nul
+
+.PHONY: build clean
