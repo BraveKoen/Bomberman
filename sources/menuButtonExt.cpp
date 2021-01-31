@@ -5,7 +5,7 @@
 MenuButtonExt::MenuButtonExt(
     const sf::Sprite& sprite,
     const sf::Text& text,
-    buttonFuncExt action
+    ButtonFuncExt action
 ):
     Button{sprite, text},
     action{action}
@@ -14,7 +14,7 @@ MenuButtonExt::MenuButtonExt(
 MenuButtonExt::MenuButtonExt(
     sf::Sprite&& sprite,
     sf::Text&& text,
-    buttonFuncExt action
+    ButtonFuncExt action
 ):
     Button{std::move(sprite), std::move(text)},
     action{action}

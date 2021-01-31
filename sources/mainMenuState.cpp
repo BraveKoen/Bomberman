@@ -11,29 +11,7 @@ MainMenuState::MainMenuState(gameDataRef gameData):
 {}
 
 void MainMenuState::init() {
-    // remove this:
-    gameData->assetManager.loadTexture(Resource::HUD::profiles[0]);
-
     const auto& windowSize = gameData->window.getSize();
-    constexpr std::array buttons{
-        buttonData{"Play", Util::switchState<ModeSelectState>},
-        buttonData{"Exit game", [](gameDataRef gameData){gameData->window.close();}}
-    };
-    for (std::size_t index = 0; index < buttons.size(); ++index) {
-        static const auto& texture = gameData->assetManager.getTexture("default button");
-        auto sprite = sf::Sprite{texture};
-        sprite.setScale(windowSize / texture.getSize() / sf::Vector2f{5, 10});
-        const auto& spriteBounds = sprite.getGlobalBounds();
-        sprite.setPosition(Util::centerRectMargin(windowSize, spriteBounds, index, buttons.size()));
-
-        static const auto& font = gameData->assetManager.getFont("default font");
-        auto text = sf::Text{buttons[index].title, font};
-        text.setFillColor(Resource::globalFontColor);
-        text.setOrigin(Util::scaleRect(text.getGlobalBounds(), {2, 2}));
-        text.setPosition(Util::centerVector(sprite.getPosition(), spriteBounds, {2, 2.2}));
-
-        menuButtons.emplace_back(std::move(sprite), std::move(text), buttons[index].action);
-    }
     const auto& bgTexture = gameData->assetManager.getTexture("default background");
     background.setTexture(bgTexture);
     background.setScale(windowSize / bgTexture.getSize());
@@ -48,6 +26,16 @@ void MainMenuState::init() {
         gameData->assetManager.getTexture("title").getSize().y/2    
     );
     title.setPosition(gameData->window.getSize().x/2, gameData->window.getSize().y/6.0f);
+
+    menuButtons = gameData->buttonFactory.createButtonsVertical<MenuButton>(
+        gameData,
+        std::vector{
+            ButtonData{"Play", Util::switchState<ModeSelectState>},
+            ButtonData{"Exit game", [](gameDataRef gameData){gameData->window.close();}}
+        },
+        50/100.f,
+        1.4f
+    );
 }
 
 void MainMenuState::handleInput() {

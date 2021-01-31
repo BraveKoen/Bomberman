@@ -91,7 +91,7 @@ void InGameState::init(){
 
 void InGameState::initMenuButtons(const sf::Vector2f& offset) {
     constexpr std::array buttons{
-        buttonData{"Quit", [](gameDataRef gameData){gameData->stateMachine.removeState();}} // back to main menu
+        ButtonData{"Quit", [](gameDataRef gameData){gameData->stateMachine.removeState();}} // back to main menu
     };
     for (std::size_t index = 0; index < buttons.size(); ++index) {
         static const auto& texture = gameData->assetManager.getTexture("default button");
@@ -103,7 +103,7 @@ void InGameState::initMenuButtons(const sf::Vector2f& offset) {
 
         static const auto& font = gameData->assetManager.getFont("default font");
         auto text = sf::Text{buttons[index].title, font};
-        text.setFillColor(Resource::globalFontColor);
+        text.setFillColor(Resource::Button::defaultFontColor);
         text.setOrigin(Util::scaleRect(text.getGlobalBounds(), {2, 2}));
         text.setPosition(Util::centerVector(sprite.getPosition(), spriteBounds, {2, 2.2}));
 

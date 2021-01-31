@@ -20,8 +20,6 @@ namespace Resource {
     inline const auto screenSize = sf::Vector2f{screenWidth, screenHeight};
 
     constexpr auto mapFolderLocation = "resources/maps";
-    constexpr auto globalFont = "resources/KOMIKAX_.ttf";
-    inline const sf::Color globalFontColor(22, 21, 51);
 
     constexpr auto solid = "resources/solid.png";
     constexpr auto breakable = "resources/break.png";
@@ -31,11 +29,9 @@ namespace Resource {
     constexpr auto player3 = "resources/player3.png";
     constexpr auto player4 = "resources/player4.png";
     constexpr auto biem = "resources/biem.png";
-    constexpr auto mapBackground = "resources/mapBackground.png";
 
+    constexpr auto mapBackground = "resources/mapBackground.png";
     constexpr auto defaultBackground = "resources/defaultBackground.png";
-    constexpr auto defaultButton = "resources/defaultButton.png";
-    constexpr auto menuButton = "resources/menuButton.png";
 
     constexpr auto bombSpritesheet = "resources/bombFuse.png";
     constexpr auto title = "resources/title.png";
@@ -45,6 +41,17 @@ namespace Resource {
 
     constexpr auto maxTileMaps = 5u;
     constexpr auto fileExtension = ".txt";
+
+    namespace Button {
+        constexpr auto defaultTexture = resourceData{"default button", "resources/defaultButton.png"};
+        constexpr auto defaultFont = resourceData{"default font", "resources/KOMIKAX_.ttf"};
+        inline const auto defaultFontColor = sf::Color{22, 21, 51};
+        inline const auto defaultButtonScale = sf::Vector2f{5, 10};
+        constexpr auto defaultSpacingScale = 1.2f;
+        constexpr auto defaultTextScale = 1.4f;
+        inline const auto defaultTextOffset = sf::Vector2f{0, 2};
+        inline const auto defaultTextColor = Resource::Button::defaultFontColor;
+    }
 
     namespace HUD {
         constexpr auto mainFrame = resourceData{"main frame", "resources/mainFrame.png"};

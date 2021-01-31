@@ -9,6 +9,7 @@
 #include "stateMachine.hpp"
 #include "assetManager.hpp"
 #include "inputManager.hpp"
+#include "buttonFactory.hpp"
 #include "tileMap.hpp"
 #include "server.hpp"
 
@@ -17,9 +18,10 @@ struct GameData{
     StateMachine stateMachine;
     AssetManager assetManager;
     InputManager inputManager;
+    ButtonFactory buttonFactory;
     TileMap tileMap;
-    unsigned int playerCount;
     Server server{Resource::serverIp, 1999};
+    unsigned int playerCount;
     bool multiplayer;
 };
 

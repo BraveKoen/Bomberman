@@ -45,12 +45,21 @@ inline sf::Vector2f operator/(
     return {leftX / right.x, leftY / right.y};
 }
 
+template<typename T>
 inline sf::Vector2f operator*(
-    const sf::Vector2f& left,
+    const sf::Vector2<T>& left,
     const sf::Vector2f& right
 ) {
     return {left.x * right.x, left.y * right.y};
 }
+
+// template<typename T>
+// inline sf::Vector2f operator*(
+//     const sf::Vector2f& left,
+//     const sf::Vector2<T>& right
+// ) {
+//     return {left.x * right.x, left.y * right.y};
+// }
 
 inline sf::Vector2f operator*(
     float left,
@@ -61,6 +70,13 @@ inline sf::Vector2f operator*(
 
 inline sf::Vector2f operator*(
     const sf::Vector2f& left,
+    float right
+) {
+    return {left.x * right, left.y * right};
+}
+
+inline sf::Vector2f operator*(
+    const sf::Vector2u& left,
     float right
 ) {
     return {left.x * right, left.y * right};
@@ -82,6 +98,13 @@ inline sf::Vector2i operator+(
 
 inline sf::Vector2f operator-(
     const sf::Vector2f& left,
+    const sf::Vector2f& right
+) {
+    return {left.x - right.x, left.y - right.y};
+}
+
+inline sf::Vector2f operator-(
+    const sf::Vector2u& left,
     const sf::Vector2f& right
 ) {
     return {left.x - right.x, left.y - right.y};
@@ -141,6 +164,15 @@ namespace Util {
     }
 
     constexpr float offsetFromOrigin(float origin, float section, float count) {
+        const auto region = section * (count - 1);
+        return (origin - region) / 2;
+    }
+
+    inline sf::Vector2f offsetFromOrigin(
+        const sf::Vector2u& origin,
+        const sf::Vector2f& section,
+        float count
+    ) {
         const auto region = section * (count - 1);
         return (origin - region) / 2;
     }

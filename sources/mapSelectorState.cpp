@@ -35,7 +35,7 @@ void MapSelectorState::init() {
     );
     playButtonText.setFont(gameData->assetManager.getFont("default font"));
     playButtonText.setString("Play");
-    playButtonText.setFillColor(Resource::globalFontColor);
+    playButtonText.setFillColor(Resource::Button::defaultFontColor);
     playButtonText.setStyle(sf::Text::Bold);
     playButtonText.setOrigin(playButtonText.getGlobalBounds().width/2, playButtonText.getGlobalBounds().height/2);
     playButtonText.setPosition(
@@ -51,7 +51,7 @@ void MapSelectorState::init() {
     );
     returnButtonText.setFont(gameData->assetManager.getFont("default font"));
     returnButtonText.setString("Back");
-    returnButtonText.setFillColor(Resource::globalFontColor);
+    returnButtonText.setFillColor(Resource::Button::defaultFontColor);
     returnButtonText.setStyle(sf::Text::Bold);
     returnButtonText.setOrigin(returnButtonText.getGlobalBounds().width/2, returnButtonText.getGlobalBounds().height/2);
     returnButtonText.setPosition(
@@ -67,7 +67,7 @@ void MapSelectorState::init() {
     );
     playButtonMultiplayerText.setFont(gameData->assetManager.getFont("default font"));
     playButtonMultiplayerText.setString("Start online");
-    playButtonMultiplayerText.setFillColor(Resource::globalFontColor);
+    playButtonMultiplayerText.setFillColor(Resource::Button::defaultFontColor);
     playButtonMultiplayerText.setStyle(sf::Text::Bold);
     playButtonMultiplayerText.setOrigin(playButtonMultiplayerText.getGlobalBounds().width/2, playButtonMultiplayerText.getGlobalBounds().height/2);
     playButtonMultiplayerText.setPosition(
@@ -98,7 +98,7 @@ void MapSelectorState::spawnMapButtons(){
         sf::Text optionText;
         optionText.setFont(gameData->assetManager.getFont("default font"));
         optionText.setString(Util::ellipseString(mapStore[i].name, 12)); // change literal
-        optionText.setFillColor(Resource::globalFontColor);
+        optionText.setFillColor(Resource::Button::defaultFontColor);
         optionText.setStyle(sf::Text::Bold);
         optionText.setOrigin(optionText.getGlobalBounds().width/2, optionText.getGlobalBounds().height/2);
         optionText.setPosition(

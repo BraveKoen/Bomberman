@@ -6,15 +6,18 @@
 #include "button.hpp"
 #include "definitions.hpp"
 
-using buttonFunc = void (*)(gameDataRef gameData);
-using buttonData = struct {const char* title; buttonFunc action;};
+// using ButtonFunc = void (*)(gameDataRef gameData);
+// using ButtonData = struct {const char* title; ButtonFunc action;};
+
+typedef void (*ButtonFunc)(gameDataRef gameData);
+typedef struct {const char* title; ButtonFunc action;} ButtonData;
 
 class MenuButton: public Button {
 private:
-    buttonFunc action;
+    ButtonFunc action;
 public:
-    MenuButton(const sf::Sprite& sprite, const sf::Text& text, buttonFunc action);
-    MenuButton(sf::Sprite&& sprite, sf::Text&& text, buttonFunc action);
+    MenuButton(const sf::Sprite& sprite, const sf::Text& text, ButtonFunc action);
+    MenuButton(sf::Sprite&& sprite, sf::Text&& text, ButtonFunc action);
 
     virtual void invokeAction(gameDataRef gameData) const override;
 };

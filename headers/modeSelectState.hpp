@@ -35,7 +35,7 @@ public:
     virtual void update(float delta) override;
     virtual void draw(float delta) override;
 
-    std::vector<MenuButtonExt> makeButtons(std::vector<buttonDataExt> buttonData, sf::Vector2f offset={0,0});
+    std::vector<MenuButtonExt> makeButtons(std::vector<ButtonDataExt> ButtonData, sf::Vector2f offset={0,0});
 
     void lobbyQueue();
 };

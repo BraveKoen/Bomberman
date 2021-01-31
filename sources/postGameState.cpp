@@ -7,6 +7,10 @@
 #include "../headers/utilities.hpp"
 #include "../headers/game.hpp"
 
+#include "../headers/buttonFactory.hpp"
+
+#include <memory>
+
 PostGameState::PostGameState(gameDataRef gameData):
     PostGameState{gameData, 0}
 {}
@@ -54,41 +58,19 @@ void PostGameState::init() {
     Util::centerOrigin(winningText);
     Util::centerXscaleY(windowSize, winningText, 45/100.f);
 
-    createMenuButtons(std::array{
-        buttonData{"Play Again", [](gameDataRef gameData){
-            gameData->tileMap.loadMap();
-            Util::replaceState<InGameState>(gameData);
-        }},
-        buttonData{"Main Menu", [](gameDataRef gameData){gameData->stateMachine.removeState();}}
-    });
-}
-
-template<auto N>
-void PostGameState::createMenuButtons(const std::array<buttonData, N>& buttons) {
-    for (auto index = 0u; index < buttons.size(); ++index) {
-        static const auto& texture = gameData->assetManager.getTexture("default button");
-        static const auto& windowSize = gameData->window.getSize();
-        static const auto& scale = windowSize / texture.getSize() / sf::Vector2f{5, 10};
-        auto sprite = sf::Sprite{texture};
-        Util::centerOrigin(sprite);
-        sprite.setScale(scale);
-        constexpr auto spacing = 1.2f;
-        static const auto& width = Util::getSize(sprite).x * spacing;
-        static const auto offsetX = Util::offsetFromOrigin(windowSize.x, width, buttons.size());
-        static const auto buttonY = windowSize.y * (85/100.f);
-        const auto& position = sf::Vector2f{offsetX + (width * index), buttonY};
-        sprite.setPosition(position);
-
-        static const auto& font = gameData->assetManager.getFont("default font");
-        auto text = sf::Text{buttons[index].title, font};
-        Util::centerOrigin(text);
-        static const auto& textScale = scale * 1.4f;
-        text.setScale(textScale);
-        text.setPosition(position.x, position.y - 2);
-        text.setFillColor(Resource::globalFontColor);
-
-        menuButtons.emplace_back(std::move(sprite), std::move(text), buttons[index].action);
-    }
+    menuButtons = gameData->buttonFactory.createButtonsHorizontal<MenuButton>(
+        gameData,
+        std::vector{
+            ButtonData{"Play Again", [](gameDataRef gameData){
+                gameData->tileMap.loadMap();
+                Util::replaceState<InGameState>(gameData);
+            }},
+            ButtonData{"Main Menu", [](gameDataRef gameData){
+                gameData->stateMachine.removeState();
+            }}
+        },
+        85/100.f
+    );
 }
 
 void PostGameState::handleInput() {

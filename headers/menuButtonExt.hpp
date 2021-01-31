@@ -7,15 +7,18 @@
 #include "button.hpp"
 #include "definitions.hpp"
 
-using buttonFuncExt = const std::function<void()>;
-using buttonDataExt = struct {const char* title; buttonFuncExt action;};
+// using ButtonFuncExt = const std::function<void()>;
+// using ButtonDataExt = struct {const char* title; ButtonFuncExt action;};
+
+typedef const std::function<void()> ButtonFuncExt;
+typedef struct {const char* title; ButtonFuncExt action;} ButtonDataExt;
 
 class MenuButtonExt: public Button {
 private:
-    buttonFuncExt action;
+    ButtonFuncExt action;
 public:
-    MenuButtonExt(const sf::Sprite& sprite, const sf::Text& text, buttonFuncExt action);
-    MenuButtonExt(sf::Sprite&& sprite, sf::Text&& text, buttonFuncExt action);
+    MenuButtonExt(const sf::Sprite& sprite, const sf::Text& text, ButtonFuncExt action);
+    MenuButtonExt(sf::Sprite&& sprite, sf::Text&& text, ButtonFuncExt action);
 
     virtual void invokeAction(gameDataRef gameData) const override;
 };

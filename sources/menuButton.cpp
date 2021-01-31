@@ -5,7 +5,7 @@
 MenuButton::MenuButton(
     const sf::Sprite& sprite,
     const sf::Text& text,
-    buttonFunc action
+    ButtonFunc action
 ):
     Button{sprite, text},
     action{action}
@@ -14,7 +14,7 @@ MenuButton::MenuButton(
 MenuButton::MenuButton(
     sf::Sprite&& sprite,
     sf::Text&& text,
-    buttonFunc action
+    ButtonFunc action
 ):
     Button{std::move(sprite), std::move(text)},
     action{action}

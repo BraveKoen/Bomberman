@@ -19,8 +19,6 @@ private:
     sf::Text title;
     sf::Text winningText;
     std::vector<MenuButton> menuButtons;
-    template<auto N>
-    void createMenuButtons(const std::array<buttonData, N>& buttons);
     void drawMenuButtons() const;
     void handleButtonInput() const;
 public:
