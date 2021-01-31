@@ -10,17 +10,52 @@ public:
     Opponent(gameDataRef data, std::shared_ptr<BombHandler> bombHandler, sf::Vector2f spawnPosition, std::string textureName, unsigned int playerId);
     // ~Opponent();
 
+    /// \brief
+    ///  void draw
+    /// \details
+    /// draw the player on current screen
     void draw() override;
 
+    /// \brief
+    ///  void setHealth uint8_t
+    /// \details
+    /// set Health of the player
     void setHealth(uint8_t health) override;
+
+    /// \brief
+    ///  int getHealth 
+    /// \details
+    /// returns current health
     int getHealth() const override;
 
+    /// \brief
+    ///  void setPosition sf::Vector2f
+    /// \details
+    /// set the player on the given position
     void setPosition(const sf::Vector2f& pos) override;
+
+    /// \brief
+    ///  void getPosition
+    /// \details
+    /// returns the current player Position
     const sf::Vector2f& getPosition() const override;
 
+    /// \brief
+    ///  void setMovementSpeed uint8_t
+    /// \details
+    /// you can set how fast the player walks
     void setMovementSpeed(uint8_t speed) override;
+
+    /// \brief
+    ///  int getMovementSpeed
+    /// \details
+    /// returns the current movementspeed
     int getMovementSpeed() const override;
 
+    /// \brief
+    ///  spawnBomb int
+    /// \details
+    /// opponent will spawn a bomb
     void spawnBomb(int opponentId);
 
     /// \brief
