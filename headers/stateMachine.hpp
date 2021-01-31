@@ -4,7 +4,7 @@
 #include <memory>
 #include <stack>
 
-#include "State.hpp"
+#include "state.hpp"
 
 using stateRef = std::unique_ptr<State>;
 
