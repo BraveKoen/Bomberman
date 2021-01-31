@@ -14,6 +14,12 @@ using gameDataRef = std::shared_ptr<GameData>;
 typedef struct {const char *name; const char *file;} resourceData;
 typedef struct {const resourceData& data; sf::Sprite *sprite = nullptr;} resourceContainer;
 
+/// \brief
+///  namespace Resource
+/// \details
+/// contains all static data
+/// this makes it more easy to change values without missing one in the code
+
 namespace Resource {
     constexpr auto screenWidth = 1280;
     constexpr auto screenHeight = 720;
@@ -46,6 +52,10 @@ namespace Resource {
     constexpr auto maxTileMaps = 5u;
     constexpr auto fileExtension = ".txt";
 
+    /// \brief
+    ///  Hud in Resource
+    /// \details
+    /// to make is more clear that all this values is used for the hud
     namespace HUD {
         constexpr auto mainFrame = resourceData{"main frame", "resources/mainFrame.png"};
         constexpr auto subFrame = resourceData{"sub frame", "resources/subFrame.png"};
