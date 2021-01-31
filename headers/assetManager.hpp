@@ -50,25 +50,25 @@ public:
     /// \details
     /// Reloads a texture from disk, even if the specified key is already used
     /// to keep track of another texture.
-    const sf::Texture& AssetManager::reloadTexture(const resourceData& resource);
+    const sf::Texture& reloadTexture(const resourceData& resource);
     /// \brief
     /// Reloads a texture from disk
     /// \details
     /// Reloads a texture from disk, even if the specified key is already used
     /// to keep track of another texture.
-    const sf::Texture& AssetManager::reloadTexture(std::string name, std::string fileName);
+    const sf::Texture& reloadTexture(std::string name, std::string fileName);
     /// \brief
     /// Reloads a font from disk
     /// \details
     /// Reloads a font from disk, even if the specified key is already used
     /// to keep track of another font.
-    const sf::Font& AssetManager::reloadFont(const resourceData& resource);
+    const sf::Font& reloadFont(const resourceData& resource);
     /// \brief
     /// Reloads a font from disk
     /// \details
     /// Reloads a font from disk, even if the specified key is already used
     /// to keep track of another font.
-    const sf::Font& AssetManager::reloadFont(std::string name, std::string fileName);
+    const sf::Font& reloadFont(std::string name, std::string fileName);
 
     /// \brief
     /// Retrieves an existing texture
